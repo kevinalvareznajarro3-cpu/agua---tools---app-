@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0F151B">
+<title>Agua&amp;Tools · Gestión de Ventas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Work+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0F151B;
+  --surface:#171F27;
+  --surface-2:#1E2833;
+  --line:#2B3644;
+  --text:#EDEFF2;
+  --muted:#8B96A3;
+  --amber:#F2A93B;
+  --amber-dim:#C98A2C;
+  --blue:#2E9CCA;
+  --blue-dim:#1F6E8F;
+  --danger:#E1594B;
+  --ok:#4FAE7A;
+  --radius:10px;
+}
+*{box-sizing:border-box;}
+html{-webkit-tap-highlight-color:transparent;}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:'Work Sans',sans-serif;
+  min-height:100vh;
+  padding-bottom:70px;
+}
+h1,h2,h3,.display{font-family:'Archivo Black',sans-serif;font-weight:400;letter-spacing:.3px;}
+.mono{font-family:'IBM Plex Mono',monospace;}
+a{color:inherit;}
+button{font-family:inherit;cursor:pointer;}
+:focus-visible{outline:2px solid var(--amber);outline-offset:2px;}
+@media (prefers-reduced-motion: reduce){*{animation:none !important;transition:none !important;}}
+
+.hazard{
+  height:8px;
+  background:repeating-linear-gradient(135deg,var(--amber) 0 14px, var(--bg) 14px 28px);
+  opacity:.9;
+}
+
+header.top{
+  position:sticky;top:0;z-index:20;
+  background:rgba(15,21,27,.92);backdrop-filter:blur(6px);
+  border-bottom:1px solid var(--line);
+  padding:14px 16px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.brand{display:flex;align-items:center;gap:10px;}
+.brand .mark{
+  width:38px;height:38px;border-radius:8px;
+  background:linear-gradient(135deg,var(--blue),var(--amber));
+  display:flex;align-items:center;justify-content:center;font-size:18px;
+}
+.brand .name{font-size:15px;line-height:1.1;}
+.brand .name small{display:block;color:var(--muted);font-size:10px;letter-spacing:1.5px;text-transform:uppercase;margin-top:2px;}
+.who{
+  font-size:12px;color:var(--muted);
+  background:var(--surface-2);
+  border:1px solid var(--line);
+  padding:6px 10px;border-radius:20px;
+  display:flex;align-items:center;gap:6px;
+}
+.who button{background:none;border:none;color:var(--amber);font-size:11px;font-weight:600;padding:0;}
+.conn{font-size:9px;letter-spacing:1px;text-transform:uppercase;padding:2px 7px;border-radius:10px;background:var(--surface-2);border:1px solid var(--line);color:var(--muted);}
+.conn.ok{color:var(--ok);border-color:var(--ok);}
+.conn.err{color:var(--danger);border-color:var(--danger);}
+
+main{max-width:640px;margin:0 auto;padding:16px;}
+
+.card{
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  padding:18px;
+  margin-bottom:16px;
+}
+.card h2{font-size:16px;margin:0 0 4px;}
+.card .sub{color:var(--muted);font-size:12px;margin-bottom:14px;}
+
+.gestor-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.gestor-grid button{
+  background:var(--surface-2);border:1px solid var(--line);
+  color:var(--text);border-radius:8px;padding:16px 8px;
+  font-size:14px;font-weight:600;
+  display:flex;flex-direction:column;align-items:center;gap:6px;
+}
+.gestor-grid button .avatar{
+  width:34px;height:34px;border-radius:50%;
+  background:linear-gradient(135deg,var(--blue-dim),var(--amber-dim));
+  display:flex;align-items:center;justify-content:center;font-size:14px;
+}
+.gestor-grid button:active{border-color:var(--amber);}
+
+label{display:block;font-size:11px;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin-bottom:6px;}
+.field{margin-bottom:14px;}
+input[type=text],input[type=number],input[type=password],select,textarea{
+  width:100%;background:var(--surface-2);border:1px solid var(--line);
+  color:var(--text);border-radius:8px;padding:11px 12px;font-size:14px;font-family:inherit;
+}
+input:focus,select:focus,textarea:focus{border-color:var(--blue);}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.hint{font-size:11px;color:var(--muted);margin-top:5px;}
+
+.catalog-btn{
+  width:100%;background:var(--surface-2);border:1px dashed var(--line);
+  color:var(--amber);border-radius:8px;padding:12px;font-size:13px;font-weight:600;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+}
+.item-chip{
+  display:flex;justify-content:space-between;align-items:center;
+  background:var(--surface-2);border:1px solid var(--line);border-radius:8px;
+  padding:9px 12px;margin-bottom:6px;font-size:13px;
+}
+.item-chip .x{color:var(--danger);background:none;border:none;font-size:16px;}
+
+.totalbar{
+  display:flex;justify-content:space-between;align-items:center;
+  background:var(--surface-2);border:1px solid var(--amber-dim);border-radius:8px;
+  padding:14px;margin:14px 0;
+}
+.totalbar .amt{font-family:'IBM Plex Mono',monospace;font-size:22px;color:var(--amber);}
+
+.btn-primary{
+  width:100%;background:var(--amber);color:#171008;border:none;
+  border-radius:8px;padding:14px;font-size:14px;font-weight:700;
+  letter-spacing:.3px;
+}
+.btn-primary:active{background:var(--amber-dim);}
+.btn-primary:disabled{opacity:.5;}
+.btn-secondary{
+  width:100%;background:transparent;border:1px solid var(--line);color:var(--text);
+  border-radius:8px;padding:12px;font-size:13px;font-weight:600;
+}
+.btn-ghost{background:none;border:none;color:var(--blue);font-size:13px;font-weight:600;padding:8px 0;}
+
+.footnote{color:var(--muted);font-size:11px;line-height:1.6;padding:0 4px;}
+
+nav.tabs{
+  position:fixed;bottom:0;left:0;right:0;z-index:20;
+  background:var(--surface);border-top:1px solid var(--line);
+  display:flex;
+}
+nav.tabs button{
+  flex:1;background:none;border:none;color:var(--muted);
+  padding:10px 4px 8px;font-size:10px;display:flex;flex-direction:column;align-items:center;gap:3px;
+}
+nav.tabs button .ic{font-size:18px;}
+nav.tabs button.active{color:var(--amber);}
+
+.hidden{display:none !important;}
+
+.modal-back{
+  position:fixed;inset:0;background:rgba(8,11,14,.7);z-index:50;
+  display:flex;align-items:flex-end;justify-content:center;
+}
+.modal{
+  background:var(--surface);width:100%;max-width:640px;max-height:88vh;overflow-y:auto;
+  border-radius:16px 16px 0 0;border:1px solid var(--line);border-bottom:none;
+  padding:18px 16px 24px;
+}
+.modal-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;}
+.modal-head h3{margin:0;font-size:15px;}
+.modal-head button{background:none;border:none;color:var(--muted);font-size:20px;}
+
+.cat-tabs{display:flex;gap:6px;overflow-x:auto;padding-bottom:10px;margin-bottom:12px;}
+.cat-tabs button{
+  flex:none;background:var(--surface-2);border:1px solid var(--line);color:var(--muted);
+  border-radius:20px;padding:7px 13px;font-size:12px;white-space:nowrap;
+}
+.cat-tabs button.active{color:#171008;background:var(--amber);border-color:var(--amber);}
+
+.prod{
+  display:flex;justify-content:space-between;align-items:center;gap:10px;
+  padding:11px 4px;border-bottom:1px solid var(--line);
+}
+.prod .info b{font-size:13px;display:block;}
+.prod .info span{font-size:11px;color:var(--muted);}
+.prod .add{
+  background:var(--surface-2);border:1px solid var(--blue-dim);color:var(--blue);
+  border-radius:6px;padding:6px 12px;font-size:12px;font-weight:700;
+}
+.prod .add.added{background:var(--blue);color:#08131a;border-color:var(--blue);}
+
+.order-card{
+  background:var(--surface-2);border:1px solid var(--line);border-radius:8px;
+  padding:12px;margin-bottom:10px;
+}
+.order-card .top{display:flex;justify-content:space-between;font-size:13px;font-weight:600;}
+.order-card .meta{font-size:11px;color:var(--muted);margin-top:4px;}
+.order-card .amt{font-family:'IBM Plex Mono',monospace;color:var(--amber);}
+.status{font-size:10px;padding:3px 8px;border-radius:20px;text-transform:uppercase;letter-spacing:.5px;}
+.status.pend{background:#3A2E14;color:var(--amber);}
+.status.done{background:#173A29;color:var(--ok);}
+
+.toast{
+  position:fixed;bottom:80px;left:50%;transform:translateX(-50%);
+  max-width:90vw;
+  background:var(--ok);color:#0d1f16;padding:10px 18px;border-radius:20px;
+  font-size:13px;font-weight:600;z-index:60;
+  box-shadow:0 6px 20px rgba(0,0,0,.35);
+}
+.toast.err{background:var(--danger);color:#2a0d09;}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="brand">
+    <div class="mark">🔧</div>
+    <div class="name">Agua&amp;Tools<small>Gestión de Ventas</small></div>
+  </div>
+  <div class="who" id="whoBox">
+    <span id="whoName">Sin gestor</span>
+    <button onclick="showGestorPicker()">Cambiar</button>
+    <span class="conn" id="connBadge">Conectando…</span>
+  </div>
+</header>
+
+<div class="hazard"></div>
+
+<main>
+
+  <!-- GESTOR PICK VIEW -->
+  <section id="view-pick" class="card hidden">
+    <h2>¿Quién eres?</h2>
+    <div class="sub">Selecciona tu nombre de gestor para empezar</div>
+    <div class="gestor-grid" id="gestorGrid"></div>
+    <div style="margin-top:14px;text-align:center;">
+      <button class="btn-ghost" onclick="openAdminLogin()">🔐 Acceso Admin</button>
+    </div>
+  </section>
+
+  <!-- ORDER FORM VIEW -->
+  <section id="view-order" class="hidden">
+    <div class="card">
+      <h2>🧾 Nuevo Vale de Pedido</h2>
+      <div class="sub">Gestor: <span id="orderGestor" class="mono"></span> · Comisión automática</div>
+
+      <div class="field">
+        <label>Nombre del cliente *</label>
+        <input type="text" id="cName" placeholder="Nombre completo">
+      </div>
+      <div class="row2">
+        <div class="field">
+          <label>Teléfono *</label>
+          <input type="text" id="cPhone" placeholder="+53 5xxxxxxx">
+        </div>
+        <div class="field">
+          <label>Carnet identidad</label>
+          <input type="text" id="cCi" placeholder="Opcional">
+        </div>
+      </div>
+      <div class="field">
+        <label>Dirección de entrega *</label>
+        <input type="text" id="cAddr" placeholder="Calle, entre calles, municipio">
+      </div>
+      <div class="field">
+        <label>Mensajería / costo de envío</label>
+        <input type="text" id="cShip" placeholder="Ej: Mensajería propia — 5 USD">
+      </div>
+
+      <div class="field">
+        <label>Artículos del pedido *</label>
+        <button class="catalog-btn" onclick="openCatalog()">📦 Elegir del catálogo</button>
+        <div id="chosenItems" style="margin-top:10px;"></div>
+      </div>
+
+      <div class="row2">
+        <div class="field">
+          <label>Precio USD / Zelle</label>
+          <input type="number" id="pUsd" placeholder="0.00" oninput="calcTotal()">
+        </div>
+        <div class="field">
+          <label>Precio en MN</label>
+          <input type="number" id="pMn" placeholder="0.00" oninput="calcTotal()">
+        </div>
+      </div>
+      <div class="row2">
+        <div class="field">
+          <label>Vuelto</label>
+          <input type="number" id="pChange" placeholder="0.00">
+        </div>
+        <div class="field">
+          <label>Garantía</label>
+          <input type="text" id="pWarranty" placeholder="Ej: 30 días">
+        </div>
+      </div>
+
+      <div class="totalbar">
+        <div>
+          <div class="hint" style="margin:0;">Total a pagar</div>
+        </div>
+        <div class="amt" id="totalDisplay">$0.00</div>
+      </div>
+
+      <div class="field">
+        <label>Comisión estimada del gestor</label>
+        <input type="number" id="pComm" placeholder="0.00">
+        <div class="hint">Se calcula libre: ajusta según lo acordado con el cliente</div>
+      </div>
+
+      <button class="btn-primary" id="submitBtn" onclick="submitOrder()">📤 Enviar al Admin</button>
+    </div>
+
+    <div class="card footnote">
+      <b style="color:var(--text);">🚨 Reglas de la tienda</b><br>
+      • Horario: 9:00am – 7:00pm.<br>
+      • Solo herramientas, materiales de construcción y equipos para el hogar.<br>
+      • Precios sujetos a disponibilidad de stock — confirmar antes de cobrar.<br>
+      • Pagos en efectivo: billetes en buen estado, sin roturas ni manchas.
+    </div>
+  </section>
+
+  <!-- HISTORY VIEW -->
+  <section id="view-history" class="hidden">
+    <div class="card">
+      <h2>📊 Mi Resumen</h2>
+      <div class="sub" id="histSummary">—</div>
+      <div id="histList"></div>
+    </div>
+  </section>
+
+  <!-- ADMIN VIEW -->
+  <section id="view-admin" class="hidden">
+    <div class="card">
+      <h2>🔐 Panel de Admin</h2>
+      <div class="sub">Gestores, catálogo y pedidos de toda la tienda</div>
+
+      <h3 style="font-size:13px;margin:16px 0 8px;color:var(--amber);">👥 Gestores</h3>
+      <div id="adminGestores"></div>
+      <div class="row2" style="margin-top:8px;">
+        <input type="text" id="newGestorName" placeholder="Nombre del nuevo gestor">
+        <button class="btn-secondary" onclick="addGestor()">+ Añadir</button>
+      </div>
+
+      <h3 style="font-size:13px;margin:20px 0 8px;color:var(--amber);">📦 Catálogo</h3>
+      <div id="adminCatalog"></div>
+      <div class="field" style="margin-top:8px;">
+        <select id="newProdCat"></select>
+      </div>
+      <div class="row2">
+        <input type="text" id="newProdName" placeholder="Nombre del producto">
+        <input type="number" id="newProdPrice" placeholder="Precio USD">
+      </div>
+      <button class="btn-secondary" style="margin-top:8px;" onclick="addProduct()">+ Añadir producto</button>
+
+      <h3 style="font-size:13px;margin:20px 0 8px;color:var(--amber);">📋 Todos los pedidos</h3>
+      <div id="adminOrders"></div>
+    </div>
+  </section>
+
+</main>
+
+<nav class="tabs" id="tabs">
+  <button data-tab="order" onclick="switchTab('order')"><span class="ic">🧾</span>Pedido</button>
+  <button data-tab="history" onclick="switchTab('history')"><span class="ic">📊</span>Historial</button>
+  <button data-tab="admin" onclick="switchTab('admin')"><span class="ic">🔐</span>Admin</button>
+</nav>
+
+<!-- Catalog Modal -->
+<div class="modal-back hidden" id="catalogModal">
+  <div class="modal">
+    <div class="modal-head"><h3>📦 Catálogo Agua&amp;Tools</h3><button onclick="closeCatalog()">✕</button></div>
+    <div class="cat-tabs" id="catTabs"></div>
+    <div id="catList"></div>
+    <button class="btn-primary" style="margin-top:10px;" onclick="closeCatalog()">Listo ✓</button>
+  </div>
+</div>
+
+<!-- Admin login modal -->
+<div class="modal-back hidden" id="adminLoginModal">
+  <div class="modal">
+    <div class="modal-head"><h3>🔐 Acceso Admin</h3><button onclick="closeAdminLogin()">✕</button></div>
+    <div class="field">
+      <label>Contraseña</label>
+      <input type="password" id="adminPass" placeholder="••••••">
+    </div>
+    <div id="adminLoginErr" class="hint" style="color:var(--danger);display:none;">Contraseña incorrecta</div>
+    <button class="btn-primary" onclick="tryAdminLogin()">Entrar</button>
+  </div>
+</div>
+
+<div id="toast" class="toast hidden"></div>
+
+<script type="module">
+/* =========================================================
+   Agua&Tools — Backend real en Firebase Firestore
+   Colecciones: catalog, gestores, orders
+   ========================================================= */
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-app.js";
+import {
+  getFirestore, collection, doc, addDoc, deleteDoc,
+  updateDoc, onSnapshot, getDocs
+} from "https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAas0VM7So0w5Y2hqOMbHzhLydMhsh2jCI",
+  authDomain: "aguatools.firebaseapp.com",
+  projectId: "aguatools",
+  storageBucket: "aguatools.firebasestorage.app",
+  messagingSenderId: "422448150336",
+  appId: "1:422448150336:web:69239fc1b498d874b8eca5",
+  measurementId: "G-SY7TMGBBS1"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+const ADMIN_PASS = "aguatools2026";
+const CATEGORIES = ["Herramientas","Bombas de agua","Pinturas","Pisos y cerámicas","Lavamanos","Generadores","Jardinería","Otros"];
+
+const DEFAULT_CATALOG = [
+  {category:"Herramientas", name:"Taladro eléctrico", price:45},
+  {category:"Herramientas", name:"Amoladora angular", price:38},
+  {category:"Herramientas", name:"Sierra circular", price:60},
+  {category:"Herramientas", name:"Juego de destornilladores", price:12},
+  {category:"Herramientas", name:"Martillo", price:9},
+  {category:"Bombas de agua", name:"Bomba de presión doméstica", price:95},
+  {category:"Bombas de agua", name:"Bomba sumergible agrícola", price:140},
+  {category:"Pinturas", name:"Pintura interior 1 galón", price:22},
+  {category:"Pinturas", name:"Pintura exterior 1 galón", price:26},
+  {category:"Pisos y cerámicas", name:"Cerámica piso (caja)", price:18},
+  {category:"Pisos y cerámicas", name:"Porcelanato (caja)", price:30},
+  {category:"Lavamanos", name:"Lavamanos estándar", price:35},
+  {category:"Lavamanos", name:"Lavamanos empotrable", price:55},
+  {category:"Generadores", name:"Generador 2000W", price:250},
+  {category:"Generadores", name:"Estación de carga portátil", price:180},
+  {category:"Jardinería", name:"Manguera 15m", price:14},
+  {category:"Jardinería", name:"Set de jardinería", price:20},
+  {category:"Otros", name:"Producto vario", price:10}
+];
+const DEFAULT_GESTORES = ["Yasmani","Laura","Osvaldo","Dianelys"];
+
+let state = {
+  gestor: null,
+  catalog: {},     // { categoria: [{id,name,price}] }
+  gestores: [],    // [{id,name}]
+  orders: [],      // [{id,...}]
+  chosen: [],
+  activeCat: null,
+  isAdmin: false
+};
+
+/* ---------- Bootstrap ---------- */
+async function seedIfEmpty(){
+  try{
+    const catSnap = await getDocs(collection(db,'catalog'));
+    if(catSnap.empty){
+      for(const p of DEFAULT_CATALOG){ await addDoc(collection(db,'catalog'), p); }
+    }
+  }catch(e){ showToast('❌ No se pudo inicializar el catálogo: '+e.message, true); }
+
+  try{
+    const gesSnap = await getDocs(collection(db,'gestores'));
+    if(gesSnap.empty){
+      for(const name of DEFAULT_GESTORES){ await addDoc(collection(db,'gestores'), {name}); }
+    }
+  }catch(e){ showToast('❌ No se pudo inicializar la lista de gestores: '+e.message, true); }
+}
+
+function setConn(status){
+  const b = document.getElementById('connBadge');
+  if(!b) return;
+  if(status==='ok'){ b.textContent='En línea'; b.className='conn ok'; }
+  else if(status==='err'){ b.textContent='Sin conexión'; b.className='conn err'; }
+  else { b.textContent='Conectando…'; b.className='conn'; }
+}
+
+function listenCatalog(){
+  onSnapshot(collection(db,'catalog'), snap=>{
+    setConn('ok');
+    const grouped = {};
+    snap.forEach(d=>{
+      const data = d.data();
+      const cat = data.category || 'Otros';
+      grouped[cat] = grouped[cat] || [];
+      grouped[cat].push({id:d.id, name:data.name, price:Number(data.price)||0});
+    });
+    state.catalog = grouped;
+    renderProdCatSelect();
+    renderAdminCatalogList();
+    if(!state.activeCat){ const cats = Object.keys(state.catalog); state.activeCat = cats[0]||null; }
+    renderCatTabs();
+    renderCatList();
+  }, err=>{ setConn('err'); showToast('❌ Error cargando catálogo: '+err.message, true); });
+}
+
+function listenGestores(){
+  onSnapshot(collection(db,'gestores'), snap=>{
+    setConn('ok');
+    state.gestores = [];
+    snap.forEach(d=> state.gestores.push({id:d.id, name:d.data().name}));
+    renderGestorGrid();
+    renderAdminGestores();
+  }, err=>{ setConn('err'); showToast('❌ Error cargando gestores: '+err.message, true); });
+}
+
+function listenOrders(){
+  onSnapshot(collection(db,'orders'), snap=>{
+    setConn('ok');
+    state.orders = [];
+    snap.forEach(d=> state.orders.push({id:d.id, ...d.data()}));
+    state.orders.sort((a,b)=> (b.createdAt||'').localeCompare(a.createdAt||''));
+    const histVisible = !document.getElementById('view-history').classList.contains('hidden');
+    const adminVisible = !document.getElementById('view-admin').classList.contains('hidden');
+    if(histVisible) renderHistory();
+    if(adminVisible) renderAdminOrders();
+  }, err=>{ setConn('err'); showToast('❌ Error cargando pedidos: '+err.message, true); });
+}
+
+async function initApp(){
+  try{ state.gestor = localStorage.getItem('agt_gestor') || null; }catch(e){ state.gestor = null; }
+  document.getElementById('whoName').textContent = state.gestor || 'Sin gestor';
+  document.getElementById('orderGestor').textContent = state.gestor || '—';
+  showView(state.gestor ? 'order' : 'pick');
+
+  await seedIfEmpty();
+  listenCatalog();
+  listenGestores();
+  listenOrders();
+}
+
+/* ---------- Navigation ---------- */
+function showView(name){
+  ['pick','order','history','admin'].forEach(v=>{
+    document.getElementById('view-'+v).classList.toggle('hidden', v!==name);
+  });
+  document.getElementById('tabs').classList.toggle('hidden', name==='pick');
+  if(name!=='pick'){
+    document.querySelectorAll('#tabs button').forEach(b=>b.classList.toggle('active', b.dataset.tab===name));
+  }
+  if(name==='history') renderHistory();
+  if(name==='admin') renderAdminOrders();
+}
+function switchTab(name){
+  if(name==='admin' && !state.isAdmin){ openAdminLogin(); return; }
+  showView(name);
+}
+function showGestorPicker(){ showView('pick'); }
+
+function renderGestorGrid(){
+  const grid = document.getElementById('gestorGrid');
+  grid.innerHTML = state.gestores.map(g=>`
+    <button onclick="pickGestor('${escapeHtml(g.name)}')">
+      <span class="avatar">${g.name.charAt(0).toUpperCase()}</span>
+      ${escapeHtml(g.name)}
+    </button>`).join('') || '<div class="hint">Aún no hay gestores. Pide al Admin que añada uno.</div>';
+}
+function pickGestor(name){
+  state.gestor = name;
+  try{ localStorage.setItem('agt_gestor', name); }catch(e){}
+  document.getElementById('whoName').textContent = name;
+  document.getElementById('orderGestor').textContent = name;
+  showView('order');
+}
+
+/* ---------- Catalog picker (order form) ---------- */
+function openCatalog(){
+  const cats = Object.keys(state.catalog);
+  if(!state.activeCat) state.activeCat = cats[0];
+  renderCatTabs();
+  renderCatList();
+  document.getElementById('catalogModal').classList.remove('hidden');
+}
+function closeCatalog(){
+  document.getElementById('catalogModal').classList.add('hidden');
+  renderChosenItems();
+}
+function renderCatTabs(){
+  const cats = Object.keys(state.catalog);
+  document.getElementById('catTabs').innerHTML = cats.map(c=>`
+    <button class="${c===state.activeCat?'active':''}" onclick="setCat('${escapeHtml(c)}')">${escapeHtml(c)}</button>
+  `).join('');
+}
+function setCat(c){ state.activeCat = c; renderCatTabs(); renderCatList(); }
+function renderCatList(){
+  const items = (state.activeCat && state.catalog[state.activeCat]) || [];
+  document.getElementById('catList').innerHTML = items.map(p=>{
+    const added = state.chosen.some(x=>x.name===p.name);
+    return `<div class="prod">
+      <div class="info"><b>${escapeHtml(p.name)}</b><span>$${Number(p.price).toFixed(2)} USD</span></div>
+      <button class="add ${added?'added':''}" onclick="toggleItem('${escapeHtml(p.name)}', ${p.price})">${added?'Agregado ✓':'+ Agregar'}</button>
+    </div>`;
+  }).join('') || '<div class="hint">Sin productos en esta categoría.</div>';
+}
+function toggleItem(name, price){
+  const idx = state.chosen.findIndex(x=>x.name===name);
+  if(idx>=0){ state.chosen.splice(idx,1); }
+  else{ state.chosen.push({name, price, qty:1}); }
+  renderCatList();
+}
+function renderChosenItems(){
+  const box = document.getElementById('chosenItems');
+  if(state.chosen.length===0){ box.innerHTML=''; return; }
+  box.innerHTML = state.chosen.map((it,i)=>`
+    <div class="item-chip">
+      <span>${escapeHtml(it.name)} × <input type="number" min="1" value="${it.qty}" style="width:44px;padding:3px 5px;" onchange="setQty(${i}, this.value)"></span>
+      <button class="x" onclick="removeItem(${i})">✕</button>
+    </div>`).join('');
+  autoFillUsd();
+}
+function setQty(i, val){ state.chosen[i].qty = Math.max(1, parseInt(val)||1); renderChosenItems(); }
+function removeItem(i){ state.chosen.splice(i,1); renderChosenItems(); }
+function autoFillUsd(){
+  const sum = state.chosen.reduce((a,b)=>a + b.price*b.qty, 0);
+  if(sum>0){ document.getElementById('pUsd').value = sum.toFixed(2); calcTotal(); }
+}
+
+/* ---------- Totals ---------- */
+function calcTotal(){
+  const usd = parseFloat(document.getElementById('pUsd').value)||0;
+  const mn = parseFloat(document.getElementById('pMn').value)||0;
+  document.getElementById('totalDisplay').textContent = usd>0 ? `$${usd.toFixed(2)} USD` + (mn>0? ` + ${mn.toFixed(2)} MN`:'') : (mn>0? `${mn.toFixed(2)} MN`:'$0.00');
+}
+
+/* ---------- Submit order ---------- */
+async function submitOrder(){
+  const name = document.getElementById('cName').value.trim();
+  const phone = document.getElementById('cPhone').value.trim();
+  const addr = document.getElementById('cAddr').value.trim();
+  if(!name || !phone || !addr){ showToast('⚠️ Completa nombre, teléfono y dirección del cliente.', true); return; }
+  if(state.chosen.length===0){ showToast('⚠️ Agrega al menos un artículo del catálogo.', true); return; }
+  if(!state.gestor){ showToast('⚠️ Selecciona tu nombre de gestor primero.', true); return; }
+
+  const order = {
+    gestor: state.gestor,
+    client: { name, phone, addr, ci: document.getElementById('cCi').value.trim() },
+    shipping: document.getElementById('cShip').value.trim(),
+    items: state.chosen,
+    priceUsd: parseFloat(document.getElementById('pUsd').value)||0,
+    priceMn: parseFloat(document.getElementById('pMn').value)||0,
+    change: parseFloat(document.getElementById('pChange').value)||0,
+    warranty: document.getElementById('pWarranty').value.trim(),
+    commission: parseFloat(document.getElementById('pComm').value)||0,
+    status: 'pendiente',
+    createdAt: new Date().toISOString()
+  };
+
+  const btn = document.getElementById('submitBtn');
+  btn.disabled = true; btn.textContent = 'Enviando…';
+  try{
+    await addDoc(collection(db,'orders'), order);
+    showToast('✅ Vale enviado al Admin');
+    clearOrderForm();
+  }catch(e){
+    showToast('❌ Error al enviar el vale: '+e.message, true);
+  }finally{
+    btn.disabled = false; btn.textContent = '📤 Enviar al Admin';
+  }
+}
+
+function clearOrderForm(){
+  ['cName','cPhone','cCi','cAddr','cShip','pUsd','pMn','pChange','pWarranty','pComm'].forEach(id=>document.getElementById(id).value='');
+  state.chosen = [];
+  renderChosenItems();
+  document.getElementById('totalDisplay').textContent = '$0.00';
+}
+
+function showToast(msg, isError){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.remove('hidden');
+  t.classList.toggle('err', !!isError);
+  clearTimeout(window.__toastTimer);
+  window.__toastTimer = setTimeout(()=>t.classList.add('hidden'), isError?3800:2200);
+}
+
+/* ---------- History (gestor) ---------- */
+function renderHistory(){
+  const mine = state.orders.filter(o=>o.gestor===state.gestor);
+  const totalComm = mine.reduce((a,b)=>a+(b.commission||0),0);
+  document.getElementById('histSummary').textContent = `${mine.length} vale(s) · Comisión acumulada: $${totalComm.toFixed(2)}`;
+  document.getElementById('histList').innerHTML = mine.map(o=>`
+    <div class="order-card">
+      <div class="top"><span>${escapeHtml(o.client.name)}</span><span class="status ${o.status==='completado'?'done':'pend'}">${o.status}</span></div>
+      <div class="meta">${o.createdAt ? new Date(o.createdAt).toLocaleString('es-ES') : ''} · ${o.items.map(i=>escapeHtml(i.name)).join(', ')}</div>
+      <div class="meta amt" style="margin-top:5px;">Total: $${o.priceUsd.toFixed(2)} USD${o.priceMn?' + '+o.priceMn.toFixed(2)+' MN':''} · Comisión: $${(o.commission||0).toFixed(2)}</div>
+    </div>`).join('') || '<div class="hint">Aún no tienes vales registrados.</div>';
+}
+
+/* ---------- Admin ---------- */
+function openAdminLogin(){ document.getElementById('adminLoginModal').classList.remove('hidden'); }
+function closeAdminLogin(){ document.getElementById('adminLoginModal').classList.add('hidden'); document.getElementById('adminLoginErr').style.display='none'; document.getElementById('adminPass').value=''; }
+function tryAdminLogin(){
+  const val = document.getElementById('adminPass').value;
+  if(val === ADMIN_PASS){
+    state.isAdmin = true;
+    closeAdminLogin();
+    showView('admin');
+  } else {
+    document.getElementById('adminLoginErr').style.display='block';
+  }
+}
+
+function renderAdminGestores(){
+  document.getElementById('adminGestores').innerHTML = state.gestores.map(g=>`
+    <div class="item-chip"><span>${escapeHtml(g.name)}</span><button class="x" onclick="removeGestor('${g.id}')">✕</button></div>
+  `).join('') || '<div class="hint">No hay gestores registrados.</div>';
+}
+async function addGestor(){
+  const inp = document.getElementById('newGestorName');
+  const v = inp.value.trim();
+  if(!v) return;
+  try{
+    await addDoc(collection(db,'gestores'), {name:v});
+    inp.value='';
+    showToast('✅ Gestor añadido');
+  }catch(e){ showToast('❌ Error al añadir gestor: '+e.message, true); }
+}
+async function removeGestor(id){
+  try{
+    await deleteDoc(doc(db,'gestores', id));
+    showToast('🗑️ Gestor eliminado');
+  }catch(e){ showToast('❌ Error al eliminar gestor: '+e.message, true); }
+}
+
+function renderProdCatSelect(){
+  const sel = document.getElementById('newProdCat');
+  const current = sel.value;
+  sel.innerHTML = CATEGORIES.map(c=>`<option value="${escapeHtml(c)}">${escapeHtml(c)}</option>`).join('');
+  if(current) sel.value = current;
+}
+function renderAdminCatalogList(){
+  const box = document.getElementById('adminCatalog');
+  let html = '';
+  for(const cat in state.catalog){
+    html += `<div class="hint" style="margin-top:8px;color:var(--blue);font-weight:600;">${escapeHtml(cat)}</div>`;
+    html += state.catalog[cat].map(p=>`
+      <div class="item-chip"><span>${escapeHtml(p.name)} — $${Number(p.price).toFixed(2)}</span>
+      <button class="x" onclick="removeProduct('${p.id}')">✕</button></div>`).join('');
+  }
+  box.innerHTML = html || '<div class="hint">Catálogo vacío.</div>';
+}
+async function addProduct(){
+  const cat = document.getElementById('newProdCat').value;
+  const name = document.getElementById('newProdName').value.trim();
+  const price = parseFloat(document.getElementById('newProdPrice').value);
+  if(!name || isNaN(price)){ showToast('⚠️ Completa nombre y precio válido.', true); return; }
+  try{
+    await addDoc(collection(db,'catalog'), {name, price, category: cat});
+    document.getElementById('newProdName').value='';
+    document.getElementById('newProdPrice').value='';
+    showToast('✅ Producto añadido');
+  }catch(e){ showToast('❌ Error al guardar producto: '+e.message, true); }
+}
+async function removeProduct(id){
+  try{
+    await deleteDoc(doc(db,'catalog', id));
+    showToast('🗑️ Producto eliminado');
+  }catch(e){ showToast('❌ Error al eliminar producto: '+e.message, true); }
+}
+
+function renderAdminOrders(){
+  const totalComm = state.orders.reduce((a,b)=>a+(b.commission||0),0);
+  document.getElementById('adminOrders').innerHTML =
+    `<div class="hint" style="margin-bottom:8px;">${state.orders.length} pedido(s) · Comisiones totales: $${totalComm.toFixed(2)}</div>` +
+    (state.orders.map(o=>`
+      <div class="order-card">
+        <div class="top"><span>${escapeHtml(o.client.name)} · <span class="mono" style="color:var(--muted);font-size:11px;">${escapeHtml(o.gestor)}</span></span>
+        <span class="status ${o.status==='completado'?'done':'pend'}">${o.status}</span></div>
+        <div class="meta">${escapeHtml(o.client.phone)} · ${escapeHtml(o.client.addr)}</div>
+        <div class="meta">${o.items.map(i=>escapeHtml(i.name)+' ×'+i.qty).join(', ')}</div>
+        <div class="meta amt" style="margin-top:5px;">$${o.priceUsd.toFixed(2)} USD${o.priceMn?' + '+o.priceMn.toFixed(2)+' MN':''}</div>
+        ${o.status==='pendiente' ? `<button class="btn-secondary" style="margin-top:8px;" onclick="markDone('${o.id}')">✓ Marcar completado</button>` : ''}
+      </div>`).join('') || '<div class="hint">No hay pedidos aún.</div>');
+}
+async function markDone(id){
+  try{
+    await updateDoc(doc(db,'orders', id), {status:'completado'});
+    showToast('✅ Marcado como completado');
+  }catch(e){ showToast('❌ Error al actualizar el pedido: '+e.message, true); }
+}
+
+function escapeHtml(s){
+  return String(s).replace(/[&<>"']/g, m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+}
+
+/* Expose handlers referenced from inline onclick/onchange attributes */
+Object.assign(window, {
+  showGestorPicker, pickGestor, openCatalog, closeCatalog, setCat, toggleItem, setQty, removeItem,
+  calcTotal, submitOrder, switchTab, openAdminLogin, closeAdminLogin, tryAdminLogin,
+  addGestor, removeGestor, addProduct, removeProduct, markDone
+});
+
+initApp();
+</script>
+</body>
+</html>
