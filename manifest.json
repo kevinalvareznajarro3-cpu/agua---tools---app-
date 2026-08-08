@@ -1,0 +1,15 @@
+{
+  "name": "Agua&Tools · Gestión de Ventas",
+  "short_name": "Agua&Tools",
+  "description": "Sistema de gestión de ventas para Agua&Tools (ferretería y construcción)",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#0A1A2E",
+  "theme_color": "#0A1A2E",
+  "orientation": "portrait",
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}
