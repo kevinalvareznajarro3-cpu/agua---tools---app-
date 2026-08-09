@@ -71,10 +71,11 @@ header.top{
 }
 .brand{display:flex;align-items:center;gap:9px;min-width:0;}
 .brand .mark{
-  width:36px;height:36px;border-radius:9px;flex:none;
+  width:36px;height:36px;border-radius:9px;flex:none;overflow:hidden;
   background:linear-gradient(135deg,var(--blue),var(--cyan));
   display:flex;align-items:center;justify-content:center;font-size:17px;
 }
+.brand .mark img{width:100%;height:100%;object-fit:cover;}
 .brand .name{font-size:14px;line-height:1.1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 .brand .name small{display:block;color:var(--muted);font-size:9px;letter-spacing:1.4px;text-transform:uppercase;margin-top:2px;}
 .hdr-actions{display:flex;align-items:center;gap:6px;flex:none;}
@@ -88,7 +89,7 @@ header.top{
   background:var(--surface-2);
   border:1px solid var(--line);
   padding:5px 9px;border-radius:20px;
-  display:flex;align-items:center;gap:6px;max-width:130px;
+  display:flex;align-items:center;gap:6px;max-width:150px;
 }
 .who .av{width:18px;height:18px;border-radius:50%;object-fit:cover;flex:none;background:var(--blue-dim);}
 .who span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
@@ -120,20 +121,6 @@ main{max-width:680px;margin:0 auto;padding:14px;}
 .searchbar input:focus{outline:none;}
 .searchbar .ic{color:var(--muted);font-size:14px;}
 
-.gestor-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;max-height:340px;overflow-y:auto;}
-.gestor-grid button{
-  background:var(--surface-2);border:1px solid var(--line);
-  color:var(--text);border-radius:8px;padding:14px 8px;
-  font-size:13px;font-weight:600;
-  display:flex;flex-direction:column;align-items:center;gap:6px;
-}
-.gestor-grid button .avatar{
-  width:32px;height:32px;border-radius:50%;object-fit:cover;
-  background:linear-gradient(135deg,var(--blue-dim),var(--cyan-dim));
-  display:flex;align-items:center;justify-content:center;font-size:13px;color:#fff;
-}
-.gestor-grid button:active{border-color:var(--cyan);}
-
 label{display:block;font-size:11px;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin-bottom:6px;}
 .field{margin-bottom:13px;}
 input[type=text],input[type=number],input[type=password],input[type=date],input[type=time],input[type=file],select,textarea{
@@ -142,6 +129,7 @@ input[type=text],input[type=number],input[type=password],input[type=date],input[
 }
 textarea{resize:vertical;min-height:70px;}
 input:focus,select:focus,textarea:focus{border-color:var(--cyan);}
+input.invalid, textarea.invalid{border-color:var(--danger) !important;box-shadow:0 0 0 1px var(--danger);}
 .row2{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
 .hint{font-size:11px;color:var(--muted);margin-top:5px;}
 .vale-head{
@@ -159,10 +147,12 @@ input:focus,select:focus,textarea:focus{border-color:var(--cyan);}
 .seg button.active{background:var(--cyan);border-color:var(--cyan);color:#052330;}
 
 .catalog-btn{
-  width:100%;background:var(--surface-2);border:1px dashed var(--line);
-  color:var(--cyan);border-radius:8px;padding:12px;font-size:13px;font-weight:600;
-  display:flex;align-items:center;justify-content:center;gap:8px;
+  width:100%;background:linear-gradient(135deg,var(--blue-dim),var(--cyan-dim));border:none;
+  color:#fff;border-radius:8px;padding:14px;font-size:14px;font-weight:700;
+  display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:10px;
 }
+.or-divider{display:flex;align-items:center;gap:10px;color:var(--muted);font-size:11px;margin:10px 0;}
+.or-divider::before,.or-divider::after{content:'';flex:1;height:1px;background:var(--line);}
 .item-chip{
   display:flex;justify-content:space-between;align-items:center;
   background:var(--surface-2);border:1px solid var(--line);border-radius:8px;
@@ -183,7 +173,7 @@ input:focus,select:focus,textarea:focus{border-color:var(--cyan);}
   letter-spacing:.3px;
 }
 .btn-primary:active{background:var(--cyan-dim);}
-.btn-primary:disabled{opacity:.5;}
+.btn-primary:disabled{opacity:.45;}
 .btn-secondary{
   width:100%;background:transparent;border:1px solid var(--line);color:var(--text);
   border-radius:8px;padding:12px;font-size:13px;font-weight:600;
@@ -193,6 +183,11 @@ input:focus,select:focus,textarea:focus{border-color:var(--cyan);}
   border-radius:8px;padding:9px;font-size:12px;font-weight:600;
 }
 .btn-ghost{background:none;border:none;color:var(--cyan);font-size:13px;font-weight:600;padding:8px 0;}
+.btn-wa{
+  width:100%;background:#1877F2;color:#fff;border:none;border-radius:8px;
+  padding:13px;font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;gap:8px;
+  margin-top:8px;
+}
 
 .footnote{color:var(--muted);font-size:11px;line-height:1.6;padding:0 4px;}
 
@@ -224,6 +219,12 @@ nav.tabs button.active{color:var(--cyan);}
 .modal-head h3{margin:0;font-size:15px;}
 .modal-head button{background:none;border:none;color:var(--muted);font-size:20px;}
 
+.modal-full{align-items:stretch;}
+.modal-full .modal{max-height:100vh;height:100vh;border-radius:0;display:flex;flex-direction:column;padding:14px 14px calc(14px + env(safe-area-inset-bottom));}
+.modal-full .modal-body{flex:1;overflow-y:auto;}
+.modal-full .modal-foot{flex:none;display:flex;gap:8px;padding-top:10px;border-top:1px solid var(--line);margin-top:10px;}
+.modal-full .modal-foot .btn-primary,.modal-full .modal-foot .btn-secondary{width:auto;flex:1;}
+
 .imgmodal-back{
   position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:60;
   display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;
@@ -250,6 +251,7 @@ nav.tabs button.active{color:var(--cyan);}
 .prod .thumb.empty{display:flex;align-items:center;justify-content:center;font-size:18px;color:var(--muted);}
 .prod .info{flex:1;min-width:0;}
 .prod .info b{font-size:13px;display:block;}
+.prod .info .pdesc-mini{font-size:10.5px;color:var(--muted);line-height:1.35;margin:2px 0 3px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
 .prod .info .price{font-size:11px;color:var(--cyan);font-family:'IBM Plex Mono',monospace;}
 .prod .stockrow{display:flex;gap:5px;margin-top:3px;flex-wrap:wrap;}
 .stock-pill{font-size:9px;padding:2px 6px;border-radius:8px;background:var(--surface-2);border:1px solid var(--line);color:var(--muted);}
@@ -258,6 +260,13 @@ nav.tabs button.active{color:var(--cyan);}
   flex:none;width:32px;height:32px;border-radius:50%;background:var(--cyan);color:#052330;
   border:none;font-size:16px;font-weight:700;
 }
+.qty-counter{display:flex;align-items:center;gap:8px;flex:none;}
+.qty-counter button{
+  width:28px;height:28px;border-radius:50%;border:1px solid var(--line);background:var(--surface-2);
+  color:var(--text);font-size:15px;font-weight:700;display:flex;align-items:center;justify-content:center;
+}
+.qty-counter button.plus{background:var(--cyan);color:#052330;border-color:var(--cyan);}
+.qty-counter .n{width:20px;text-align:center;font-size:13px;font-weight:700;font-family:'IBM Plex Mono',monospace;}
 
 .stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;}
 .stat-card{background:var(--surface-2);border:1px solid var(--line);border-radius:10px;padding:12px;}
@@ -294,6 +303,153 @@ nav.tabs button.active{color:var(--cyan);}
 .pfp-row img{width:56px;height:56px;border-radius:50%;object-fit:cover;border:2px solid var(--cyan);background:var(--surface-2);}
 
 .tag-cyan{color:var(--cyan);font-weight:600;}
+
+.ticket-box{
+  background:var(--surface-2);border:1px dashed var(--line);border-radius:8px;
+  padding:14px;font-family:'IBM Plex Mono',monospace;font-size:11.5px;line-height:1.7;
+  white-space:pre-wrap;word-break:break-word;color:var(--text);cursor:pointer;
+}
+.ticket-box .muted{color:var(--muted);}
+
+.total-breakdown{
+  font-size:11.5px;color:var(--muted);margin-top:6px;font-family:'IBM Plex Mono',monospace;
+  background:var(--surface-2);border:1px solid var(--line);border-radius:6px;padding:8px 10px;
+}
+.zone-btn-row{display:flex;gap:8px;align-items:stretch;}
+.zone-btn-row .catalog-btn{flex:1;margin-bottom:0;}
+.wa-help-btn{
+  flex:none;width:48px;background:#1877F2;color:#fff;border:none;border-radius:8px;
+  display:flex;align-items:center;justify-content:center;font-size:18px;
+}
+.zone-list{max-height:50vh;overflow-y:auto;}
+.zone-item{
+  padding:10px 4px;border-bottom:1px solid var(--line);
+  display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;
+}
+.zone-item .zinfo{flex:1;min-width:140px;}
+.zone-item .zinfo b{font-size:13px;display:block;}
+.zone-item .zinfo .muni{font-size:10.5px;color:var(--muted);}
+.zone-item .zinfo .price{font-size:11px;color:var(--cyan);font-family:'IBM Plex Mono',monospace;margin-top:2px;}
+.zone-checks{display:flex;gap:12px;flex:none;}
+.zone-checks label{
+  display:flex;align-items:center;gap:5px;font-size:11px;text-transform:none;letter-spacing:0;
+  color:var(--text);margin-bottom:0;cursor:pointer;
+}
+.zone-checks input[type=checkbox]{width:16px;height:16px;accent-color:var(--cyan);}
+.zone-selected-tag{
+  background:var(--surface-2);border:1px solid var(--cyan-dim);border-radius:8px;
+  padding:10px 12px;font-size:12.5px;margin-top:10px;display:flex;justify-content:space-between;align-items:center;gap:8px;
+}
+.zone-selected-tag button{background:none;border:none;color:var(--danger);font-size:12px;font-weight:600;}
+
+.wa-tab-card{text-align:center;padding:30px 16px;}
+.wa-tab-card .icon{font-size:52px;margin-bottom:14px;}
+.wa-tab-card .btn-primary{max-width:280px;margin:16px auto 0;background:#25D366;color:#fff;}
+
+/* ---------- Login screen (fondo océano) ---------- */
+#view-login{
+  position:fixed;inset:0;z-index:30;
+  background-image:url('fondo-oceano.jpg');
+  background-size:cover;
+  background-position:center;
+  background-repeat:no-repeat;
+  display:flex;align-items:center;justify-content:center;
+  padding:24px 18px;
+  overflow-y:auto;
+}
+#view-login::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(180deg, rgba(5,14,26,.55), rgba(5,14,26,.82));
+}
+.login-card{
+  position:relative;z-index:1;width:100%;max-width:380px;
+  background:rgba(15,36,64,.62);
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  border:1px solid rgba(255,255,255,.18);
+  border-radius:18px;padding:30px 24px 26px;
+  box-shadow:0 20px 60px rgba(0,0,0,.4);
+  color:#F2F7FC;
+}
+.login-title{font-family:'Archivo Black',sans-serif;font-size:24px;text-align:center;line-height:1.25;margin-bottom:8px;
+  text-shadow:0 2px 12px rgba(0,0,0,.4);}
+.login-sub{text-align:center;font-size:12.5px;color:#BFE0EF;margin-bottom:24px;letter-spacing:.2px;}
+.login-field{margin-bottom:14px;}
+.login-field label{color:#BFE0EF;font-size:10.5px;}
+.login-field input{
+  width:100%;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.25);
+  color:#fff;border-radius:9px;padding:12px 13px;font-size:14px;font-family:inherit;
+}
+.login-field input::placeholder{color:rgba(255,255,255,.5);}
+.login-field input.invalid{border-color:var(--danger);}
+.pass-wrap{position:relative;}
+.pass-wrap input{padding-right:42px;}
+.pass-eye{
+  position:absolute;right:6px;top:50%;transform:translateY(-50%);
+  background:none;border:none;color:#BFE0EF;font-size:17px;padding:6px;
+}
+.login-error{
+  color:#FFB4AC;font-size:12px;text-align:center;margin:-4px 0 12px;min-height:0;
+}
+.login-btn{
+  width:100%;background:var(--cyan);color:#052330;border:none;border-radius:9px;
+  padding:14px;font-size:14px;font-weight:700;letter-spacing:.3px;
+}
+.login-btn:disabled{opacity:.5;}
+.login-forgot{
+  display:block;text-align:center;margin-top:16px;color:#7FD4F5;font-size:12.5px;
+  text-decoration:underline;background:none;border:none;font-family:inherit;width:100%;
+}
+
+/* ---------- Fase 3: Admin Axontech style ---------- */
+:root{--warn:#F0A93F;}
+.admin-subtabs{display:flex;gap:6px;overflow-x:auto;padding-bottom:10px;margin-bottom:12px;-webkit-overflow-scrolling:touch;}
+.admin-subtabs button{flex:none;background:var(--surface-2);border:1px solid var(--line);color:var(--muted);border-radius:20px;padding:8px 14px;font-size:12px;white-space:nowrap;font-weight:600;}
+.admin-subtabs button.active{color:#052330;background:var(--cyan);border-color:var(--cyan);}
+.admin-pane{display:none;}
+.admin-pane.active{display:block;}
+
+.pcard{display:flex;gap:10px;background:var(--surface-2);border:1px solid var(--line);border-radius:12px;padding:10px;margin-bottom:10px;}
+.pcard .pthumb{width:64px;height:64px;border-radius:9px;object-fit:cover;flex:none;background:var(--surface);border:1px solid var(--line);}
+.pcard .pthumb.empty{display:flex;align-items:center;justify-content:center;font-size:22px;color:var(--muted);}
+.pcard .pinfo{flex:1;min-width:0;}
+.pcard .pinfo .pname{font-size:13.5px;font-weight:700;display:block;}
+.pcard .pinfo .ppill{display:inline-block;font-size:10px;background:var(--surface);border:1px solid var(--line);color:var(--muted);border-radius:10px;padding:2px 8px;margin:4px 0;}
+.pcard .pinfo .pdesc{font-size:11px;color:var(--muted);line-height:1.4;margin-bottom:4px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+.pcard .pinfo .pfoot{display:flex;align-items:center;gap:8px;font-size:12px;}
+.pcard .pinfo .pfoot .price{color:var(--cyan);font-family:'IBM Plex Mono',monospace;font-weight:700;}
+.pcard .pinfo .pfoot .pstock{font-size:10px;color:var(--muted);}
+.pcard .pactions{display:flex;flex-direction:column;gap:5px;flex:none;justify-content:center;}
+.pcard .pactions button{width:34px;height:34px;border-radius:8px;border:1px solid var(--line);background:var(--surface);color:var(--text);font-size:14px;display:flex;align-items:center;justify-content:center;}
+.pcard .pactions button.del{border-color:var(--danger);color:var(--danger);}
+
+.order-group{background:var(--surface-2);border:1px solid var(--line);border-radius:10px;margin-bottom:10px;overflow:hidden;}
+.order-group-head{display:flex;align-items:center;gap:10px;padding:12px;cursor:pointer;}
+.order-group-head .av-circ{width:34px;height:34px;border-radius:50%;background:var(--blue);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;flex:none;}
+.order-group-head .gname{flex:1;font-size:13.5px;font-weight:700;}
+.order-group-head .badge{background:var(--danger);color:#fff;font-size:11px;font-weight:700;border-radius:12px;min-width:20px;height:20px;display:flex;align-items:center;justify-content:center;padding:0 6px;}
+.order-group-head .chev{color:var(--muted);font-size:13px;transition:transform .15s;flex:none;}
+.order-group-head.open .chev{transform:rotate(90deg);}
+.order-group-body{display:none;padding:0 12px 12px;}
+.order-group-body.open{display:block;}
+.order-ticket{background:var(--surface);border:1px dashed var(--line);border-radius:8px;padding:10px;margin-bottom:8px;}
+.order-ticket .otop{display:flex;justify-content:space-between;align-items:center;font-size:12.5px;font-weight:700;margin-bottom:4px;}
+.order-ticket .ometa{font-size:11px;color:var(--muted);margin-bottom:2px;}
+.order-ticket .oticket-text{font-family:'IBM Plex Mono',monospace;font-size:10.5px;white-space:pre-wrap;word-break:break-word;color:var(--muted);background:var(--surface-2);border-radius:6px;padding:8px;margin-top:6px;cursor:pointer;}
+.order-ticket .oactions{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap;}
+.order-ticket .oactions button{flex:1;padding:8px;font-size:11px;min-width:70px;}
+.btn-confirm{background:transparent;border:1px solid var(--ok);color:var(--ok);border-radius:8px;padding:9px;font-size:12px;font-weight:600;}
+.status.pendiente{background:rgba(240,169,63,.15);color:var(--warn);}
+.status.confirmado{background:rgba(63,190,130,.15);color:var(--ok);}
+.status.cancelado{background:rgba(240,85,74,.15);color:var(--danger);}
+
+.blk-item{background:var(--surface-2);border:1px solid var(--line);border-radius:8px;padding:10px 12px;margin-bottom:8px;}
+.blk-item .bname{font-size:13px;font-weight:700;}
+.blk-item .bmeta{font-size:11px;color:var(--muted);margin-top:2px;}
+.blk-item .bmotivo{font-size:11.5px;color:var(--danger);font-weight:700;margin-top:5px;}
+.blk-item .bdel{margin-top:8px;}
+.btn-danger-solid{width:100%;background:var(--danger);color:#fff;border:none;border-radius:8px;padding:13px;font-size:13.5px;font-weight:700;}
+
+.blacklist-alert{background:rgba(240,85,74,.15);border:1.5px solid var(--danger);color:var(--danger);border-radius:8px;padding:12px;font-size:13px;font-weight:700;text-align:center;margin-bottom:12px;line-height:1.4;}
 </style>
 </head>
 <body data-view="loading">
@@ -316,34 +472,7 @@ nav.tabs button.active{color:var(--cyan);}
 
 <main>
 
-  <!-- ============ LOGIN VIEW ============ -->
-  <section id="view-login" class="view hidden">
-    <div class="card">
-      <h2>👋 ¿Quién eres?</h2>
-      <div class="sub">Selecciona tu nombre para iniciar sesión como gestor.</div>
-      <div class="searchbar">
-        <span class="ic">🔍</span>
-        <input type="text" id="gestorSearch" placeholder="Buscar mi nombre…" oninput="renderGestorPicker()">
-      </div>
-      <div class="gestor-grid" id="gestorGrid"></div>
-    </div>
-    <button class="btn-ghost" onclick="openAdminLogin()">🔐 Acceso de Administrador</button>
-  </section>
-
-  <!-- Password modal for gestor -->
-  <div id="gestorPassModal" class="modal-back hidden">
-    <div class="modal">
-      <div class="modal-head"><h3>Ingresa tu contraseña</h3><button onclick="closeGestorPassModal()">✕</button></div>
-      <div class="field">
-        <label id="gestorPassLabel">Gestor</label>
-        <input type="password" id="gestorPassInput" placeholder="Contraseña" autocomplete="off">
-      </div>
-      <div class="hint" id="gestorPassErr" style="display:none;color:var(--danger);">Contraseña incorrecta.</div>
-      <button class="btn-primary" style="margin-top:8px;" onclick="tryGestorLogin()">Entrar</button>
-    </div>
-  </div>
-
-  <!-- ============ PEDIDO (VALE) VIEW ============ -->
+  <!-- ============ VALE VIEW ============ -->
   <section id="view-pedido" class="view hidden">
     <div class="vale-head">
       <b>📦 VALE DE MENSAJERÍA — AGUA&amp;TOOLS 🌊</b>
@@ -355,24 +484,26 @@ nav.tabs button.active{color:var(--cyan);}
 
     <div class="card">
       <h2>🧾 Datos del cliente</h2>
-      <div class="field"><label>Cliente</label><input type="text" id="vCliente" placeholder="Nombre del cliente"></div>
-      <div class="field"><label>📱 Teléfono</label><input type="text" id="vTelefono" placeholder="Teléfono"></div>
-      <div class="field"><label>🏠 Dirección</label><input type="text" id="vDireccion" placeholder="Dirección"></div>
-      <div class="field"><label>📍 Referencia (opcional)</label><input type="text" id="vReferencia" placeholder="Punto de referencia"></div>
+      <div id="blacklistAlert" class="blacklist-alert hidden">⚠️ ESTE CLIENTE ESTÁ EN LA LISTA NEGRA. Verifica antes de continuar.</div>
+      <div class="field"><label>Cliente *</label><input type="text" id="vCliente" placeholder="Nombre del cliente" oninput="onValeInput()"></div>
+      <div class="field"><label>📱 Teléfono *</label><input type="text" id="vTelefono" placeholder="Teléfono" oninput="onValeInput()"></div>
+      <div class="field"><label>🏠 Dirección *</label><input type="text" id="vDireccion" placeholder="Dirección" oninput="onValeInput()"></div>
+      <div class="field"><label>📍 Referencia (opcional)</label><input type="text" id="vReferencia" placeholder="Punto de referencia" oninput="onValeInput()"></div>
     </div>
 
     <div class="card">
-      <h2>🛒 Artículo</h2>
-      <div class="field">
-        <label>Artículo</label>
-        <input type="text" id="vArticulo" placeholder="Nombre del producto" list="prodNamesList">
-        <datalist id="prodNamesList"></datalist>
+      <h2>🛒 Artículo(s) *</h2>
+      <button type="button" class="catalog-btn" onclick="openCatalogModal()">📦 Seleccionar del catálogo</button>
+      <div id="valeItemsList"></div>
+      <div class="or-divider">o</div>
+      <div class="field" style="margin-bottom:6px;">
+        <input type="text" id="vArticuloManual" placeholder="O escribe el artículo manualmente aquí..." oninput="onValeInput()">
       </div>
       <div class="field">
         <label>📷 Foto del artículo (opcional)</label>
-        <input type="file" id="vFoto" accept="image/*" capture="environment">
+        <input type="file" id="vFoto" accept="image/*">
       </div>
-      <div class="field"><label>🔢 Cantidad</label><input type="number" id="vCantidad" min="1" value="1" oninput="calcVale()"></div>
+      <div class="field"><label>🔢 Cantidad (si escribes manualmente)</label><input type="number" id="vCantidad" min="1" value="1" oninput="calcVale()"></div>
     </div>
 
     <div class="card">
@@ -381,10 +512,10 @@ nav.tabs button.active{color:var(--cyan);}
         <div class="field"><label>Precio base</label><input type="number" id="vPrecioBase" step="0.01" oninput="calcVale()"></div>
         <div class="field"><label>Precio del gestor</label><input type="number" id="vPrecioGestor" step="0.01" oninput="calcVale()"></div>
       </div>
-      <div class="field"><label>💸 Comisión</label><input type="number" id="vComision" step="0.01"></div>
+      <div class="field"><label>💸 Comisión</label><input type="number" id="vComision" step="0.01" oninput="onValeInput()"></div>
       <div class="field">
         <label>💳 Tipo de pago del producto</label>
-        <select id="vTipoPagoProducto">
+        <select id="vTipoPagoProducto" onchange="onValeInput()">
           <option>CUP</option><option>USD</option><option>Tropipay</option><option>Euro</option><option>MLC</option><option>MXN - Peso Mexicano</option>
         </select>
       </div>
@@ -392,11 +523,30 @@ nav.tabs button.active{color:var(--cyan);}
 
     <div class="card">
       <h2>🚚 Mensajería</h2>
+      <div class="field">
+        <label>Zona de mensajería</label>
+        <div class="zone-btn-row">
+          <button type="button" class="catalog-btn" onclick="openZonaModal()">📍 Seleccionar zona de mensajería</button>
+          <button type="button" class="wa-help-btn" onclick="openWhatsappMensajeriaHelp()" title="Preguntar precio por WhatsApp">💬</button>
+        </div>
+        <div class="zone-selected-tag hidden" id="zonaSelectedTag">
+          <span id="zonaSelectedText"></span>
+          <button type="button" onclick="clearZonaSeleccionada()">Quitar</button>
+        </div>
+      </div>
       <div class="field"><label>Tarifa de mensajería</label><input type="number" id="vMensajeria" step="0.01" oninput="calcVale()"></div>
-      <div class="field"><label>💲 Total a cobrar (producto + envío)</label><input type="number" id="vTotal" step="0.01"></div>
+      <div class="field">
+        <label>💲 Total a cobrar (producto + envío)</label>
+        <input type="number" id="vTotal" step="0.01" oninput="onValeInput()">
+        <div class="total-breakdown" id="totalBreakdown"></div>
+      </div>
       <div class="field">
         <label>Tipo de pago de la mensajería</label>
-        <select id="vTipoPagoMensajeria"><option>Efectivo</option><option>Transferencia</option><option>Otro</option></select>
+        <select id="vTipoPagoMensajeria" onchange="onTipoPagoMensajeriaChange()"><option>Efectivo</option><option>Transferencia</option><option>Otro</option></select>
+      </div>
+      <div class="field hidden" id="vTipoPagoMensajeriaOtroWrap">
+        <label>Especifica qué tipo de pago es:</label>
+        <input type="text" id="vTipoPagoMensajeriaOtro" placeholder="Especifica qué tipo de pago es:" oninput="onValeInput()">
       </div>
       <div class="field">
         <label>🪙 ¿Hay que llevar vuelto?</label>
@@ -405,21 +555,64 @@ nav.tabs button.active{color:var(--cyan);}
           <button type="button" id="vVueltoNo" onclick="setVuelto(false)">No</button>
         </div>
       </div>
-      <div class="field hidden" id="vueltoCantWrap"><label>Cantidad de vuelto</label><input type="number" id="vCantidadVuelto" step="0.01"></div>
+      <div class="field hidden" id="vueltoCantWrap"><label>Cantidad de vuelto</label><input type="number" id="vCantidadVuelto" step="0.01" oninput="onValeInput()"></div>
     </div>
 
     <div class="card">
       <h2>📅 Entrega</h2>
       <div class="row2">
-        <div class="field"><label>Día que quiere el cliente</label><input type="date" id="vDia"></div>
-        <div class="field"><label>Hora que quiere el cliente</label><input type="time" id="vHora"></div>
+        <div class="field"><label>Día que quiere el cliente</label><input type="date" id="vDia" oninput="onValeInput()"></div>
+        <div class="field"><label>Hora que quiere el cliente</label><input type="time" id="vHora" oninput="onValeInput()"></div>
       </div>
-      <div class="field"><label>📝 Detalles</label><textarea id="vDetalles" placeholder="Notas adicionales…"></textarea></div>
+      <div class="field"><label>📝 Detalles</label><textarea id="vDetalles" placeholder="Notas adicionales…" oninput="onValeInput()"></textarea></div>
     </div>
 
     <button class="btn-primary" id="submitBtn" onclick="submitVale()">📤 Enviar al Admin</button>
-    <div class="footnote" style="margin-top:10px;">Consulta el catálogo desde la pestaña «Catálogo» para ver precios y disponibilidad antes de llenar el vale.</div>
+
+    <div class="card" style="margin-top:14px;">
+      <h2>📋 Vista Previa del Vale</h2>
+      <div class="sub">Se actualiza automáticamente. Toca el recuadro para copiarlo.</div>
+      <div class="ticket-box" id="ticketPreview" onclick="copyTicket()"></div>
+    </div>
+    <div class="footnote" style="margin-top:10px;">* Campos obligatorios. Revisa el catálogo para ver precios y disponibilidad antes de llenar el vale.</div>
   </section>
+
+  <!-- Catalog selection modal (for vale) -->
+  <div id="catalogModal" class="modal-back modal-full hidden">
+    <div class="modal">
+      <div class="modal-head"><h3>📦 Seleccionar del catálogo</h3><button onclick="closeCatalogModal()">✕</button></div>
+      <div class="modal-body">
+        <div class="searchbar">
+          <span class="ic">🔍</span>
+          <input type="text" id="modalCatSearch" placeholder="Buscar producto por nombre…" oninput="renderModalCatalog()">
+        </div>
+        <div class="cat-tabs" id="modalCatTabs"></div>
+        <div id="modalCatList"></div>
+      </div>
+      <div class="modal-foot">
+        <button class="btn-secondary" onclick="closeCatalogModal()">Cancelar</button>
+        <button class="btn-primary" onclick="confirmCatalogSelection()">Agregar al vale</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Zona de mensajería modal -->
+  <div id="zonaModal" class="modal-back modal-full hidden">
+    <div class="modal">
+      <div class="modal-head"><h3>📍 Zona de mensajería</h3><button onclick="closeZonaModal()">✕</button></div>
+      <div class="modal-body">
+        <div class="searchbar">
+          <span class="ic">🔍</span>
+          <input type="text" id="zonaSearch" placeholder="Buscar zona por nombre…" oninput="renderZonaList()">
+        </div>
+        <div class="hint" style="margin-bottom:8px;">Marca «Estándar», «Retorno» o ambos. El campo de tarifa se rellena solo.</div>
+        <div class="zone-list" id="zonaList"></div>
+      </div>
+      <div class="modal-foot">
+        <button class="btn-primary" onclick="closeZonaModal()">Listo</button>
+      </div>
+    </div>
+  </div>
 
   <!-- ============ CATALOGO VIEW ============ -->
   <section id="view-catalogo" class="view hidden">
@@ -441,7 +634,7 @@ nav.tabs button.active{color:var(--cyan);}
     <a id="imgModalDownload" class="btn-primary" download="producto.jpg" href="#">⬇️ Descargar imagen</a>
   </div>
 
-  <!-- ============ HISTORIAL VIEW ============ -->
+  <!-- ============ HISTORIAL VIEW (solo gestor) ============ -->
   <section id="view-historial" class="view hidden">
     <div class="card">
       <h2>📜 Mi historial</h2>
@@ -455,54 +648,106 @@ nav.tabs button.active{color:var(--cyan);}
         <div style="flex:1;">
           <label>Cambiar foto de perfil</label>
           <input type="file" id="profileFileInput" accept="image/*" onchange="uploadProfilePic()">
+          <div class="hint">Puedes elegir tomar una foto o seleccionar una de tu galería.</div>
         </div>
       </div>
     </div>
   </section>
 
+  <!-- ============ MI WHATSAPP VIEW (solo gestor) ============ -->
+  <section id="view-whatsapp" class="view hidden">
+    <div class="card wa-tab-card">
+      <div class="icon">💬</div>
+      <h2>Mi WhatsApp</h2>
+      <p class="sub" style="margin-bottom:0;">Esta opción te permite contactar directamente a tus clientes por WhatsApp. Úsala si se te quedó algún dato pendiente del cliente.</p>
+      <button class="btn-primary" onclick="openMyWhatsapp()">Abrir mi WhatsApp</button>
+    </div>
+  </section>
+
   <!-- ============ ADMIN VIEW ============ -->
   <section id="view-admin" class="view hidden">
-    <div class="card">
-      <h2>📊 Resumen</h2>
-      <div class="stat-grid">
-        <div class="stat-card"><div class="lbl">Ventas del mes</div><div class="val" id="statVentas">$0</div></div>
-        <div class="stat-card"><div class="lbl">Comisiones pagadas</div><div class="val" id="statComisiones">$0</div></div>
-        <div class="stat-card"><div class="lbl">Pedidos pendientes</div><div class="val" id="statPendientes">0</div></div>
-        <div class="stat-card"><div class="lbl">Total de pedidos</div><div class="val" id="statTotal">0</div></div>
-      </div>
-      <div class="top-gestores">
-        <div class="lbl" style="font-size:10px;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);margin-bottom:6px;">🏆 Top 3 gestores del mes</div>
-        <div id="topGestores"></div>
+    <div class="admin-subtabs" id="adminSubtabs">
+      <button class="admin-tab-btn active" data-atab="resumen" onclick="adminSwitch('resumen')">📊 Resumen</button>
+      <button class="admin-tab-btn" data-atab="catalogo" onclick="adminSwitch('catalogo')">📦 Catálogo</button>
+      <button class="admin-tab-btn" data-atab="gestores" onclick="adminSwitch('gestores')">🧑‍💼 Gestores</button>
+      <button class="admin-tab-btn" data-atab="pedidos" onclick="adminSwitch('pedidos')">🧾 Pedidos</button>
+      <button class="admin-tab-btn" data-atab="config" onclick="adminSwitch('config')">⚙️ Configuración</button>
+      <button class="admin-tab-btn" data-atab="blacklist" onclick="adminSwitch('blacklist')">🚫 Lista Negra</button>
+    </div>
+
+    <div class="admin-pane active" id="admin-pane-resumen">
+      <div class="card">
+        <h2>📊 Resumen</h2>
+        <div class="stat-grid">
+          <div class="stat-card"><div class="lbl">Ventas del mes</div><div class="val" id="statVentas">$0</div></div>
+          <div class="stat-card"><div class="lbl">Comisiones pagadas</div><div class="val" id="statComisiones">$0</div></div>
+          <div class="stat-card"><div class="lbl">Pedidos pendientes</div><div class="val" id="statPendientes">0</div></div>
+          <div class="stat-card"><div class="lbl">Total de pedidos</div><div class="val" id="statTotal">0</div></div>
+        </div>
+        <div class="top-gestores">
+          <div style="font-size:10px;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);margin-bottom:6px;">🏆 Top 3 gestores del mes</div>
+          <div id="topGestores"></div>
+        </div>
       </div>
     </div>
 
-    <div class="card">
-      <h2>🧑‍💼 Gestores</h2>
-      <div class="field"><label>Nombre nuevo gestor</label><input type="text" id="newGestorName" placeholder="Nombre completo"></div>
-      <div class="field"><label>Contraseña</label><input type="text" id="newGestorPass" placeholder="Contraseña de acceso"></div>
-      <button class="btn-secondary" onclick="addGestor()">+ Añadir gestor</button>
-      <div id="adminGestores" style="margin-top:12px;"></div>
-    </div>
-
-    <div class="card">
-      <h2>📦 Catálogo — añadir producto</h2>
-      <div class="field"><label>Categoría</label><select id="newProdCat"></select></div>
-      <div class="field"><label>Nombre</label><input type="text" id="newProdName" placeholder="Nombre del producto"></div>
-      <div class="field"><label>Precio (USD)</label><input type="number" id="newProdPrice" step="0.01"></div>
-      <div class="row2">
-        <div class="field"><label>Stock Almacén</label><input type="number" id="newProdStockA" value="0"></div>
-        <div class="field"><label>Stock Playa</label><input type="number" id="newProdStockP" value="0"></div>
+    <div class="admin-pane" id="admin-pane-catalogo">
+      <div class="card">
+        <h2>📦 Catálogo de productos</h2>
+        <button class="btn-secondary" onclick="openProductModal()">+ Añadir producto</button>
+        <div class="searchbar" style="margin-top:12px;">
+          <span class="ic">🔍</span>
+          <input type="text" id="adminCatSearch" placeholder="Buscar producto por nombre…" oninput="renderAdminCatalogList()">
+        </div>
+        <div class="cat-tabs" id="adminCatTabs"></div>
+        <div id="adminCatalog"></div>
       </div>
-      <div class="field"><label>Stock Marianao</label><input type="number" id="newProdStockM" value="0"></div>
-      <div class="field"><label>Foto del producto</label><input type="file" id="newProdImg" accept="image/*"></div>
-      <button class="btn-secondary" onclick="addProduct()">+ Añadir producto</button>
-      <div class="hint" style="margin-top:8px;">Toca un producto abajo para editar su stock por tienda.</div>
-      <div id="adminCatalog" style="margin-top:10px;"></div>
     </div>
 
-    <div class="card">
-      <h2>🧾 Pedidos</h2>
-      <div id="adminOrders"></div>
+    <div class="admin-pane" id="admin-pane-gestores">
+      <div class="card">
+        <h2>🧑‍💼 Gestores</h2>
+        <div class="field"><label>Nombre completo</label><input type="text" id="newGestorName" placeholder="Nombre completo"></div>
+        <div class="row2">
+          <div class="field"><label>Usuario</label><input type="text" id="newGestorUser" placeholder="Usuario de acceso"></div>
+          <div class="field"><label>Contraseña</label><input type="text" id="newGestorPass" placeholder="Contraseña"></div>
+        </div>
+        <div class="field"><label>Teléfono (WhatsApp)</label><input type="text" id="newGestorPhone" placeholder="Ej: 5354410879"></div>
+        <button class="btn-secondary" onclick="addGestor()">+ Añadir gestor</button>
+        <div id="adminGestores" style="margin-top:12px;"></div>
+      </div>
+    </div>
+
+    <div class="admin-pane" id="admin-pane-pedidos">
+      <div class="card">
+        <h2>🧾 Pedidos por gestor</h2>
+        <div id="adminOrders"></div>
+      </div>
+    </div>
+
+    <div class="admin-pane" id="admin-pane-config">
+      <div class="card">
+        <h2>⚙️ Configuración</h2>
+        <h3 style="font-size:13px;margin:0 0 8px;">Cambiar contraseña del Admin</h3>
+        <div class="field"><label>Nueva contraseña</label><input type="text" id="cfgNewPass" placeholder="Nueva contraseña"></div>
+        <div class="field"><label>Confirmar nueva contraseña</label><input type="text" id="cfgNewPass2" placeholder="Confirmar nueva contraseña"></div>
+        <button class="btn-primary" onclick="saveAdminPassword()">Guardar contraseña</button>
+        <h3 style="font-size:13px;margin:20px 0 8px;">Número de WhatsApp del Admin</h3>
+        <div class="field"><label>WhatsApp (soporte / ayuda)</label><input type="text" id="cfgWaNumber" placeholder="Ej: 5354410879"></div>
+        <button class="btn-primary" onclick="saveAdminWa()">Guardar WhatsApp</button>
+      </div>
+    </div>
+
+    <div class="admin-pane" id="admin-pane-blacklist">
+      <div class="card">
+        <h2>🚫 Lista Negra</h2>
+        <div class="field"><label>Nombre completo (opcional)</label><input type="text" id="blkNombre" placeholder="Nombre completo"></div>
+        <div class="field"><label>Teléfono (opcional)</label><input type="text" id="blkTelefono" placeholder="Teléfono"></div>
+        <div class="field"><label>Dirección (opcional)</label><input type="text" id="blkDireccion" placeholder="Dirección"></div>
+        <div class="field"><label>Motivo / Nota</label><textarea id="blkMotivo" placeholder="Ej: Billetes falsos, pide mercancía y no paga…"></textarea></div>
+        <button class="btn-danger-solid" onclick="addBlacklist()">+ Agregar a lista negra</button>
+        <div id="adminBlacklist" style="margin-top:14px;"></div>
+      </div>
     </div>
   </section>
 
@@ -523,30 +768,93 @@ nav.tabs button.active{color:var(--cyan);}
     </div>
   </div>
 
-  <!-- Admin login modal -->
-  <div id="adminLoginModal" class="modal-back hidden">
+  <!-- Product add/edit modal -->
+  <div id="productModal" class="modal-back modal-full hidden">
     <div class="modal">
-      <div class="modal-head"><h3>🔐 Acceso Administrador</h3><button onclick="closeAdminLogin()">✕</button></div>
-      <div class="field"><label>Contraseña</label><input type="password" id="adminPass" placeholder="Contraseña de admin"></div>
-      <div class="hint" id="adminLoginErr" style="display:none;color:var(--danger);">Contraseña incorrecta.</div>
-      <button class="btn-primary" onclick="tryAdminLogin()">Entrar</button>
+      <div class="modal-head"><h3 id="productModalTitle">+ Añadir producto</h3><button onclick="closeProductModal()">✕</button></div>
+      <div class="modal-body">
+        <div class="field"><label>Categoría</label><select id="pmCat"></select></div>
+        <div class="field"><label>Nombre</label><input type="text" id="pmName" placeholder="Nombre del producto"></div>
+        <div class="field"><label>Descripción</label><textarea id="pmDesc" placeholder="Descripción larga del producto…"></textarea></div>
+        <div class="field"><label>Precio (USD)</label><input type="number" id="pmPrice" step="0.01"></div>
+        <div class="row2">
+          <div class="field"><label>Stock Almacén</label><input type="number" id="pmStockA" value="0"></div>
+          <div class="field"><label>Stock Playa</label><input type="number" id="pmStockP" value="0"></div>
+        </div>
+        <div class="field"><label>Stock Marianao</label><input type="number" id="pmStockM" value="0"></div>
+        <div class="field"><label>Foto del producto</label><input type="file" id="pmImg" accept="image/*"></div>
+      </div>
+      <div class="modal-foot">
+        <button class="btn-secondary" onclick="closeProductModal()">Cancelar</button>
+        <button class="btn-primary" onclick="saveProductModal()">Guardar producto</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Stock quick-edit modal -->
+  <div id="stockModal" class="modal-back hidden">
+    <div class="modal">
+      <div class="modal-head"><h3>📦 Editar stock</h3><button onclick="closeStockModal()">✕</button></div>
+      <div class="row2">
+        <div class="field"><label>Almacén</label><input type="number" id="smStockA"></div>
+        <div class="field"><label>Playa</label><input type="number" id="smStockP"></div>
+      </div>
+      <div class="field"><label>Marianao</label><input type="number" id="smStockM"></div>
+      <button class="btn-primary" onclick="saveStockModal()">Guardar stock</button>
+    </div>
+  </div>
+
+  <!-- Gestor edit modal -->
+  <div id="gestorEditModal" class="modal-back hidden">
+    <div class="modal">
+      <div class="modal-head"><h3>✏️ Editar gestor</h3><button onclick="closeGestorEditModal()">✕</button></div>
+      <div class="field"><label>Nombre completo</label><input type="text" id="geName"></div>
+      <div class="field"><label>Usuario</label><input type="text" id="geUser"></div>
+      <div class="field"><label>Contraseña</label><input type="text" id="gePass"></div>
+      <div class="field"><label>Teléfono (WhatsApp)</label><input type="text" id="gePhone"></div>
+      <button class="btn-primary" onclick="saveGestorEdit()">Guardar cambios</button>
     </div>
   </div>
 
 </main>
 
-<nav class="tabs" id="mainTabs">
-  <button class="tab-btn" data-tab="pedido" onclick="switchTab('pedido')"><span class="ic">📝</span>Vale</button>
-  <button class="tab-btn" data-tab="catalogo" onclick="switchTab('catalogo')"><span class="ic">📚</span>Catálogo</button>
-  <button class="tab-btn" data-tab="historial" onclick="switchTab('historial')"><span class="ic">📜</span>Historial</button>
+<nav class="tabs hidden" id="mainTabs">
+  <button class="tab-btn" id="tabPedidoBtn" data-tab="pedido" onclick="switchTab('pedido')"><span class="ic">📝</span>Vale</button>
+  <button class="tab-btn" id="tabCatalogoBtn" data-tab="catalogo" onclick="switchTab('catalogo')"><span class="ic">📚</span>Catálogo</button>
+  <button class="tab-btn" id="tabHistorialBtn" data-tab="historial" onclick="switchTab('historial')"><span class="ic">📜</span>Historial</button>
+  <button class="tab-btn" id="tabWhatsappBtn" data-tab="whatsapp" onclick="switchTab('whatsapp')"><span class="ic">💬</span>Mi WhatsApp</button>
   <button class="tab-btn hidden" id="adminTabBtn" data-tab="admin" onclick="switchTab('admin')"><span class="ic">📊</span>Admin</button>
 </nav>
 
 <div id="toast" class="toast hidden"></div>
+
+<!-- ============ LOGIN VIEW (fondo océano) ============ -->
+<section id="view-login">
+  <div class="login-card">
+    <div class="login-title">Bienvenido a Agua&amp;Tools</div>
+    <div class="login-sub">El éxito está a solo dos pasos (Usuario y Contraseña)</div>
+
+    <div class="login-field">
+      <label>Usuario</label>
+      <input type="text" id="loginUser" placeholder="Tu usuario" autocomplete="username">
+    </div>
+    <div class="login-field">
+      <label>Contraseña</label>
+      <div class="pass-wrap">
+        <input type="password" id="loginPass" placeholder="Tu contraseña" autocomplete="current-password">
+        <button type="button" class="pass-eye" id="passEyeBtn" onclick="togglePassEye()">👁️</button>
+      </div>
+    </div>
+    <div class="login-error" id="loginError"></div>
+    <button class="login-btn" onclick="tryLogin()">Entrar</button>
+    <button class="btn-wa hidden" id="loginWaLockBtn" onclick="openWhatsappHelp()">💬 Recuperar por WhatsApp</button>
+    <button type="button" class="login-forgot" onclick="openWhatsappHelp()">He olvidado mi contraseña</button>
+  </div>
+</section>
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import {
-  getFirestore, collection, addDoc, doc, updateDoc, deleteDoc, onSnapshot, query, orderBy
+  getFirestore, collection, addDoc, doc, setDoc, updateDoc, deleteDoc, onSnapshot, query, orderBy
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 import {
   getStorage, ref, uploadBytes, getDownloadURL
@@ -566,8 +874,11 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const storage = getStorage(app);
 
-/* ⚠️ Cambia esta contraseña antes de publicar la app. */
+/* ⚠️ Cuenta de Admin por defecto — cámbiala si quieres mayor seguridad. */
+const ADMIN_USER = "admin";
 const ADMIN_PASS = "AguaTools2026*";
+const WA_NUMBER = "5354410879";
+const WA_MSG = "Hola, tengo un problema con mi contraseña y usuario, recuérdame mis datos";
 
 const CATEGORIES = [
   "💧 Bombas de agua","🧱 Cementos y masillas","🪵 Pisos y cerámicas","🚽 Lavamanos",
@@ -577,11 +888,263 @@ const CATEGORIES = [
   "⚡ Generadores de gasolina","🔋 Estaciones de carga"
 ];
 
+const TARIFAS = [
+{m:'Regla',z:'Regla',p:2525},
+{m:'Casablanca',z:'Casablanca',p:3425},
+{m:'Plaza de la Revolución',z:'Aldecoa',p:600},
+{m:'Plaza de la Revolución',z:'Alturas del Vedado',p:600},
+{m:'Plaza de la Revolución',z:'Barrio El Fanguito',p:600},
+{m:'Plaza de la Revolución',z:'El Bosque',p:600},
+{m:'Plaza de la Revolución',z:'Nuevo Vedado',p:600},
+{m:'Plaza de la Revolución',z:'Puentes Grandes',p:600},
+{m:'Plaza de la Revolución',z:'Tulipán',p:1075},
+{m:'Plaza de la Revolución',z:'Vedado',p:1075},
+{m:'Cerro',z:'Ayestaran (Pediátrico Centro Habana)',p:1450},
+{m:'Cerro',z:'Buenos Aires',p:1250},
+{m:'Cerro',z:'Casino Deportivo',p:1075},
+{m:'Cerro',z:'El Canal',p:1250},
+{m:'Cerro',z:'Esquina de Tejas',p:1450},
+{m:'Cerro',z:'Estadio Latinoamericano',p:1250},
+{m:'Cerro',z:'Martí',p:1075},
+{m:'Cerro',z:'Mercado Único de Cuatro Caminos',p:1625},
+{m:'Cerro',z:'Palatino',p:1075},
+{m:'Cerro',z:'Parque Piñeras',p:1075},
+{m:'Cerro',z:'Pediatrico del Cerro',p:1075},
+{m:'Cerro',z:'Primelles',p:1075},
+{m:'Cerro',z:'Reparto Antonio Maceo',p:1250},
+{m:'Marianao',z:'100 y 51',p:600},
+{m:'Marianao',z:'Alturas de Belén',p:600},
+{m:'Marianao',z:'Cocosolo',p:600},
+{m:'Marianao',z:'El Lido',p:600},
+{m:'Marianao',z:'El Palmar',p:1075},
+{m:'Marianao',z:'El Pie',p:1075},
+{m:'Marianao',z:'Finlay',p:600},
+{m:'Marianao',z:'Los Angeles',p:600},
+{m:'Marianao',z:'Los Pocitos',p:600},
+{m:'Marianao',z:'Manuel Martínez Prieto',p:1075},
+{m:'Marianao',z:'Plaza de Marianao',p:600},
+{m:'Marianao',z:'Pogolotti',p:600},
+{m:'Marianao',z:'Zamora',p:600},
+{m:'Playa',z:'Alameda del Siboney',p:1450},
+{m:'Playa',z:'Almendares',p:600},
+{m:'Playa',z:'Alturas de Miramar',p:600},
+{m:'Playa',z:'Alturas del Bosque',p:600},
+{m:'Playa',z:'Ampliacion Almendares',p:600},
+{m:'Playa',z:'Atabey',p:1075},
+{m:'Playa',z:'Barbosa',p:1800},
+{m:'Playa',z:'Barlovento',p:1625},
+{m:'Playa',z:'Buenavista',p:600},
+{m:'Playa',z:'Cubanacán',p:600},
+{m:'Playa',z:'Flores',p:1075},
+{m:'Playa',z:'Jaimanitas',p:1450},
+{m:'Playa',z:'La Ceiba',p:600},
+{m:'Playa',z:'La Sierra',p:600},
+{m:'Playa',z:'Miramar',p:600},
+{m:'Playa',z:'Náutico',p:600},
+{m:'Playa',z:'Nicanor del Campo',p:600},
+{m:'Playa',z:'Querejeta',p:600},
+{m:'Playa',z:'Romerillo',p:600},
+{m:'Playa',z:'Santa Fé',p:1975},
+{m:'Playa',z:'Siboney',p:1075},
+{m:'Diez de Octubre',z:'La Floresta',p:1450},
+{m:'Diez de Octubre',z:'Lawton',p:1800},
+{m:'Diez de Octubre',z:'Luyano',p:1625},
+{m:'Diez de Octubre',z:'Santo Suárez',p:1450},
+{m:'Diez de Octubre',z:'Sevillano',p:1450},
+{m:'Diez de Octubre',z:'Víbora',p:1450},
+{m:'Diez de Octubre',z:'Vista Alegre',p:1975},
+{m:'La Lisa',z:'Alturas de la coronela',p:1250},
+{m:'La Lisa',z:'Alturas de La Lisa',p:1250},
+{m:'La Lisa',z:'Arimao',p:1250},
+{m:'La Lisa',z:'Arroyo Arenas',p:1800},
+{m:'La Lisa',z:'Balcón de La Lisa',p:1450},
+{m:'La Lisa',z:'Bello 26',p:1450},
+{m:'La Lisa',z:'Cinco Palmas',p:1450},
+{m:'La Lisa',z:'Cruz de Piedra',p:2150},
+{m:'La Lisa',z:'El cano',p:1975},
+{m:'La Lisa',z:'El Francés',p:1625},
+{m:'La Lisa',z:'El Hueco',p:1075},
+{m:'La Lisa',z:'Guatao',p:2875},
+{m:'La Lisa',z:'Juan de Díos Fraga',p:1800},
+{m:'La Lisa',z:'La Concepción',p:2150},
+{m:'La Lisa',z:'La Coronela',p:1250},
+{m:'La Lisa',z:'Libertad',p:2350},
+{m:'La Lisa',z:'Lourdes',p:2700},
+{m:'La Lisa',z:'Novoa',p:1250},
+{m:'La Lisa',z:'Punta Brava',p:2525},
+{m:'La Lisa',z:'San Agustín',p:1450},
+{m:'La Lisa',z:'Valle Grande',p:2525},
+{m:'La Lisa',z:'Versalles',p:1075},
+{m:'La Lisa',z:'Villapol',p:2350},
+{m:'La Lisa',z:'XX Aniversario',p:2350},
+{m:'Cotorro',z:'Alberro',p:4325},
+{m:'Cotorro',z:'Bello Palmar',p:3950},
+{m:'Cotorro',z:'Cuatro Caminos',p:4850},
+{m:'Cotorro',z:'Hatucy',p:3950},
+{m:'Cotorro',z:'La Lolita',p:3250},
+{m:'Cotorro',z:'Las Brisas',p:3775},
+{m:'Cotorro',z:'Loma de Tierra',p:4150},
+{m:'Cotorro',z:'Lotería',p:3950},
+{m:'Cotorro',z:'Magdalena',p:3775},
+{m:'Cotorro',z:'Magdalena - Torriente',p:3600},
+{m:'Cotorro',z:'Residencial América',p:3600},
+{m:'Cotorro',z:'Residenciel Paraíso',p:3425},
+{m:'Cotorro',z:'San Pedro',p:3250},
+{m:'Cotorro',z:'Santa María del Rosario',p:3950},
+{m:'Cotorro',z:'Vedado Cotorro',p:3425},
+{m:'Arroyo Naranjo',z:'Arroyo Apolo',p:1975},
+{m:'Arroyo Naranjo',z:'Barrio Azul',p:1800},
+{m:'Arroyo Naranjo',z:'Callejas',p:1800},
+{m:'Arroyo Naranjo',z:'Calvario',p:2525},
+{m:'Arroyo Naranjo',z:'Capri',p:1800},
+{m:'Arroyo Naranjo',z:'Ciudad Jardín',p:2700},
+{m:'Arroyo Naranjo',z:'Diez Caballerías',p:3600},
+{m:'Arroyo Naranjo',z:'El Comodoro',p:2350},
+{m:'Arroyo Naranjo',z:'El Cuervo',p:2350},
+{m:'Arroyo Naranjo',z:'El Moro',p:2150},
+{m:'Arroyo Naranjo',z:'El Retiro',p:2525},
+{m:'Arroyo Naranjo',z:'La Guinera',p:2150},
+{m:'Arroyo Naranjo',z:'La Palma',p:1800},
+{m:'Arroyo Naranjo',z:'Las Guásimas',p:3600},
+{m:'Arroyo Naranjo',z:'Las Lajas',p:2525},
+{m:'Arroyo Naranjo',z:'Llansó',p:1975},
+{m:'Arroyo Naranjo',z:'Los Pinos',p:1450},
+{m:'Arroyo Naranjo',z:'Managua',p:4500},
+{m:'Arroyo Naranjo',z:'Mantilla',p:2150},
+{m:'Arroyo Naranjo',z:'María Santísima',p:2525},
+{m:'Arroyo Naranjo',z:'Montejo',p:1800},
+{m:'Arroyo Naranjo',z:'Parcelacion Moderna',p:2875},
+{m:'Arroyo Naranjo',z:'Parraga',p:2150},
+{m:'Arroyo Naranjo',z:'Poey',p:1625},
+{m:'Arroyo Naranjo',z:'Ponce',p:1975},
+{m:'Arroyo Naranjo',z:'Porvenir',p:1800},
+{m:'Arroyo Naranjo',z:'Reparto Eléctrico',p:2700},
+{m:'Arroyo Naranjo',z:'Reparto La Solita',p:2150},
+{m:'Arroyo Naranjo',z:'Rosario',p:1975},
+{m:'Arroyo Naranjo',z:'Santa Amalia',p:1800},
+{m:'Arroyo Naranjo',z:'Trece de Agosto',p:3050},
+{m:'Arroyo Naranjo',z:'Vibora Park',p:1800},
+{m:'Arroyo Naranjo',z:'Vieja Linda',p:1800},
+{m:'Centro Habana',z:'Cayo Hueso',p:1625},
+{m:'Centro Habana',z:'Colón',p:1800},
+{m:'Centro Habana',z:'Los Sitios',p:1625},
+{m:'Habana Vieja',z:'Habana Vieja',p:1975},
+{m:'San Miguel del Padrón',z:'Afán',p:2350},
+{m:'San Miguel del Padrón',z:'Alto del Diezmero',p:2700},
+{m:'San Miguel del Padrón',z:'Alturas de luyano',p:2350},
+{m:'San Miguel del Padrón',z:'Alturas del mirador del Diezmero',p:2875},
+{m:'San Miguel del Padrón',z:'Ampliación de San Matias',p:2350},
+{m:'San Miguel del Padrón',z:'Barrio Obrero',p:2150},
+{m:'San Miguel del Padrón',z:'Bellavista',p:2875},
+{m:'San Miguel del Padrón',z:'California',p:2150},
+{m:'San Miguel del Padrón',z:'Carolina',p:2150},
+{m:'San Miguel del Padrón',z:'Ciudamar',p:2150},
+{m:'San Miguel del Padrón',z:'Dolores',p:2350},
+{m:'San Miguel del Padrón',z:'El Diezmero',p:2700},
+{m:'San Miguel del Padrón',z:'El Mangal',p:2350},
+{m:'San Miguel del Padrón',z:'Jacomino',p:2150},
+{m:'San Miguel del Padrón',z:'Juanelo',p:1975},
+{m:'San Miguel del Padrón',z:'La Corea',p:2350},
+{m:'San Miguel del Padrón',z:'La Cumbre',p:2350},
+{m:'San Miguel del Padrón',z:'La Rosalia',p:1975},
+{m:'San Miguel del Padrón',z:'La Rosita',p:2700},
+{m:'San Miguel del Padrón',z:'La Yuca',p:3425},
+{m:'San Miguel del Padrón',z:'Las Granjas',p:3050},
+{m:'San Miguel del Padrón',z:'Las Palmas',p:2700},
+{m:'San Miguel del Padrón',z:'Las Piedras',p:2875},
+{m:'San Miguel del Padrón',z:'Luyanó Moderno',p:2350},
+{m:'San Miguel del Padrón',z:'María Luisa',p:2525},
+{m:'San Miguel del Padrón',z:'Martín Perez',p:2150},
+{m:'San Miguel del Padrón',z:'Merceditas',p:3050},
+{m:'San Miguel del Padrón',z:'Mirta',p:2525},
+{m:'San Miguel del Padrón',z:'Monterrey',p:2700},
+{m:'San Miguel del Padrón',z:'Prosperidad',p:2875},
+{m:'San Miguel del Padrón',z:'Reboredo',p:3050},
+{m:'San Miguel del Padrón',z:'San Francisco de Paula',p:2875},
+{m:'San Miguel del Padrón',z:'San Juan de los Pinos (La Cuevita)',p:2525},
+{m:'San Miguel del Padrón',z:'San Matias',p:2350},
+{m:'San Miguel del Padrón',z:'Siboney',p:3050},
+{m:'San Miguel del Padrón',z:'Veracruz',p:2525},
+{m:'San Miguel del Padrón',z:'Villa Alegre',p:3050},
+{m:'San Miguel del Padrón',z:'Virgen del camino',p:1975},
+{m:'San Miguel del Padrón',z:'Vista Hermosa',p:2525},
+{m:'Habana del Este',z:'Alamar',p:4150},
+{m:'Habana del Este',z:'Alturas de Boca Ciega',p:5950},
+{m:'Habana del Este',z:'Alturas de Marbella',p:5950},
+{m:'Habana del Este',z:'Ampliacion de Marbella',p:5950},
+{m:'Habana del Este',z:'Bahia',p:3050},
+{m:'Habana del Este',z:'Balcón de Santa María',p:5225},
+{m:'Habana del Este',z:'Boca Ciega',p:5950},
+{m:'Habana del Este',z:'Camilo Cienfuegos',p:3250},
+{m:'Habana del Este',z:'Campo Florido',p:6300},
+{m:'Habana del Este',z:'Celimar',p:4500},
+{m:'Habana del Este',z:'Cojimar',p:3600},
+{m:'Habana del Este',z:'Guanabo',p:6300},
+{m:'Habana del Este',z:'Guanabo Viejo',p:6475},
+{m:'Habana del Este',z:'Guiteras',p:3050},
+{m:'Habana del Este',z:'Marbella',p:6125},
+{m:'Habana del Este',z:'Mégano',p:5400},
+{m:'Habana del Este',z:'Santa María del Mar',p:5575},
+{m:'Habana del Este',z:'Sibarimar',p:6475},
+{m:'Habana del Este',z:'Tarara',p:5225},
+{m:'Habana del Este',z:'Villa Panamericana',p:3425},
+{m:'Boyeros',z:'Abel Santamaría',p:2350},
+{m:'Boyeros',z:'Aldabo',p:1450},
+{m:'Boyeros',z:'Altababana',p:1250},
+{m:'Boyeros',z:'Alturas del aeropuerto',p:2700},
+{m:'Boyeros',z:'Arday',p:1625},
+{m:'Boyeros',z:'Baluarte',p:2350},
+{m:'Boyeros',z:'Berenguer',p:2525},
+{m:'Boyeros',z:'Calabazar',p:2350},
+{m:'Boyeros',z:'Camilo Cienfuegos',p:2700},
+{m:'Boyeros',z:'Capdevila',p:1450},
+{m:'Boyeros',z:'Caturla',p:1975},
+{m:'Boyeros',z:'Ciudad de la Construcción',p:1250},
+{m:'Boyeros',z:'Comunidad Cerro Pelado',p:1250},
+{m:'Boyeros',z:'Comunidad Lutgardita',p:2700},
+{m:'Boyeros',z:'El Chico',p:2525},
+{m:'Boyeros',z:'El Globo',p:2700},
+{m:'Boyeros',z:'El Rincón',p:3950},
+{m:'Boyeros',z:'El Trigal',p:1800},
+{m:'Boyeros',z:'Fontanar',p:1975},
+{m:'Boyeros',z:'García',p:2150},
+{m:'Boyeros',z:'Julio Trigo',p:2525},
+{m:'Boyeros',z:'La Fortuna',p:1625},
+{m:'Boyeros',z:'Las Cañas',p:2150},
+{m:'Boyeros',z:'Los Cocos',p:3600},
+{m:'Boyeros',z:'Los Pinos',p:1450},
+{m:'Boyeros',z:'Lugardita',p:2525},
+{m:'Boyeros',z:'María del Carmen',p:1625},
+{m:'Boyeros',z:'Mazorra',p:2150},
+{m:'Boyeros',z:'Miraflores',p:1450},
+{m:'Boyeros',z:'Mulgoba',p:3050},
+{m:'Boyeros',z:'Murgas',p:2875},
+{m:'Boyeros',z:'Naranjito',p:1450},
+{m:'Boyeros',z:'Naroca',p:3600},
+{m:'Boyeros',z:'Nazareno',p:2350},
+{m:'Boyeros',z:'Panamerican',p:2350},
+{m:'Boyeros',z:'Parajón',p:1975},
+{m:'Boyeros',z:'Primero de Mayo',p:2875},
+{m:'Boyeros',z:'Reloj Club (residencial Almendares)',p:1250},
+{m:'Boyeros',z:'Río Cristal',p:1800},
+{m:'Boyeros',z:'Río Verde',p:2150},
+{m:'Boyeros',z:'Santiago de las Vegas',p:3250},
+{m:'Boyeros',z:'Sierra Maestra',p:3425},
+{m:'Boyeros',z:'Tirabeque',p:3600},
+{m:'Boyeros',z:'Trébol',p:2150},
+{m:'Boyeros',z:'Wajay',p:2350}
+];
+
 const state = {
   gestor:null, gestorId:null, isAdmin:false,
-  gestores:[], catalog:[], orders:[],
-  activeCat: CATEGORIES[0], catSearch:'', gestorSearch:'',
-  vueltoSi:false, editingOrderId:null
+  gestores:[], catalog:[], orders:[], blacklist:[],
+  activeCat: CATEGORIES[0], modalActiveCat: CATEGORIES[0], adminCatFilter:'__all__',
+  valeItems:[], modalQty:{},
+  vueltoSi:false, editingOrderId:null, editingProductId:null, editingStockId:null, editingGestorId:null,
+  failedAttempts:0,
+  zonaSeleccionada:null, zonaChecks:{},
+  adminTab:'resumen', orderGroupsOpen:{},
+  adminSettings:{ waNumber:null, password:null }
 };
 
 /* ---------- Theme ---------- */
@@ -601,18 +1164,19 @@ function toggleTheme(){
 /* ---------- Init / Auth persistence ---------- */
 function initApp(){
   initTheme();
-  const savedGestor = localStorage.getItem('at_gestor');
-  const savedGestorId = localStorage.getItem('at_gestorId');
-  const savedAdmin = sessionStorage.getItem('at_admin');
-  if(savedAdmin==='1') state.isAdmin = true;
-  if(savedGestor && savedGestorId){ state.gestor = savedGestor; state.gestorId = savedGestorId; }
+  const session = JSON.parse(localStorage.getItem('at_session') || 'null');
+  if(session){
+    if(session.role==='admin'){ state.isAdmin = true; }
+    else if(session.role==='gestor'){ state.gestor = session.gestorName; state.gestorId = session.gestorId; }
+  }
 
   listenGestores();
   listenCatalog();
   listenOrders();
+  listenBlacklist();
+  listenSettings();
 
-  if(state.isAdmin){ showApp(); switchTab('admin'); }
-  else if(state.gestor){ showApp(); switchTab('pedido'); }
+  if(state.isAdmin || state.gestor){ showApp(); }
   else { showLogin(); }
 }
 
@@ -620,7 +1184,6 @@ function listenGestores(){
   onSnapshot(collection(db,'gestores'), snap=>{
     state.gestores = snap.docs.map(d=>({id:d.id, ...d.data()}));
     setConn(true);
-    renderGestorPicker();
     renderAdminGestores();
     if(state.gestor){
       const me = state.gestores.find(g=>g.id===state.gestorId);
@@ -633,7 +1196,7 @@ function listenCatalog(){
     state.catalog = snap.docs.map(d=>({id:d.id, ...d.data()}));
     renderCatalog();
     renderAdminCatalogList();
-    renderProdNamesList();
+    if(!document.getElementById('catalogModal').classList.contains('hidden')) renderModalCatalog();
   }, err=>{ setConn(false); });
 }
 function listenOrders(){
@@ -644,33 +1207,108 @@ function listenOrders(){
     renderAdminStats();
   }, err=>{ setConn(false); });
 }
+function listenBlacklist(){
+  onSnapshot(collection(db,'blacklist'), snap=>{
+    state.blacklist = snap.docs.map(d=>({id:d.id, ...d.data()}));
+    renderAdminBlacklist();
+    checkBlacklistAlert();
+  }, err=>{});
+}
+function listenSettings(){
+  onSnapshot(doc(db,'settings','admin'), snap=>{
+    if(snap.exists()){
+      const d = snap.data();
+      state.adminSettings.waNumber = d.waNumber || null;
+      state.adminSettings.password = d.password || null;
+    }
+    const waInp = document.getElementById('cfgWaNumber');
+    if(waInp && document.activeElement!==waInp) waInp.value = state.adminSettings.waNumber || WA_NUMBER;
+  }, err=>{});
+}
+function getWaNumber(){ return state.adminSettings.waNumber || WA_NUMBER; }
 function setConn(ok){
   const b = document.getElementById('connBadge');
   b.textContent = ok ? 'en línea' : 'sin conexión';
   b.className = 'conn ' + (ok ? 'ok' : 'err');
 }
 
-/* ---------- View / tabs ---------- */
+/* ---------- Login screen ---------- */
 function showLogin(){
-  document.body.dataset.view='login';
+  document.getElementById('view-login').classList.remove('hidden');
   document.getElementById('mainTabs').classList.add('hidden');
   document.getElementById('whoBadge').classList.add('hidden');
-  document.querySelectorAll('.view').forEach(v=>v.classList.add('hidden'));
-  document.getElementById('view-login').classList.remove('hidden');
+  document.querySelectorAll('main .view').forEach(v=>v.classList.add('hidden'));
 }
+function togglePassEye(){
+  const inp = document.getElementById('loginPass');
+  const btn = document.getElementById('passEyeBtn');
+  if(inp.type==='password'){ inp.type='text'; btn.textContent='🙈'; }
+  else { inp.type='password'; btn.textContent='👁️'; }
+}
+function openWhatsappHelp(){
+  const url = `https://wa.me/${getWaNumber()}?text=${encodeURIComponent(WA_MSG)}`;
+  window.open(url, '_blank');
+}
+function tryLogin(){
+  const userInp = document.getElementById('loginUser');
+  const passInp = document.getElementById('loginPass');
+  const user = userInp.value.trim();
+  const pass = passInp.value;
+  document.getElementById('loginError').textContent = '';
+  userInp.classList.remove('invalid'); passInp.classList.remove('invalid');
+
+  if(!user || !pass){
+    document.getElementById('loginError').textContent = 'Escribe tu usuario y contraseña.';
+    if(!user) userInp.classList.add('invalid');
+    if(!pass) passInp.classList.add('invalid');
+    return;
+  }
+
+  if(user.toLowerCase() === ADMIN_USER.toLowerCase() && pass === (state.adminSettings.password || ADMIN_PASS)){
+    state.isAdmin = true; state.gestor=null; state.gestorId=null;
+    localStorage.setItem('at_session', JSON.stringify({role:'admin'}));
+    state.failedAttempts = 0;
+    document.getElementById('view-login').classList.add('hidden');
+    showApp();
+    return;
+  }
+
+  const g = state.gestores.find(x => (x.username||'').toLowerCase() === user.toLowerCase());
+  if(g && pass === g.password){
+    state.gestor = g.name; state.gestorId = g.id; state.isAdmin=false;
+    localStorage.setItem('at_session', JSON.stringify({role:'gestor', gestorId:g.id, gestorName:g.name}));
+    state.failedAttempts = 0;
+    document.getElementById('view-login').classList.add('hidden');
+    showApp();
+    return;
+  }
+
+  state.failedAttempts++;
+  document.getElementById('loginError').textContent = 'Usuario o contraseña incorrectos.';
+  userInp.classList.add('invalid'); passInp.classList.add('invalid');
+  if(state.failedAttempts >= 5){
+    document.getElementById('loginWaLockBtn').classList.remove('hidden');
+  }
+}
+
+/* ---------- View / tabs ---------- */
 function showApp(){
+  document.getElementById('view-login').classList.add('hidden');
   document.getElementById('mainTabs').classList.remove('hidden');
   document.getElementById('adminTabBtn').classList.toggle('hidden', !state.isAdmin);
+  document.getElementById('tabPedidoBtn').classList.toggle('hidden', state.isAdmin);
+  document.getElementById('tabHistorialBtn').classList.toggle('hidden', state.isAdmin);
+  document.getElementById('tabWhatsappBtn').classList.toggle('hidden', state.isAdmin);
+
+  document.getElementById('whoBadge').classList.remove('hidden');
   if(state.gestor){
-    document.getElementById('whoBadge').classList.remove('hidden');
     const me = state.gestores.find(g=>g.id===state.gestorId);
-    if(me) updateWhoBadge(me);
-    else document.getElementById('whoName').textContent = state.gestor;
+    if(me) updateWhoBadge(me); else document.getElementById('whoName').textContent = state.gestor;
   } else if(state.isAdmin){
-    document.getElementById('whoBadge').classList.remove('hidden');
     document.getElementById('whoName').textContent = 'Admin';
     document.getElementById('whoAvatar').style.display='none';
   }
+  switchTab(state.isAdmin ? 'admin' : 'pedido');
 }
 function updateWhoBadge(me){
   document.getElementById('whoName').textContent = me.name;
@@ -678,77 +1316,27 @@ function updateWhoBadge(me){
   if(me.photoUrl){ av.src = me.photoUrl; av.style.display='block'; } else { av.style.display='none'; }
 }
 function switchTab(tab){
-  document.querySelectorAll('.view').forEach(v=>v.classList.add('hidden'));
+  document.querySelectorAll('main .view').forEach(v=>v.classList.add('hidden'));
   document.getElementById('view-'+tab).classList.remove('hidden');
   document.querySelectorAll('.tab-btn').forEach(b=>b.classList.toggle('active', b.dataset.tab===tab));
-  if(tab==='pedido') fillValeAuto();
+  if(tab==='pedido') { fillValeAuto(); onValeInput(); }
   if(tab==='catalogo') renderCatalog();
   if(tab==='historial') { renderHistory(); loadProfilePic(); }
-  if(tab==='admin') renderAdminStats();
+  if(tab==='admin'){ adminSwitch(state.adminTab||'resumen'); renderAdminStats(); }
+  if(tab==='whatsapp') openMyWhatsapp();
 }
 function logout(){
-  state.gestor=null; state.gestorId=null; state.isAdmin=false;
-  localStorage.removeItem('at_gestor'); localStorage.removeItem('at_gestorId');
-  sessionStorage.removeItem('at_admin');
+  state.gestor=null; state.gestorId=null; state.isAdmin=false; state.failedAttempts=0;
+  localStorage.removeItem('at_session');
   document.getElementById('whoBadge').classList.add('hidden');
+  document.getElementById('loginWaLockBtn').classList.add('hidden');
+  document.getElementById('loginUser').value=''; document.getElementById('loginPass').value='';
   showLogin();
-}
-
-/* ---------- Gestor picker + login ---------- */
-function renderGestorPicker(){
-  const q = (document.getElementById('gestorSearch')?.value || '').toLowerCase();
-  const grid = document.getElementById('gestorGrid');
-  const list = state.gestores.filter(g=>g.name.toLowerCase().includes(q));
-  grid.innerHTML = list.map(g=>`
-    <button onclick="openGestorPass('${g.id}')">
-      <span class="avatar">${g.photoUrl?`<img src="${g.photoUrl}" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">`:'🙍'}</span>
-      ${escapeHtml(g.name)}
-    </button>`).join('') || '<div class="hint">No hay gestores registrados. Pide al Admin que te añada.</div>';
-}
-let pendingGestorId=null;
-function openGestorPass(id){
-  pendingGestorId=id;
-  const g = state.gestores.find(x=>x.id===id);
-  document.getElementById('gestorPassLabel').textContent = 'Contraseña de ' + g.name;
-  document.getElementById('gestorPassInput').value='';
-  document.getElementById('gestorPassErr').style.display='none';
-  document.getElementById('gestorPassModal').classList.remove('hidden');
-}
-function closeGestorPassModal(){ document.getElementById('gestorPassModal').classList.add('hidden'); }
-function tryGestorLogin(){
-  const g = state.gestores.find(x=>x.id===pendingGestorId);
-  const val = document.getElementById('gestorPassInput').value;
-  if(g && val === g.password){
-    state.gestor = g.name; state.gestorId = g.id;
-    localStorage.setItem('at_gestor', g.name);
-    localStorage.setItem('at_gestorId', g.id);
-    closeGestorPassModal();
-    showApp();
-    switchTab('pedido');
-  } else {
-    document.getElementById('gestorPassErr').style.display='block';
-  }
-}
-
-/* ---------- Admin login ---------- */
-function openAdminLogin(){ document.getElementById('adminLoginModal').classList.remove('hidden'); }
-function closeAdminLogin(){ document.getElementById('adminLoginModal').classList.add('hidden'); document.getElementById('adminLoginErr').style.display='none'; document.getElementById('adminPass').value=''; }
-function tryAdminLogin(){
-  const val = document.getElementById('adminPass').value;
-  if(val === ADMIN_PASS){
-    state.isAdmin = true;
-    sessionStorage.setItem('at_admin','1');
-    closeAdminLogin();
-    showApp();
-    switchTab('admin');
-  } else {
-    document.getElementById('adminLoginErr').style.display='block';
-  }
 }
 
 /* ---------- Vale form ---------- */
 function fillValeAuto(){
-  document.getElementById('valeFecha').textContent = new Date().toLocaleDateString('es-ES', {day:'2-digit',month:'2-digit',year:'numeric'});
+  document.getElementById('valeFecha').textContent = new Date().toLocaleString('es-ES', {day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'});
   document.getElementById('valeGestor').textContent = state.gestor || '—';
 }
 function setVuelto(val){
@@ -756,23 +1344,271 @@ function setVuelto(val){
   document.getElementById('vVueltoSi').classList.toggle('active', val===true);
   document.getElementById('vVueltoNo').classList.toggle('active', val===false);
   document.getElementById('vueltoCantWrap').classList.toggle('hidden', !val);
+  onValeInput();
 }
 function calcVale(){
-  const cant = parseFloat(document.getElementById('vCantidad').value)||0;
+  const cant = getEffectiveCantidad();
   const base = parseFloat(document.getElementById('vPrecioBase').value)||0;
   const gest = parseFloat(document.getElementById('vPrecioGestor').value)||0;
   const envio = parseFloat(document.getElementById('vMensajeria').value)||0;
+  const productoTotal = gest*cant;
   document.getElementById('vComision').value = ((gest-base)*cant).toFixed(2);
-  document.getElementById('vTotal').value = ((gest*cant)+envio).toFixed(2);
+  document.getElementById('vTotal').value = (productoTotal+envio).toFixed(2);
+  updateTotalBreakdown();
+  onValeInput();
 }
+function updateTotalBreakdown(){
+  const box = document.getElementById('totalBreakdown');
+  if(!box) return;
+  const cant = getEffectiveCantidad();
+  const gest = parseFloat(document.getElementById('vPrecioGestor').value)||0;
+  const productoTotal = gest*cant;
+  const envio = parseFloat(document.getElementById('vMensajeria').value)||0;
+  const total = parseFloat(document.getElementById('vTotal').value)|| (productoTotal+envio);
+  box.textContent = `Producto: $${productoTotal.toFixed(2)} + Envío: $${envio.toFixed(2)} = Total: $${total.toFixed(2)}`;
+}
+function onTipoPagoMensajeriaChange(){
+  const val = document.getElementById('vTipoPagoMensajeria').value;
+  document.getElementById('vTipoPagoMensajeriaOtroWrap').classList.toggle('hidden', val!=='Otro');
+  onValeInput();
+}
+
+/* ---------- Zona de mensajería ---------- */
+function openZonaModal(){
+  document.getElementById('zonaSearch').value='';
+  document.getElementById('zonaModal').classList.remove('hidden');
+  renderZonaList();
+}
+function closeZonaModal(){ document.getElementById('zonaModal').classList.add('hidden'); }
+function zonaKey(m,z){ return m+'|||'+z; }
+function renderZonaList(){
+  const q = (document.getElementById('zonaSearch')?.value || '').toLowerCase();
+  let items = TARIFAS;
+  if(q) items = TARIFAS.filter(t => t.z.toLowerCase().includes(q) || t.m.toLowerCase().includes(q));
+  document.getElementById('zonaList').innerHTML = items.map(t=>{
+    const key = zonaKey(t.m,t.z);
+    const checks = state.zonaChecks[key] || {estandar:false, retorno:false};
+    return `
+    <div class="zone-item">
+      <div class="zinfo">
+        <b>${escapeHtml(t.z)}</b>
+        <div class="muni">${escapeHtml(t.m)}</div>
+        <div class="price">Estándar: $${t.p}</div>
+      </div>
+      <div class="zone-checks">
+        <label><input type="checkbox" ${checks.estandar?'checked':''} onchange="toggleZonaCheck('${key.replace(/'/g,"\\'")}','${t.m.replace(/'/g,"\\'")}','${t.z.replace(/'/g,"\\'")}',${t.p},'estandar',this.checked)">Estándar</label>
+        <label><input type="checkbox" ${checks.retorno?'checked':''} onchange="toggleZonaCheck('${key.replace(/'/g,"\\'")}','${t.m.replace(/'/g,"\\'")}','${t.z.replace(/'/g,"\\'")}',${t.p},'retorno',this.checked)">Retorno</label>
+      </div>
+    </div>`;
+  }).join('') || '<div class="hint">No se encontraron zonas.</div>';
+}
+function toggleZonaCheck(key, muni, zona, precio, tipo, checked){
+  Object.keys(state.zonaChecks).forEach(k=>{ if(k!==key) state.zonaChecks[k] = {estandar:false, retorno:false}; });
+  const cur = state.zonaChecks[key] || {estandar:false, retorno:false};
+  cur[tipo] = checked;
+  state.zonaChecks = {}; state.zonaChecks[key] = cur;
+
+  let tarifa = 0;
+  if(cur.estandar && cur.retorno) tarifa = precio + (precio/2);
+  else if(cur.estandar) tarifa = precio;
+  else if(cur.retorno) tarifa = precio/2;
+
+  if(cur.estandar || cur.retorno){
+    state.zonaSeleccionada = {muni, zona, precio, estandar:cur.estandar, retorno:cur.retorno, tarifa};
+    document.getElementById('vMensajeria').value = tarifa.toFixed(2);
+    const tipoTxt = cur.estandar && cur.retorno ? 'Estándar + Retorno' : (cur.estandar ? 'Estándar' : 'Retorno');
+    document.getElementById('zonaSelectedText').textContent = `${zona} (${muni}) — ${tipoTxt}: $${tarifa.toFixed(2)}`;
+    document.getElementById('zonaSelectedTag').classList.remove('hidden');
+  } else {
+    state.zonaSeleccionada = null;
+    document.getElementById('vMensajeria').value = '';
+    document.getElementById('zonaSelectedTag').classList.add('hidden');
+  }
+  calcVale();
+  renderZonaList();
+}
+function clearZonaSeleccionada(){
+  state.zonaSeleccionada = null;
+  state.zonaChecks = {};
+  document.getElementById('vMensajeria').value = '';
+  document.getElementById('zonaSelectedTag').classList.add('hidden');
+  calcVale();
+  renderZonaList();
+}
+function openWhatsappMensajeriaHelp(){
+  const dir = document.getElementById('vDireccion').value.trim();
+  if(!dir){ showToast('Rellene el campo de dirección primero', true); return; }
+  const msg = `Hola, necesito precio de mensajería hasta ${dir}`;
+  window.open(`https://wa.me/${getWaNumber()}?text=${encodeURIComponent(msg)}`, '_blank');
+}
+
+/* ---------- Mi WhatsApp (gestor) ---------- */
+function openMyWhatsapp(){
+  if(!state.gestor) return;
+  const me = state.gestores.find(g=>g.id===state.gestorId);
+  const phone = (me?.phone||'').replace(/[^0-9]/g,'');
+  if(!phone){ showToast('⚠️ Tu usuario no tiene un teléfono de WhatsApp configurado. Pide al Admin que lo añada.', true); return; }
+  window.open(`https://wa.me/${phone}`, '_blank');
+}
+function getEffectiveArticulo(){
+  const manual = document.getElementById('vArticuloManual').value.trim();
+  if(manual) return manual;
+  if(state.valeItems.length) return state.valeItems.map(it=>`${it.name} x${it.qty}`).join(', ');
+  return '';
+}
+function getEffectiveCantidad(){
+  const manual = document.getElementById('vArticuloManual').value.trim();
+  if(manual) return parseFloat(document.getElementById('vCantidad').value)||1;
+  if(state.valeItems.length) return state.valeItems.reduce((a,b)=>a+b.qty,0);
+  return parseFloat(document.getElementById('vCantidad').value)||1;
+}
+
+/* ---------- Vale live validation + preview ---------- */
+function onValeInput(){
+  validateVale();
+  updateTotalBreakdown();
+  renderTicketPreview();
+  checkBlacklistAlert();
+}
+function validateVale(){
+  const cliente = document.getElementById('vCliente');
+  const telefono = document.getElementById('vTelefono');
+  const direccion = document.getElementById('vDireccion');
+  const manual = document.getElementById('vArticuloManual');
+
+  const okCliente = cliente.value.trim().length>0;
+  const okTel = telefono.value.trim().length>0;
+  const okDir = direccion.value.trim().length>0;
+  const okArt = (manual.value.trim().length>0) || (state.valeItems.length>0);
+
+  cliente.classList.toggle('invalid', !okCliente);
+  telefono.classList.toggle('invalid', !okTel);
+  direccion.classList.toggle('invalid', !okDir);
+  manual.classList.toggle('invalid', !okArt && manual.value.trim().length===0 && state.valeItems.length===0);
+
+  const allOk = okCliente && okTel && okDir && okArt;
+  const btn = document.getElementById('submitBtn');
+  if(btn) btn.disabled = !allOk;
+  return allOk;
+}
+function buildTicketText(){
+  const articulo = getEffectiveArticulo() || '—';
+  return `📦 VALE DE MENSAJERÍA — AGUA&TOOLS
+📅 Fecha: ${new Date().toLocaleString('es-ES',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'})}
+👤 Gestor: ${state.gestor||'—'}
+
+🧾 Cliente: ${document.getElementById('vCliente').value.trim()||'—'}
+📱 Teléfono: ${document.getElementById('vTelefono').value.trim()||'—'}
+🏠 Dirección: ${document.getElementById('vDireccion').value.trim()||'—'}
+📍 Referencia: ${document.getElementById('vReferencia').value.trim()||'—'}
+
+🛒 Artículo(s): ${articulo}
+💰 Precio Base: ${document.getElementById('vPrecioBase').value||'0'}
+💵 Precio Gestor: ${document.getElementById('vPrecioGestor').value||'0'}
+💸 Comisión: ${document.getElementById('vComision').value||'0'}
+💳 Tipo Pago Producto: ${document.getElementById('vTipoPagoProducto').value}
+
+🚚 Mensajería${state.zonaSeleccionada?` (${state.zonaSeleccionada.zona}, ${state.zonaSeleccionada.muni})`:''}: ${document.getElementById('vMensajeria').value||'0'}
+💲 Total a cobrar: ${document.getElementById('totalBreakdown')?.textContent || (document.getElementById('vTotal').value||'0')}
+💳 Pago Mensajería: ${document.getElementById('vTipoPagoMensajeria').value}${document.getElementById('vTipoPagoMensajeria').value==='Otro' ? ' — '+(document.getElementById('vTipoPagoMensajeriaOtro').value.trim()||'—') : ''}
+🪙 Vuelto: ${state.vueltoSi?'Sí':'No'} - ${state.vueltoSi?(document.getElementById('vCantidadVuelto').value||'0'):'0'}
+
+📅 Día: ${document.getElementById('vDia').value||'—'} ⏰ Hora: ${document.getElementById('vHora').value||'—'}
+📝 Detalles: ${document.getElementById('vDetalles').value.trim()||'—'}`;
+}
+function renderTicketPreview(){
+  const box = document.getElementById('ticketPreview');
+  if(box) box.textContent = buildTicketText();
+}
+function copyTicket(){
+  const text = buildTicketText();
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(text).then(()=>showToast('📋 Vale copiado')).catch(()=>showToast('❌ No se pudo copiar', true));
+  } else {
+    showToast('❌ Tu navegador no permite copiar automáticamente', true);
+  }
+}
+
+/* ---------- Catalog modal (selection for vale) ---------- */
+function openCatalogModal(){
+  state.modalQty = {};
+  state.valeItems.forEach(it=>{ state.modalQty[it.id] = it.qty; });
+  state.modalActiveCat = CATEGORIES[0];
+  document.getElementById('modalCatSearch').value='';
+  document.getElementById('catalogModal').classList.remove('hidden');
+  renderModalCatalog();
+}
+function closeCatalogModal(){ document.getElementById('catalogModal').classList.add('hidden'); }
+function renderModalCatTabs(){
+  document.getElementById('modalCatTabs').innerHTML = CATEGORIES.map(c=>`
+    <button class="${state.modalActiveCat===c?'active':''}" onclick="setModalCat('${c.replace(/'/g,"\\'")}')">${escapeHtml(c)}</button>
+  `).join('');
+}
+function setModalCat(c){ state.modalActiveCat=c; document.getElementById('modalCatSearch').value=''; renderModalCatalog(); }
+function renderModalCatalog(){
+  renderModalCatTabs();
+  const q = (document.getElementById('modalCatSearch')?.value || '').toLowerCase();
+  let items;
+  if(q){ items = state.catalog.filter(p=>p.name.toLowerCase().includes(q)); }
+  else { items = state.catalog.filter(p=>p.category===state.modalActiveCat); }
+  document.getElementById('modalCatList').innerHTML = items.map(p=>{
+    const qty = state.modalQty[p.id]||0;
+    return `
+    <div class="prod">
+      ${p.imageUrl
+        ? `<img class="thumb" src="${p.imageUrl}" loading="lazy" alt="${escapeHtml(p.name)}" onclick="openImgModal('${p.imageUrl.replace(/'/g,"\\'")}')">`
+        : `<div class="thumb empty">📦</div>`}
+      <div class="info">
+        <b>${escapeHtml(p.name)}</b>
+        ${p.description ? `<div class="pdesc-mini">${escapeHtml(p.description)}</div>` : ''}
+        <span class="price">$${Number(p.price||0).toFixed(2)}</span>
+        ${stockPills(p.stock)}
+      </div>
+      <div class="qty-counter">
+        <button onclick="modalQtyChange('${p.id}',-1)">−</button>
+        <span class="n" id="modalQty-${p.id}">${qty}</span>
+        <button class="plus" onclick="modalQtyChange('${p.id}',1)">+</button>
+      </div>
+    </div>`;
+  }).join('') || '<div class="hint">No hay productos en esta categoría todavía.</div>';
+}
+function modalQtyChange(id, delta){
+  const cur = state.modalQty[id]||0;
+  const next = Math.max(0, cur+delta);
+  state.modalQty[id] = next;
+  const el = document.getElementById('modalQty-'+id);
+  if(el) el.textContent = next;
+}
+function confirmCatalogSelection(){
+  const items = [];
+  Object.entries(state.modalQty).forEach(([id, qty])=>{
+    if(qty>0){
+      const p = state.catalog.find(x=>x.id===id);
+      if(p) items.push({id, name:p.name, qty});
+    }
+  });
+  state.valeItems = items;
+  renderValeItemsList();
+  closeCatalogModal();
+  calcVale();
+}
+function renderValeItemsList(){
+  document.getElementById('valeItemsList').innerHTML = state.valeItems.map(it=>`
+    <div class="item-chip"><span>${escapeHtml(it.name)} ×${it.qty}</span><button class="x" onclick="removeValeItem('${it.id}')">✕</button></div>
+  `).join('');
+}
+function removeValeItem(id){
+  state.valeItems = state.valeItems.filter(it=>it.id!==id);
+  renderValeItemsList();
+  calcVale();
+}
+
 async function submitVale(){
-  const cliente = document.getElementById('vCliente').value.trim();
-  const telefono = document.getElementById('vTelefono').value.trim();
-  const direccion = document.getElementById('vDireccion').value.trim();
-  const articulo = document.getElementById('vArticulo').value.trim();
-  if(!cliente || !telefono || !direccion){ showToast('⚠️ Completa cliente, teléfono y dirección.', true); return; }
-  if(!articulo){ showToast('⚠️ Escribe el artículo del pedido.', true); return; }
+  if(!validateVale()){ showToast('⚠️ Completa los campos obligatorios marcados en rojo.', true); return; }
   if(!state.gestor){ showToast('⚠️ Inicia sesión como gestor primero.', true); return; }
+
+  const articulo = getEffectiveArticulo();
+  const cantidad = getEffectiveCantidad();
 
   const btn = document.getElementById('submitBtn');
   btn.disabled = true; btn.textContent = 'Enviando…';
@@ -780,15 +1616,21 @@ async function submitVale(){
     let fotoUrl = '';
     const file = document.getElementById('vFoto').files[0];
     if(file){
-      const r = ref(storage, `orders/${Date.now()}_${file.name}`);
-      await uploadBytes(r, file);
-      fotoUrl = await getDownloadURL(r);
+      try{
+        const r = ref(storage, `orders/${Date.now()}_${file.name}`);
+        const uploadPromise = uploadBytes(r, file).then(()=>getDownloadURL(r));
+        const timeoutPromise = new Promise((_,rej)=>setTimeout(()=>rej(new Error('timeout')), 15000));
+        fotoUrl = await Promise.race([uploadPromise, timeoutPromise]);
+      }catch(imgErr){
+        console.warn('No se pudo subir la foto del artículo, se envía el vale sin foto.', imgErr);
+        showToast('⚠️ No se pudo subir la foto, se envía el vale sin ella.', true);
+      }
     }
     const order = {
       gestor: state.gestor,
-      cliente: { nombre: cliente, telefono, direccion, referencia: document.getElementById('vReferencia').value.trim() },
+      cliente: { nombre: document.getElementById('vCliente').value.trim(), telefono: document.getElementById('vTelefono').value.trim(), direccion: document.getElementById('vDireccion').value.trim(), referencia: document.getElementById('vReferencia').value.trim() },
       articulo, fotoUrl,
-      cantidad: parseFloat(document.getElementById('vCantidad').value)||1,
+      cantidad,
       precioBase: parseFloat(document.getElementById('vPrecioBase').value)||0,
       precioGestor: parseFloat(document.getElementById('vPrecioGestor').value)||0,
       comision: parseFloat(document.getElementById('vComision').value)||0,
@@ -796,6 +1638,8 @@ async function submitVale(){
       mensajeria: parseFloat(document.getElementById('vMensajeria').value)||0,
       total: parseFloat(document.getElementById('vTotal').value)||0,
       tipoPagoMensajeria: document.getElementById('vTipoPagoMensajeria').value,
+      tipoPagoMensajeriaOtro: document.getElementById('vTipoPagoMensajeria').value==='Otro' ? document.getElementById('vTipoPagoMensajeriaOtro').value.trim() : '',
+      zonaMensajeria: state.zonaSeleccionada ? `${state.zonaSeleccionada.zona} (${state.zonaSeleccionada.muni})` : '',
       vuelto: state.vueltoSi,
       cantidadVuelto: state.vueltoSi ? (parseFloat(document.getElementById('vCantidadVuelto').value)||0) : 0,
       diaEntrega: document.getElementById('vDia').value,
@@ -808,20 +1652,30 @@ async function submitVale(){
     showToast('✅ Vale enviado al Admin');
     clearVale();
   }catch(e){
+    console.error('Error al enviar el vale:', e);
     showToast('❌ Error al enviar: '+e.message, true);
   }finally{
     btn.disabled = false; btn.textContent = '📤 Enviar al Admin';
+    validateVale();
   }
 }
 function clearVale(){
-  ['vCliente','vTelefono','vDireccion','vReferencia','vArticulo','vCantidad','vPrecioBase','vPrecioGestor',
-   'vComision','vMensajeria','vTotal','vCantidadVuelto','vDia','vHora','vDetalles'].forEach(id=>document.getElementById(id).value='');
+  ['vCliente','vTelefono','vDireccion','vReferencia','vArticuloManual','vCantidad','vPrecioBase','vPrecioGestor',
+   'vComision','vMensajeria','vTotal','vCantidadVuelto','vDia','vHora','vDetalles','vTipoPagoMensajeriaOtro'].forEach(id=>document.getElementById(id).value='');
   document.getElementById('vCantidad').value = 1;
   document.getElementById('vFoto').value = '';
+  document.getElementById('vTipoPagoMensajeriaOtroWrap').classList.add('hidden');
+  state.valeItems = [];
+  state.zonaSeleccionada = null;
+  state.zonaChecks = {};
+  document.getElementById('zonaSelectedTag').classList.add('hidden');
+  renderValeItemsList();
   setVuelto(false);
+  updateTotalBreakdown();
+  onValeInput();
 }
 
-/* ---------- Catálogo ---------- */
+/* ---------- Catálogo (vista general) ---------- */
 function renderCatTabs(){
   document.getElementById('catTabs').innerHTML = CATEGORIES.map(c=>`
     <button class="${state.activeCat===c?'active':''}" onclick="setCat('${c.replace(/'/g,"\\'")}')">${escapeHtml(c)}</button>
@@ -846,13 +1700,11 @@ function renderCatalog(){
         : `<div class="thumb empty">📦</div>`}
       <div class="info">
         <b>${escapeHtml(p.name)}</b>
+        ${p.description ? `<div class="pdesc-mini">${escapeHtml(p.description)}</div>` : ''}
         <span class="price">$${Number(p.price||0).toFixed(2)}</span>
         ${stockPills(p.stock)}
       </div>
     </div>`).join('') || '<div class="hint">No hay productos en esta categoría todavía.</div>';
-}
-function renderProdNamesList(){
-  document.getElementById('prodNamesList').innerHTML = state.catalog.map(p=>`<option value="${escapeHtml(p.name)}">`).join('');
 }
 function openImgModal(url){
   document.getElementById('imgModalPic').src = url;
@@ -861,18 +1713,22 @@ function openImgModal(url){
 }
 function closeImgModal(){ document.getElementById('imgModal').classList.add('hidden'); }
 
-/* ---------- Historial + perfil ---------- */
+/* ---------- Historial + perfil (solo gestor) ---------- */
 function renderHistory(){
   if(!state.gestor) return;
   const mine = state.orders.filter(o=>o.gestor===state.gestor);
   const totalComm = mine.reduce((a,b)=>a+(b.comision||0),0);
   document.getElementById('histSummary').textContent = `${mine.length} vale(s) · Comisión acumulada: $${totalComm.toFixed(2)}`;
-  document.getElementById('histList').innerHTML = mine.map(o=>`
+  document.getElementById('histList').innerHTML = mine.map(o=>{
+    const st = normStatus(o.status);
+    const emoji = st==='confirmado' ? '🟢' : st==='cancelado' ? '🔴' : '🟡';
+    return `
     <div class="order-card">
-      <div class="top"><span>${escapeHtml(o.cliente.nombre)}</span><span class="status ${o.status==='completado'?'done':'pend'}">${o.status}</span></div>
+      <div class="top"><span>${escapeHtml(o.cliente.nombre)}</span><span class="status ${st}">${emoji} ${st}</span></div>
       <div class="meta">${o.createdAt ? new Date(o.createdAt).toLocaleString('es-ES') : ''} · ${escapeHtml(o.articulo)} ×${o.cantidad}</div>
       <div class="meta amt" style="margin-top:5px;">Total: $${(o.total||0).toFixed(2)} · Comisión: $${(o.comision||0).toFixed(2)}</div>
-    </div>`).join('') || '<div class="hint">Aún no tienes vales registrados.</div>';
+    </div>`;
+  }).join('') || '<div class="hint">Aún no tienes vales registrados.</div>';
 }
 function loadProfilePic(){
   const me = state.gestores.find(g=>g.id===state.gestorId);
@@ -916,17 +1772,53 @@ function renderAdminStats(){
 /* ---------- Admin: gestores ---------- */
 function renderAdminGestores(){
   document.getElementById('adminGestores').innerHTML = state.gestores.map(g=>`
-    <div class="item-chip"><span>${escapeHtml(g.name)}</span><button class="x" onclick="removeGestor('${g.id}')">✕</button></div>
+    <div class="item-chip">
+      <span>${escapeHtml(g.name)} <span class="hint" style="display:inline;">(@${escapeHtml(g.username||'—')}${g.phone?' · 📱'+escapeHtml(g.phone):''})</span></span>
+      <span style="display:flex;gap:6px;flex:none;">
+        <button class="btn-secondary" style="width:auto;padding:6px 10px;" onclick="openGestorEditModal('${g.id}')">✏️ Editar</button>
+        <button class="x" onclick="removeGestor('${g.id}')">✕</button>
+      </span>
+    </div>
   `).join('') || '<div class="hint">No hay gestores registrados.</div>';
+}
+function openGestorEditModal(id){
+  const g = state.gestores.find(x=>x.id===id);
+  if(!g) return;
+  state.editingGestorId = id;
+  document.getElementById('geName').value = g.name||'';
+  document.getElementById('geUser').value = g.username||'';
+  document.getElementById('gePass').value = g.password||'';
+  document.getElementById('gePhone').value = g.phone||'';
+  document.getElementById('gestorEditModal').classList.remove('hidden');
+}
+function closeGestorEditModal(){ document.getElementById('gestorEditModal').classList.add('hidden'); }
+async function saveGestorEdit(){
+  const name = document.getElementById('geName').value.trim();
+  const username = document.getElementById('geUser').value.trim();
+  const pass = document.getElementById('gePass').value.trim();
+  const phone = document.getElementById('gePhone').value.trim();
+  if(!name || !username || !pass){ showToast('⚠️ Completa nombre, usuario y contraseña.', true); return; }
+  if(username.toLowerCase() === ADMIN_USER.toLowerCase()){ showToast('⚠️ Ese nombre de usuario está reservado para el Admin.', true); return; }
+  if(state.gestores.some(g=>g.id!==state.editingGestorId && (g.username||'').toLowerCase()===username.toLowerCase())){ showToast('⚠️ Ese usuario ya existe.', true); return; }
+  try{
+    await updateDoc(doc(db,'gestores', state.editingGestorId), {name, username, password:pass, phone});
+    showToast('✅ Gestor actualizado');
+    closeGestorEditModal();
+  }catch(e){ showToast('❌ Error: '+e.message, true); }
 }
 async function addGestor(){
   const nameInp = document.getElementById('newGestorName');
+  const userInp = document.getElementById('newGestorUser');
   const passInp = document.getElementById('newGestorPass');
-  const name = nameInp.value.trim(); const pass = passInp.value.trim();
-  if(!name || !pass){ showToast('⚠️ Escribe nombre y contraseña.', true); return; }
+  const phoneInp = document.getElementById('newGestorPhone');
+  const name = nameInp.value.trim(); const username = userInp.value.trim(); const pass = passInp.value.trim(); const phone = phoneInp.value.trim();
+  if(!name || !username || !pass){ showToast('⚠️ Completa nombre, usuario y contraseña.', true); return; }
+  if(username.toLowerCase() === ADMIN_USER.toLowerCase()){ showToast('⚠️ Ese nombre de usuario está reservado para el Admin.', true); return; }
+  if(state.gestores.some(g=>(g.username||'').toLowerCase()===username.toLowerCase())){ showToast('⚠️ Ese usuario ya existe.', true); return; }
+  if(!phone){ showToast('⚠️ Recomendado: añade su teléfono de WhatsApp, o la pestaña "Mi WhatsApp" no le funcionará.', true); }
   try{
-    await addDoc(collection(db,'gestores'), {name, password:pass, photoUrl:''});
-    nameInp.value=''; passInp.value='';
+    await addDoc(collection(db,'gestores'), {name, username, password:pass, phone, photoUrl:''});
+    nameInp.value=''; userInp.value=''; passInp.value=''; phoneInp.value='';
     showToast('✅ Gestor añadido');
   }catch(e){ showToast('❌ Error: '+e.message, true); }
 }
@@ -936,58 +1828,140 @@ async function removeGestor(id){
   catch(e){ showToast('❌ Error: '+e.message, true); }
 }
 
-/* ---------- Admin: catálogo ---------- */
-function renderProdCatSelect(){
-  const sel = document.getElementById('newProdCat');
-  sel.innerHTML = CATEGORIES.map(c=>`<option value="${escapeHtml(c)}">${escapeHtml(c)}</option>`).join('');
+/* ---------- Admin: catálogo (estilo Axontech) ---------- */
+function categoryCounts(){
+  const counts = {};
+  CATEGORIES.forEach(c=>counts[c]=0);
+  state.catalog.forEach(p=>{ counts[p.category] = (counts[p.category]||0) + 1; });
+  return counts;
 }
+function renderAdminCatTabs(){
+  const box = document.getElementById('adminCatTabs');
+  if(!box) return;
+  const counts = categoryCounts();
+  let html = `<button class="${state.adminCatFilter==='__all__'?'active':''}" onclick="setAdminCat('__all__')">Todos (${state.catalog.length})</button>`;
+  html += CATEGORIES.map(c=>`<button class="${state.adminCatFilter===c?'active':''}" onclick="setAdminCat('${c.replace(/'/g,"\\'")}')">${escapeHtml(c)} (${counts[c]||0})</button>`).join('');
+  box.innerHTML = html;
+}
+function setAdminCat(c){ state.adminCatFilter=c; renderAdminCatalogList(); }
 function renderAdminCatalogList(){
+  renderAdminCatTabs();
   const box = document.getElementById('adminCatalog');
-  box.innerHTML = state.catalog.map(p=>`
-    <div class="item-chip" style="flex-direction:column;align-items:stretch;">
-      <div style="display:flex;justify-content:space-between;align-items:center;">
-        <span>${escapeHtml(p.name)} — $${Number(p.price||0).toFixed(2)}</span>
-        <button class="x" onclick="removeProduct('${p.id}')">✕</button>
+  if(!box) return;
+  const q = (document.getElementById('adminCatSearch')?.value || '').toLowerCase();
+  let items = state.catalog;
+  if(q){ items = items.filter(p=>p.name.toLowerCase().includes(q)); }
+  else if(state.adminCatFilter && state.adminCatFilter!=='__all__'){ items = items.filter(p=>p.category===state.adminCatFilter); }
+  box.innerHTML = items.map(p=>{
+    const totalStock = (p.stock?.almacen||0)+(p.stock?.playa||0)+(p.stock?.marianao||0);
+    return `
+    <div class="pcard">
+      ${p.imageUrl
+        ? `<img class="pthumb" src="${p.imageUrl}" loading="lazy" alt="${escapeHtml(p.name)}" onclick="openImgModal('${p.imageUrl.replace(/'/g,"\\'")}')">`
+        : `<div class="pthumb empty">📦</div>`}
+      <div class="pinfo">
+        <span class="pname">${escapeHtml(p.name)}</span>
+        <span class="ppill">${escapeHtml(p.category||'—')}</span>
+        ${p.description ? `<div class="pdesc">${escapeHtml(p.description)}</div>` : ''}
+        <div class="pfoot"><span class="price">$${Number(p.price||0).toFixed(2)}</span><span class="pstock">Stock: ${totalStock}</span></div>
       </div>
-      <div class="stock-edit">
-        <div class="box"><label>Almacén</label><input type="number" value="${p.stock?.almacen||0}" onchange="updateStock('${p.id}','almacen',this.value)"></div>
-        <div class="box"><label>Playa</label><input type="number" value="${p.stock?.playa||0}" onchange="updateStock('${p.id}','playa',this.value)"></div>
-        <div class="box"><label>Marianao</label><input type="number" value="${p.stock?.marianao||0}" onchange="updateStock('${p.id}','marianao',this.value)"></div>
+      <div class="pactions">
+        <button title="Editar" onclick="openProductModal('${p.id}')">✏️</button>
+        <button title="Stock" onclick="openStockModal('${p.id}')">📦</button>
+        <button title="Comisión" onclick="editComision('${p.id}')">🔄</button>
+        <button title="Eliminar" class="del" onclick="removeProduct('${p.id}')">🗑️</button>
       </div>
-    </div>`).join('') || '<div class="hint">Catálogo vacío.</div>';
+    </div>`;
+  }).join('') || '<div class="hint">No hay productos en esta categoría todavía.</div>';
 }
-async function updateStock(id, key, val){
-  try{
+function openProductModal(id){
+  state.editingProductId = id || null;
+  document.getElementById('productModalTitle').textContent = id ? 'Editar producto' : '+ Añadir producto';
+  const sel = document.getElementById('pmCat');
+  sel.innerHTML = CATEGORIES.map(c=>`<option value="${escapeHtml(c)}">${escapeHtml(c)}</option>`).join('');
+  if(id){
     const p = state.catalog.find(x=>x.id===id);
-    const stock = {...(p.stock||{almacen:0,playa:0,marianao:0}), [key]: parseFloat(val)||0};
-    await updateDoc(doc(db,'catalog', id), {stock});
-    showToast('✅ Stock actualizado');
-  }catch(e){ showToast('❌ Error: '+e.message, true); }
+    if(p){
+      sel.value = p.category || CATEGORIES[0];
+      document.getElementById('pmName').value = p.name||'';
+      document.getElementById('pmDesc').value = p.description||'';
+      document.getElementById('pmPrice').value = p.price||0;
+      document.getElementById('pmStockA').value = p.stock?.almacen||0;
+      document.getElementById('pmStockP').value = p.stock?.playa||0;
+      document.getElementById('pmStockM').value = p.stock?.marianao||0;
+    }
+  } else {
+    document.getElementById('pmName').value='';
+    document.getElementById('pmDesc').value='';
+    document.getElementById('pmPrice').value='';
+    document.getElementById('pmStockA').value='0';
+    document.getElementById('pmStockP').value='0';
+    document.getElementById('pmStockM').value='0';
+  }
+  document.getElementById('pmImg').value='';
+  document.getElementById('productModal').classList.remove('hidden');
 }
-async function addProduct(){
-  const cat = document.getElementById('newProdCat').value;
-  const name = document.getElementById('newProdName').value.trim();
-  const price = parseFloat(document.getElementById('newProdPrice').value);
+function closeProductModal(){ document.getElementById('productModal').classList.add('hidden'); }
+async function saveProductModal(){
+  const cat = document.getElementById('pmCat').value;
+  const name = document.getElementById('pmName').value.trim();
+  const description = document.getElementById('pmDesc').value.trim();
+  const price = parseFloat(document.getElementById('pmPrice').value);
   if(!name || isNaN(price)){ showToast('⚠️ Completa nombre y precio válido.', true); return; }
+  const stock = {
+    almacen: parseFloat(document.getElementById('pmStockA').value)||0,
+    playa: parseFloat(document.getElementById('pmStockP').value)||0,
+    marianao: parseFloat(document.getElementById('pmStockM').value)||0
+  };
   try{
-    let imageUrl = '';
-    const file = document.getElementById('newProdImg').files[0];
+    let imageUrl = null;
+    const file = document.getElementById('pmImg').files[0];
     if(file){
       const r = ref(storage, `products/${Date.now()}_${file.name}`);
       await uploadBytes(r, file);
       imageUrl = await getDownloadURL(r);
     }
-    const stock = {
-      almacen: parseFloat(document.getElementById('newProdStockA').value)||0,
-      playa: parseFloat(document.getElementById('newProdStockP').value)||0,
-      marianao: parseFloat(document.getElementById('newProdStockM').value)||0
-    };
-    await addDoc(collection(db,'catalog'), {name, price, category: cat, imageUrl, stock});
-    ['newProdName','newProdPrice','newProdStockA','newProdStockP','newProdStockM'].forEach(id=>document.getElementById(id).value='');
-    document.getElementById('newProdStockA').value='0'; document.getElementById('newProdStockP').value='0'; document.getElementById('newProdStockM').value='0';
-    document.getElementById('newProdImg').value='';
-    showToast('✅ Producto añadido');
+    if(state.editingProductId){
+      const patch = {name, price, category:cat, description, stock};
+      if(imageUrl) patch.imageUrl = imageUrl;
+      await updateDoc(doc(db,'catalog', state.editingProductId), patch);
+      showToast('✅ Producto actualizado');
+    } else {
+      await addDoc(collection(db,'catalog'), {name, price, category:cat, description, imageUrl: imageUrl||'', stock});
+      showToast('✅ Producto añadido');
+    }
+    closeProductModal();
   }catch(e){ showToast('❌ Error: '+e.message, true); }
+}
+function openStockModal(id){
+  state.editingStockId = id;
+  const p = state.catalog.find(x=>x.id===id);
+  document.getElementById('smStockA').value = p?.stock?.almacen||0;
+  document.getElementById('smStockP').value = p?.stock?.playa||0;
+  document.getElementById('smStockM').value = p?.stock?.marianao||0;
+  document.getElementById('stockModal').classList.remove('hidden');
+}
+function closeStockModal(){ document.getElementById('stockModal').classList.add('hidden'); }
+async function saveStockModal(){
+  const stock = {
+    almacen: parseFloat(document.getElementById('smStockA').value)||0,
+    playa: parseFloat(document.getElementById('smStockP').value)||0,
+    marianao: parseFloat(document.getElementById('smStockM').value)||0
+  };
+  try{
+    await updateDoc(doc(db,'catalog', state.editingStockId), {stock});
+    showToast('✅ Stock actualizado');
+    closeStockModal();
+  }catch(e){ showToast('❌ Error: '+e.message, true); }
+}
+function editComision(id){
+  const p = state.catalog.find(x=>x.id===id);
+  const val = prompt('Comisión / puntos para este producto:', p?.comision!=null ? p.comision : 0);
+  if(val===null) return;
+  const num = parseFloat(val)||0;
+  updateDoc(doc(db,'catalog', id), {comision:num})
+    .then(()=>showToast('✅ Comisión actualizada'))
+    .catch(e=>showToast('❌ Error: '+e.message, true));
 }
 async function removeProduct(id){
   if(!confirm('¿Eliminar este producto?')) return;
@@ -995,25 +1969,97 @@ async function removeProduct(id){
   catch(e){ showToast('❌ Error: '+e.message, true); }
 }
 
-/* ---------- Admin: pedidos ---------- */
+/* ---------- Admin: pedidos (agrupados por gestor, estilo Axontech) ---------- */
+function normStatus(s){ return s==='completado' ? 'confirmado' : (s||'pendiente'); }
+function buildAdminTicketText(o){
+  return `📦 VALE DE MENSAJERÍA — AGUA&TOOLS
+📅 Fecha: ${o.createdAt ? new Date(o.createdAt).toLocaleString('es-ES') : '—'}
+👤 Gestor: ${o.gestor||'—'}
+
+🧾 Cliente: ${o.cliente?.nombre||'—'}
+📱 Teléfono: ${o.cliente?.telefono||'—'}
+🏠 Dirección: ${o.cliente?.direccion||'—'}
+📍 Referencia: ${o.cliente?.referencia||'—'}
+
+🛒 Artículo(s): ${o.articulo||'—'}
+💰 Precio Base: ${o.precioBase||0}
+💵 Precio Gestor: ${o.precioGestor||0}
+💸 Comisión: ${o.comision||0}
+💳 Tipo Pago Producto: ${o.tipoPagoProducto||'—'}
+
+🚚 Mensajería${o.zonaMensajeria?` (${o.zonaMensajeria})`:''}: ${o.mensajeria||0}
+💲 Total a cobrar: $${(o.total||0).toFixed(2)}
+💳 Pago Mensajería: ${o.tipoPagoMensajeria||'—'}${o.tipoPagoMensajeria==='Otro' ? ' — '+(o.tipoPagoMensajeriaOtro||'—') : ''}
+🪙 Vuelto: ${o.vuelto?'Sí':'No'} - ${o.vuelto?(o.cantidadVuelto||0):0}
+
+📅 Día: ${o.diaEntrega||'—'} ⏰ Hora: ${o.horaEntrega||'—'}
+📝 Detalles: ${o.detalles||'—'}`;
+}
+function copyOrderTicket(id){
+  const o = state.orders.find(x=>x.id===id);
+  if(!o) return;
+  const text = buildAdminTicketText(o);
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(text).then(()=>showToast('📋 Ticket copiado')).catch(()=>showToast('❌ No se pudo copiar', true));
+  } else {
+    showToast('❌ Tu navegador no permite copiar automáticamente', true);
+  }
+}
+function toggleOrderGroup(name){
+  state.orderGroupsOpen[name] = !state.orderGroupsOpen[name];
+  renderAdminOrders();
+}
 function renderAdminOrders(){
   if(!state.isAdmin) return;
-  document.getElementById('adminOrders').innerHTML = state.orders.map(o=>`
-    <div class="order-card">
-      <div class="top"><span>${escapeHtml(o.cliente.nombre)} · <span class="mono" style="color:var(--muted);font-size:11px;">${escapeHtml(o.gestor)}</span></span>
-      <span class="status ${o.status==='completado'?'done':'pend'}">${o.status}</span></div>
-      <div class="meta">${escapeHtml(o.cliente.telefono)} · ${escapeHtml(o.cliente.direccion)}</div>
-      <div class="meta">${escapeHtml(o.articulo)} ×${o.cantidad}</div>
-      <div class="meta amt" style="margin-top:5px;">Total: $${(o.total||0).toFixed(2)} · Comisión: $${(o.comision||0).toFixed(2)}</div>
-      <div class="actions">
-        ${o.status==='pendiente' ? `<button class="btn-secondary" onclick="markDone('${o.id}')">✓ Completar</button>` : ''}
-        <button class="btn-secondary" onclick="openEditOrder('${o.id}')">✏️ Editar</button>
-        <button class="btn-danger" onclick="deleteOrder('${o.id}')">🗑️ Borrar</button>
+  const box = document.getElementById('adminOrders');
+  if(!box) return;
+  const groups = {};
+  state.orders.forEach(o=>{ const g = o.gestor || '—'; (groups[g] = groups[g]||[]).push(o); });
+  const names = Object.keys(groups).sort((a,b)=>{
+    const pa = groups[a].filter(o=>normStatus(o.status)==='pendiente').length;
+    const pb = groups[b].filter(o=>normStatus(o.status)==='pendiente').length;
+    return pb-pa;
+  });
+  box.innerHTML = names.map(name=>{
+    const orders = groups[name];
+    const pend = orders.filter(o=>normStatus(o.status)==='pendiente').length;
+    const initial = (name||'?').trim().charAt(0).toUpperCase() || '?';
+    const isOpen = !!state.orderGroupsOpen[name];
+    return `
+    <div class="order-group">
+      <div class="order-group-head ${isOpen?'open':''}" onclick="toggleOrderGroup('${name.replace(/'/g,"\\'")}')">
+        <div class="av-circ">${escapeHtml(initial)}</div>
+        <div class="gname">${escapeHtml(name)}</div>
+        ${pend>0 ? `<div class="badge">${pend}</div>` : ''}
+        <div class="chev">▶</div>
       </div>
-    </div>`).join('') || '<div class="hint">No hay pedidos aún.</div>';
+      <div class="order-group-body ${isOpen?'open':''}">
+        ${orders.map(o=>{
+          const st = normStatus(o.status);
+          return `
+          <div class="order-ticket">
+            <div class="otop"><span>${escapeHtml(o.cliente?.nombre||'—')}</span><span class="status ${st}">${st==='pendiente'?'🟡':st==='confirmado'?'🟢':'🔴'} ${st}</span></div>
+            <div class="ometa">${escapeHtml(o.articulo||'')} ×${o.cantidad||0}</div>
+            <div class="ometa">Total: $${(o.total||0).toFixed(2)} · Comisión: $${(o.comision||0).toFixed(2)}</div>
+            <div class="oticket-text" onclick="copyOrderTicket('${o.id}')">${escapeHtml(buildAdminTicketText(o))}</div>
+            <div class="oactions">
+              ${st==='pendiente' ? `<button class="btn-confirm" onclick="confirmOrder('${o.id}')">✓ Confirmar</button><button class="btn-danger" onclick="cancelOrder('${o.id}')">✕ Cancelar</button>` : ''}
+              <button class="btn-secondary" onclick="openEditOrder('${o.id}')">✏️</button>
+              <button class="btn-danger" onclick="deleteOrder('${o.id}')">🗑️</button>
+            </div>
+          </div>`;
+        }).join('')}
+      </div>
+    </div>`;
+  }).join('') || '<div class="hint">No hay pedidos aún.</div>';
 }
-async function markDone(id){
-  try{ await updateDoc(doc(db,'orders', id), {status:'completado'}); showToast('✅ Marcado como completado'); }
+async function confirmOrder(id){
+  try{ await updateDoc(doc(db,'orders', id), {status:'confirmado'}); showToast('✅ Pedido confirmado'); }
+  catch(e){ showToast('❌ Error: '+e.message, true); }
+}
+async function cancelOrder(id){
+  if(!confirm('¿Cancelar este pedido?')) return;
+  try{ await updateDoc(doc(db,'orders', id), {status:'cancelado'}); showToast('🚫 Pedido cancelado'); }
   catch(e){ showToast('❌ Error: '+e.message, true); }
 }
 async function deleteOrder(id){
@@ -1047,6 +2093,91 @@ async function saveEditOrder(){
   }catch(e){ showToast('❌ Error: '+e.message, true); }
 }
 
+/* ---------- Admin: subtabs ---------- */
+function adminSwitch(tab){
+  state.adminTab = tab;
+  document.querySelectorAll('.admin-tab-btn').forEach(b=>b.classList.toggle('active', b.dataset.atab===tab));
+  document.querySelectorAll('.admin-pane').forEach(p=>p.classList.remove('active'));
+  const pane = document.getElementById('admin-pane-'+tab);
+  if(pane) pane.classList.add('active');
+  if(tab==='catalogo') renderAdminCatalogList();
+  if(tab==='pedidos') renderAdminOrders();
+  if(tab==='config'){ const w=document.getElementById('cfgWaNumber'); if(w) w.value = state.adminSettings.waNumber || WA_NUMBER; }
+  if(tab==='blacklist') renderAdminBlacklist();
+}
+
+/* ---------- Admin: Configuración ---------- */
+async function saveAdminPassword(){
+  const p1 = document.getElementById('cfgNewPass').value;
+  const p2 = document.getElementById('cfgNewPass2').value;
+  if(!p1 || p1.length<4){ showToast('⚠️ La contraseña debe tener al menos 4 caracteres.', true); return; }
+  if(p1!==p2){ showToast('⚠️ Las contraseñas no coinciden.', true); return; }
+  try{
+    await setDoc(doc(db,'settings','admin'), {password:p1}, {merge:true});
+    state.adminSettings.password = p1;
+    document.getElementById('cfgNewPass').value=''; document.getElementById('cfgNewPass2').value='';
+    showToast('✅ Contraseña actualizada');
+  }catch(e){ showToast('❌ Error: '+e.message, true); }
+}
+async function saveAdminWa(){
+  const num = document.getElementById('cfgWaNumber').value.trim();
+  if(!num){ showToast('⚠️ Escribe un número de WhatsApp válido.', true); return; }
+  try{
+    await setDoc(doc(db,'settings','admin'), {waNumber:num}, {merge:true});
+    state.adminSettings.waNumber = num;
+    showToast('✅ WhatsApp del Admin actualizado');
+  }catch(e){ showToast('❌ Error: '+e.message, true); }
+}
+
+/* ---------- Admin: Lista Negra ---------- */
+function renderAdminBlacklist(){
+  const box = document.getElementById('adminBlacklist');
+  if(!box) return;
+  box.innerHTML = state.blacklist.map(b=>`
+    <div class="blk-item">
+      ${b.nombre ? `<div class="bname">${escapeHtml(b.nombre)}</div>` : ''}
+      <div class="bmeta">${b.telefono ? '📱 '+escapeHtml(b.telefono) : ''}${b.telefono && b.direccion ? ' · ' : ''}${b.direccion ? '🏠 '+escapeHtml(b.direccion) : ''}</div>
+      <div class="bmotivo">${escapeHtml(b.motivo||'')}</div>
+      <button class="btn-danger bdel" onclick="removeBlacklist('${b.id}')">🗑️ Eliminar</button>
+    </div>
+  `).join('') || '<div class="hint">No hay registros en la lista negra.</div>';
+}
+async function addBlacklist(){
+  const nombre = document.getElementById('blkNombre').value.trim();
+  const telefono = document.getElementById('blkTelefono').value.trim();
+  const direccion = document.getElementById('blkDireccion').value.trim();
+  const motivo = document.getElementById('blkMotivo').value.trim();
+  if(!motivo){ showToast('⚠️ Escribe el motivo o nota del incidente.', true); return; }
+  if(!nombre && !telefono && !direccion){ showToast('⚠️ Añade al menos nombre, teléfono o dirección.', true); return; }
+  try{
+    await addDoc(collection(db,'blacklist'), {nombre, telefono, direccion, motivo});
+    ['blkNombre','blkTelefono','blkDireccion','blkMotivo'].forEach(id=>document.getElementById(id).value='');
+    showToast('🚫 Añadido a la lista negra');
+  }catch(e){ showToast('❌ Error: '+e.message, true); }
+}
+async function removeBlacklist(id){
+  if(!confirm('¿Eliminar este registro de la lista negra?')) return;
+  try{ await deleteDoc(doc(db,'blacklist', id)); showToast('🗑️ Registro eliminado'); }
+  catch(e){ showToast('❌ Error: '+e.message, true); }
+}
+function checkBlacklistAlert(){
+  const alertBox = document.getElementById('blacklistAlert');
+  if(!alertBox) return;
+  const telInp = document.getElementById('vTelefono');
+  const dirInp = document.getElementById('vDireccion');
+  const tel = (telInp?.value||'').trim().toLowerCase();
+  const dir = (dirInp?.value||'').trim().toLowerCase();
+  let hit = false;
+  if(tel || dir){
+    hit = state.blacklist.some(b=>{
+      const bt = (b.telefono||'').trim().toLowerCase();
+      const bd = (b.direccion||'').trim().toLowerCase();
+      return (bt && tel && bt===tel) || (bd && dir && bd===dir);
+    });
+  }
+  alertBox.classList.toggle('hidden', !hit);
+}
+
 /* ---------- Utils ---------- */
 function showToast(msg, isError){
   const t = document.getElementById('toast');
@@ -1069,13 +2200,21 @@ if('serviceWorker' in navigator){
 
 /* Expose handlers referenced from inline onclick/onchange attributes */
 Object.assign(window, {
-  toggleTheme, openGestorPass, closeGestorPassModal, tryGestorLogin, openAdminLogin, closeAdminLogin, tryAdminLogin,
-  switchTab, logout, setVuelto, calcVale, submitVale, setCat, openImgModal, closeImgModal,
-  uploadProfilePic, addGestor, removeGestor, updateStock, addProduct, removeProduct,
-  markDone, deleteOrder, openEditOrder, closeEditOrder, saveEditOrder, renderGestorPicker, renderCatalog
+  toggleTheme, tryLogin, togglePassEye, openWhatsappHelp,
+  switchTab, logout, setVuelto, calcVale, onValeInput, submitVale, setCat, openImgModal, closeImgModal,
+  openCatalogModal, closeCatalogModal, setModalCat, modalQtyChange, confirmCatalogSelection, removeValeItem,
+  copyTicket, onTipoPagoMensajeriaChange,
+  openZonaModal, closeZonaModal, renderZonaList, toggleZonaCheck, clearZonaSeleccionada, openWhatsappMensajeriaHelp,
+  openMyWhatsapp,
+  uploadProfilePic, addGestor, removeGestor, removeProduct,
+  deleteOrder, openEditOrder, closeEditOrder, saveEditOrder, renderCatalog,
+  adminSwitch, setAdminCat, openProductModal, closeProductModal, saveProductModal,
+  openStockModal, closeStockModal, saveStockModal, editComision,
+  openGestorEditModal, closeGestorEditModal, saveGestorEdit,
+  toggleOrderGroup, confirmOrder, cancelOrder, copyOrderTicket,
+  addBlacklist, removeBlacklist, saveAdminPassword, saveAdminWa
 });
 
-renderProdCatSelect();
 setVuelto(false);
 initApp();
 </script>
