@@ -941,12 +941,10 @@ async function uploadImageSmart(file, path, onProgress, timeoutMs = 45000){
     throw new Error('Falta configurar Cloudinary (CLOUDINARY_CLOUD_NAME / CLOUDINARY_UPLOAD_PRESET) en el código.');
   }
   const compressed = await compressImageFile(file);
-  const folder = (path || 'general').split('/')[0];
 
   const form = new FormData();
   form.append('file', compressed, (file && file.name) || 'foto.jpg');
   form.append('upload_preset', CLOUDINARY_UPLOAD_PRESET);
-  form.append('folder', folder);
 
   return new Promise((resolve, reject)=>{
     const xhr = new XMLHttpRequest();
@@ -2063,7 +2061,8 @@ async function saveProductModal(){
       }catch(imgErr){
         uploadStatus.style.display='none';
         saveBtn.disabled = false;
-        showToast('❌ Error al subir la imagen. Intenta de nuevo.', true);
+        console.error('Error al subir imagen (producto):', imgErr);
+        showToast('❌ ' + (imgErr?.message || 'Error al subir la imagen. Intenta de nuevo.'), true);
         return; // No se guarda el producto si la imagen falla
       }
     }
