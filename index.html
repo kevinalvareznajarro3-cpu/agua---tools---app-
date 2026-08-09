@@ -349,6 +349,8 @@ nav.tabs button.active{color:var(--cyan);}
 .wa-tab-card{text-align:center;padding:30px 16px;}
 .wa-tab-card .icon{font-size:52px;margin-bottom:14px;}
 .wa-tab-card .btn-primary{max-width:280px;margin:16px auto 0;background:#25D366;color:#fff;}
+.wa-number-display{background:var(--surface-2);border:1px solid var(--line);border-radius:10px;padding:14px;font-family:'IBM Plex Mono',monospace;font-size:16px;font-weight:700;color:var(--text);margin-top:14px;}
+.wa-warning{background:rgba(240,169,63,.15);border:1px solid var(--warn);color:var(--warn);border-radius:8px;padding:12px;font-size:12.5px;margin-top:14px;line-height:1.5;text-align:left;}
 
 /* ---------- Login screen (fondo océano) ---------- */
 #view-login{
@@ -445,6 +447,8 @@ nav.tabs button.active{color:var(--cyan);}
 .status.pendiente{background:rgba(240,169,63,.15);color:var(--warn);}
 .status.confirmado{background:rgba(63,190,130,.15);color:var(--ok);}
 .status.cancelado{background:rgba(240,85,74,.15);color:var(--danger);}
+.status.entregado{background:rgba(21,96,189,.15);color:var(--blue);}
+.status-select{background:var(--surface-2);border:1px solid var(--line);color:var(--text);border-radius:8px;padding:8px 10px;font-size:12px;font-family:inherit;margin-top:8px;width:100%;}
 
 .blk-item{background:var(--surface-2);border:1px solid var(--line);border-radius:8px;padding:10px 12px;margin-bottom:8px;}
 .blk-item .bname{font-size:13px;font-weight:700;}
@@ -505,7 +509,8 @@ nav.tabs button.active{color:var(--cyan);}
       </div>
       <div class="field">
         <label>📷 Foto del artículo (opcional)</label>
-        <input type="file" id="vFoto" accept="image/*">
+        <input type="file" id="vFoto" accept="image/*" onchange="previewValeImage(event)">
+        <img id="vFotoPreview" class="pm-img-preview" alt="Previsualización">
         <div id="vFotoStatus" class="pm-upload-status"><span class="pm-spinner"></span><span>⏳ Subiendo foto, por favor espera...</span></div>
       </div>
       <div class="field"><label>🔢 Cantidad (si escribes manualmente)</label><input type="number" id="vCantidad" min="1" value="1" oninput="calcVale()"></div>
@@ -644,6 +649,12 @@ nav.tabs button.active{color:var(--cyan);}
     <div class="card">
       <h2>📜 Mi historial</h2>
       <div class="sub" id="histSummary"></div>
+      <div class="cat-tabs" id="histFilterTabs">
+        <button class="active" data-hf="todos" onclick="setHistFilter('todos')">📋 Todos</button>
+        <button data-hf="pendiente" onclick="setHistFilter('pendiente')">🟡 Pendientes</button>
+        <button data-hf="confirmado" onclick="setHistFilter('confirmado')">🟢 Confirmados</button>
+        <button data-hf="cancelado" onclick="setHistFilter('cancelado')">🔴 Cancelados</button>
+      </div>
       <div id="histList"></div>
     </div>
     <div class="card">
@@ -665,8 +676,8 @@ nav.tabs button.active{color:var(--cyan);}
     <div class="card wa-tab-card">
       <div class="icon">💬</div>
       <h2>Mi WhatsApp</h2>
-      <p class="sub" style="margin-bottom:0;">Esta opción te permite contactar directamente a tus clientes por WhatsApp. Úsala si se te quedó algún dato pendiente del cliente.</p>
-      <button class="btn-primary" onclick="openMyWhatsapp()">Abrir mi WhatsApp</button>
+      <p class="sub" style="margin-bottom:0;">Aquí tienes tu número de WhatsApp registrado. Si necesitas contactar a algún cliente, puedes hacerlo desde aquí.</p>
+      <div id="myWaNumberBox"></div>
     </div>
   </section>
 
@@ -1241,7 +1252,8 @@ const state = {
   failedAttempts:0,
   zonaSeleccionada:null, zonaChecks:{},
   adminTab:'resumen', orderGroupsOpen:{},
-  adminSettings:{ waNumber:null, password:null }
+  adminSettings:{ waNumber:null, password:null },
+  valeDraftLoaded:false, histFilter:'todos'
 };
 
 /* ---------- Theme ---------- */
@@ -1416,14 +1428,15 @@ function switchTab(tab){
   document.querySelectorAll('main .view').forEach(v=>v.classList.add('hidden'));
   document.getElementById('view-'+tab).classList.remove('hidden');
   document.querySelectorAll('.tab-btn').forEach(b=>b.classList.toggle('active', b.dataset.tab===tab));
-  if(tab==='pedido') { fillValeAuto(); onValeInput(); }
+  if(tab==='pedido') { fillValeAuto(); if(!state.valeDraftLoaded){ loadValeDraft(); state.valeDraftLoaded=true; } onValeInput(); }
   if(tab==='catalogo') renderCatalog();
   if(tab==='historial') { renderHistory(); loadProfilePic(); }
   if(tab==='admin'){ adminSwitch(state.adminTab||'resumen'); renderAdminStats(); }
-  if(tab==='whatsapp') openMyWhatsapp();
+  if(tab==='whatsapp') renderMyWhatsappView();
 }
 function logout(){
   state.gestor=null; state.gestorId=null; state.isAdmin=false; state.failedAttempts=0;
+  state.valeDraftLoaded=false;
   localStorage.removeItem('at_session');
   document.getElementById('whoBadge').classList.add('hidden');
   document.getElementById('loginWaLockBtn').classList.add('hidden');
@@ -1540,6 +1553,21 @@ function openWhatsappMensajeriaHelp(){
 }
 
 /* ---------- Mi WhatsApp (gestor) ---------- */
+function renderMyWhatsappView(){
+  if(!state.gestor) return;
+  const box = document.getElementById('myWaNumberBox');
+  if(!box) return;
+  const me = state.gestores.find(g=>g.id===state.gestorId);
+  const phone = (me?.phone||'').replace(/[^0-9]/g,'');
+  if(phone){
+    box.innerHTML = `
+      <div class="wa-number-display">📱 ${escapeHtml(me.phone)}</div>
+      <button class="btn-primary" onclick="openMyWhatsapp()">📲 Abrir WhatsApp</button>
+    `;
+  } else {
+    box.innerHTML = `<div class="wa-warning">⚠️ El número de WhatsApp no está configurado. Contacta al Admin para actualizar tus datos.</div>`;
+  }
+}
 function openMyWhatsapp(){
   if(!state.gestor) return;
   const me = state.gestores.find(g=>g.id===state.gestorId);
@@ -1566,6 +1594,7 @@ function onValeInput(){
   updateTotalBreakdown();
   renderTicketPreview();
   checkBlacklistAlert();
+  saveValeDraft();
 }
 function validateVale(){
   const cliente = document.getElementById('vCliente');
@@ -1774,7 +1803,54 @@ function clearVale(){
   renderValeItemsList();
   setVuelto(false);
   updateTotalBreakdown();
+  document.getElementById('vFotoPreview').src='';
+  document.getElementById('vFotoPreview').style.display='none';
+  clearValeDraft();
   onValeInput();
+}
+
+/* ---------- Autoguardado del borrador del vale (localStorage) ---------- */
+const VALE_DRAFT_FIELDS = ['vCliente','vTelefono','vDireccion','vReferencia','vArticuloManual','vCantidad',
+  'vPrecioBase','vPrecioGestor','vComision','vTipoPagoProducto','vMensajeria','vTotal','vTipoPagoMensajeria',
+  'vTipoPagoMensajeriaOtro','vCantidadVuelto','vDia','vHora','vDetalles'];
+function valeDraftKey(){ return 'at_vale_draft_' + (state.gestorId || 'anon'); }
+function saveValeDraft(){
+  if(!state.gestor) return;
+  const data = {};
+  VALE_DRAFT_FIELDS.forEach(id=>{ const el = document.getElementById(id); if(el) data[id] = el.value; });
+  data.valeItems = state.valeItems;
+  data.vueltoSi = state.vueltoSi;
+  data.zonaSeleccionada = state.zonaSeleccionada;
+  data.zonaChecks = state.zonaChecks;
+  try{ localStorage.setItem(valeDraftKey(), JSON.stringify(data)); }catch(e){}
+}
+function loadValeDraft(){
+  if(!state.gestor) return;
+  let data = null;
+  try{ data = JSON.parse(localStorage.getItem(valeDraftKey())); }catch(e){}
+  if(!data) return;
+  VALE_DRAFT_FIELDS.forEach(id=>{
+    const el = document.getElementById(id);
+    if(el && data[id]!==undefined) el.value = data[id];
+  });
+  if(Array.isArray(data.valeItems)) state.valeItems = data.valeItems;
+  if(data.zonaChecks) state.zonaChecks = data.zonaChecks;
+  if(data.zonaSeleccionada){
+    state.zonaSeleccionada = data.zonaSeleccionada;
+    const z = data.zonaSeleccionada;
+    const tipoTxt = z.estandar && z.retorno ? 'Estándar + Retorno' : (z.estandar ? 'Estándar' : 'Retorno');
+    document.getElementById('zonaSelectedText').textContent = `${z.zona} (${z.muni}) — ${tipoTxt}: $${Number(z.tarifa||0).toFixed(2)}`;
+    document.getElementById('zonaSelectedTag').classList.remove('hidden');
+  }
+  renderValeItemsList();
+  setVuelto(!!data.vueltoSi);
+  document.getElementById('vTipoPagoMensajeriaOtroWrap').classList.toggle('hidden', data.vTipoPagoMensajeria!=='Otro');
+  const hasContent = (data.vCliente||'').trim() || (data.vTelefono||'').trim() || (data.vDireccion||'').trim()
+    || (data.vArticuloManual||'').trim() || (Array.isArray(data.valeItems) && data.valeItems.length>0);
+  if(hasContent) showToast('📝 Recuperamos tu borrador del vale');
+}
+function clearValeDraft(){
+  try{ localStorage.removeItem(valeDraftKey()); }catch(e){}
 }
 
 /* ---------- Catálogo (vista general) ---------- */
@@ -1816,21 +1892,28 @@ function openImgModal(url){
 function closeImgModal(){ document.getElementById('imgModal').classList.add('hidden'); }
 
 /* ---------- Historial + perfil (solo gestor) ---------- */
+function setHistFilter(f){
+  state.histFilter = f;
+  document.querySelectorAll('#histFilterTabs button').forEach(b=>b.classList.toggle('active', b.dataset.hf===f));
+  renderHistory();
+}
 function renderHistory(){
   if(!state.gestor) return;
   const mine = state.orders.filter(o=>o.gestor===state.gestor);
   const totalComm = mine.reduce((a,b)=>a+(b.comision||0),0);
   document.getElementById('histSummary').textContent = `${mine.length} vale(s) · Comisión acumulada: $${totalComm.toFixed(2)}`;
-  document.getElementById('histList').innerHTML = mine.map(o=>{
+  const filter = state.histFilter || 'todos';
+  const filtered = filter==='todos' ? mine : mine.filter(o=>normStatus(o.status)===filter);
+  document.getElementById('histList').innerHTML = filtered.map(o=>{
     const st = normStatus(o.status);
-    const emoji = st==='confirmado' ? '🟢' : st==='cancelado' ? '🔴' : '🟡';
+    const emoji = st==='confirmado' ? '🟢' : st==='cancelado' ? '🔴' : st==='entregado' ? '🔵' : '🟡';
     return `
     <div class="order-card">
       <div class="top"><span>${escapeHtml(o.cliente.nombre)}</span><span class="status ${st}">${emoji} ${st}</span></div>
       <div class="meta">${o.createdAt ? new Date(o.createdAt).toLocaleString('es-ES') : ''} · ${escapeHtml(o.articulo)} ×${o.cantidad}</div>
       <div class="meta amt" style="margin-top:5px;">Total: $${(o.total||0).toFixed(2)} · Comisión: $${(o.comision||0).toFixed(2)}</div>
     </div>`;
-  }).join('') || '<div class="hint">Aún no tienes vales registrados.</div>';
+  }).join('') || `<div class="hint">${filter==='todos' ? 'Aún no tienes vales registrados.' : 'No tienes vales con este estado.'}</div>`;
 }
 function loadProfilePic(){
   const me = state.gestores.find(g=>g.id===state.gestorId);
@@ -2023,6 +2106,14 @@ function openProductModal(id){
   document.getElementById('productModal').classList.remove('hidden');
 }
 function closeProductModal(){ document.getElementById('productModal').classList.add('hidden'); }
+function previewValeImage(evt){
+  const file = evt.target.files[0];
+  const preview = document.getElementById('vFotoPreview');
+  if(!file){ preview.src=''; preview.style.display='none'; return; }
+  const reader = new FileReader();
+  reader.onload = ()=>{ preview.src = reader.result; preview.style.display='block'; };
+  reader.readAsDataURL(file);
+}
 function previewProductImage(evt){
   const file = evt.target.files[0];
   const preview = document.getElementById('pmImgPreview');
@@ -2196,8 +2287,13 @@ function renderAdminOrders(){
             <div class="ometa">${escapeHtml(o.articulo||'')} ×${o.cantidad||0}</div>
             <div class="ometa">Total: $${(o.total||0).toFixed(2)} · Comisión: $${(o.comision||0).toFixed(2)}</div>
             <div class="oticket-text" onclick="copyOrderTicket('${o.id}')">${escapeHtml(buildAdminTicketText(o))}</div>
+            <select class="status-select" onchange="updateOrderStatus('${o.id}', this.value)">
+              <option value="pendiente" ${st==='pendiente'?'selected':''}>🟡 Pendiente</option>
+              <option value="confirmado" ${st==='confirmado'?'selected':''}>🟢 Confirmado</option>
+              <option value="entregado" ${st==='entregado'?'selected':''}>🔵 Entregado</option>
+              <option value="cancelado" ${st==='cancelado'?'selected':''}>🔴 Cancelado</option>
+            </select>
             <div class="oactions">
-              ${st==='pendiente' ? `<button class="btn-confirm" onclick="confirmOrder('${o.id}')">✓ Confirmar</button><button class="btn-danger" onclick="cancelOrder('${o.id}')">✕ Cancelar</button>` : ''}
               <button class="btn-secondary" onclick="openEditOrder('${o.id}')">✏️</button>
               <button class="btn-danger" onclick="deleteOrder('${o.id}')">🗑️</button>
             </div>
@@ -2210,6 +2306,13 @@ function renderAdminOrders(){
 async function confirmOrder(id){
   try{ await updateDoc(doc(db,'orders', id), {status:'confirmado'}); showToast('✅ Pedido confirmado'); }
   catch(e){ showToast('❌ Error: '+e.message, true); }
+}
+async function updateOrderStatus(id, newStatus){
+  const labels = {pendiente:'Pendiente', confirmado:'Confirmado', entregado:'Entregado', cancelado:'Cancelado'};
+  try{
+    await updateDoc(doc(db,'orders', id), {status:newStatus});
+    showToast('✅ Estado actualizado a "'+(labels[newStatus]||newStatus)+'"');
+  }catch(e){ showToast('❌ Error: '+e.message, true); }
 }
 async function cancelOrder(id){
   if(!confirm('¿Cancelar este pedido?')) return;
@@ -2359,7 +2462,7 @@ Object.assign(window, {
   openCatalogModal, closeCatalogModal, setModalCat, modalQtyChange, confirmCatalogSelection, removeValeItem,
   copyTicket, onTipoPagoMensajeriaChange,
   openZonaModal, closeZonaModal, renderZonaList, toggleZonaCheck, clearZonaSeleccionada, openWhatsappMensajeriaHelp,
-  openMyWhatsapp,
+  openMyWhatsapp, renderMyWhatsappView, previewValeImage, setHistFilter, updateOrderStatus,
   uploadProfilePic, addGestor, removeGestor, removeProduct,
   deleteOrder, openEditOrder, closeEditOrder, saveEditOrder, renderCatalog,
   adminSwitch, setAdminCat, openProductModal, closeProductModal, saveProductModal,
