@@ -98,6 +98,24 @@ header.top{
 .conn.ok{color:var(--ok);border-color:var(--ok);}
 .conn.err{color:var(--danger);border-color:var(--danger);}
 
+.update-banner{
+  position:sticky;top:0;z-index:19;
+  background:linear-gradient(135deg,#FFD23F,#22D3EE);
+  color:#0A1A2E;
+  text-align:center;
+  padding:11px 14px;
+  font-size:13px;
+  font-weight:700;
+  letter-spacing:.2px;
+  cursor:pointer;
+  animation:update-banner-pulse 1.8s ease-in-out infinite;
+}
+.update-banner.hidden{display:none;}
+@keyframes update-banner-pulse{
+  0%,100%{opacity:1;}
+  50%{opacity:.82;}
+}
+
 main{max-width:680px;margin:0 auto;padding:14px;}
 
 .card{
@@ -260,6 +278,82 @@ nav.tabs button.active{color:var(--cyan);}
 .prod .stockrow{display:flex;gap:5px;margin-top:3px;flex-wrap:wrap;}
 .stock-pill{font-size:9px;padding:2px 6px;border-radius:8px;background:var(--surface-2);border:1px solid var(--line);color:var(--muted);}
 .stock-pill.has{color:var(--ok);border-color:var(--ok);}
+
+/* ---- Catálogo del gestor: cuadrícula de categorías ---- */
+.cat-grid{
+  display:grid;grid-template-columns:1fr 1fr;gap:10px;
+}
+.cat-box{
+  background:var(--surface-2);border:1px solid var(--line);border-radius:12px;
+  padding:18px 12px;min-height:84px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;
+  text-align:center;color:var(--text);
+}
+.cat-box:active{border-color:var(--cyan);}
+.cat-box-all{background:linear-gradient(135deg,var(--blue-dim),var(--cyan-dim));border-color:transparent;color:#fff;}
+.cat-box-emoji{font-size:20px;}
+.cat-box-name{font-size:12.5px;font-weight:700;line-height:1.25;}
+.cat-box-count{font-size:10.5px;color:var(--muted);}
+.cat-box-all .cat-box-count{color:rgba(255,255,255,.8);}
+
+/* ---- Catálogo del gestor: volver a categorías ---- */
+.cat-breadcrumb{
+  display:flex;align-items:center;gap:10px;margin-bottom:12px;
+}
+.cat-back{
+  background:var(--surface-2);border:1px solid var(--line);color:var(--text);
+  border-radius:8px;padding:8px 12px;font-size:12px;font-weight:600;flex:none;
+}
+.cat-breadcrumb-title{font-size:13px;font-weight:700;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+
+/* ---- Catálogo del gestor: cuadrícula de productos (2 columnas) ---- */
+.prod-grid{
+  display:grid;grid-template-columns:1fr 1fr;gap:10px;
+}
+.prod-card{
+  background:var(--surface-2);border:1px solid var(--line);border-radius:12px;
+  overflow:hidden;transition:border-color .15s;
+}
+.prod-card.expanded{border-color:var(--cyan-dim);grid-column:1 / -1;}
+.prod-tile{padding:10px;display:flex;flex-direction:column;gap:6px;cursor:pointer;}
+.prod-tile-img{width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:8px;background:var(--surface);}
+.prod-tile-img.empty{display:flex;align-items:center;justify-content:center;font-size:22px;color:var(--muted);}
+.prod-tile-name{font-size:12px;font-weight:600;line-height:1.3;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+.prod-tile-price{font-size:12px;color:var(--cyan);font-family:'IBM Plex Mono',monospace;}
+.prod-card-head{
+  display:flex;align-items:center;gap:10px;padding:11px 12px;cursor:pointer;
+}
+.prod-card-head .thumb{width:50px;height:50px;border-radius:9px;object-fit:cover;}
+.prod-card-head .info{flex:1;min-width:0;}
+.prod-card-head .info b{font-size:13.5px;display:block;margin-bottom:3px;}
+.prod-card-head .info .price{font-size:12.5px;color:var(--cyan);font-family:'IBM Plex Mono',monospace;}
+.prod-card-head .chevron{flex:none;color:var(--muted);font-size:12px;}
+.prod-card-body{
+  padding:0 14px 16px;border-top:1px solid var(--line);
+}
+.prod-img-wrap{position:relative;margin:14px 0 12px;}
+.prod-card-body .thumb-lg{
+  width:100%;max-height:220px;object-fit:cover;border-radius:10px;cursor:pointer;
+}
+.btn-download-img{
+  position:absolute;bottom:10px;right:10px;
+  width:38px;height:38px;border-radius:50%;border:none;
+  background:rgba(10,26,46,.72);color:#fff;font-size:16px;
+  display:flex;align-items:center;justify-content:center;
+}
+.prod-card-body .pdesc-full{font-size:12.5px;color:var(--muted);line-height:1.5;margin:0 0 10px;}
+.prod-card-body .stockrow{display:flex;gap:6px;margin:0 0 10px;flex-wrap:wrap;}
+.prod-card-body .price-usd{
+  font-family:'IBM Plex Mono',monospace;font-size:14px;color:var(--cyan);
+  background:var(--surface);border:1px solid var(--line);border-radius:8px;
+  padding:9px 12px;margin-bottom:12px;
+}
+.btn-wa-product{
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  background:#25D366;color:#052014;text-decoration:none;
+  border-radius:9px;padding:13px;font-size:13.5px;font-weight:700;
+}
+.btn-wa-product:active{background:#1EB859;}
 .prod .add{
   flex:none;width:32px;height:32px;border-radius:50%;background:var(--cyan);color:#052330;
   border:none;font-size:16px;font-weight:700;
@@ -477,6 +571,9 @@ nav.tabs button.active{color:var(--cyan);}
     </div>
   </div>
 </header>
+<div id="updateBanner" class="update-banner hidden" onclick="applyAppUpdate()">
+  📢 Nueva versión disponible. Toca aquí para actualizar.
+</div>
 
 <main>
 
@@ -632,7 +729,6 @@ nav.tabs button.active{color:var(--cyan);}
         <span class="ic">🔍</span>
         <input type="text" id="catSearch" placeholder="Buscar producto por nombre…" oninput="renderCatalog()">
       </div>
-      <div class="cat-tabs" id="catTabs"></div>
       <div id="catList"></div>
     </div>
   </section>
@@ -641,7 +737,7 @@ nav.tabs button.active{color:var(--cyan);}
   <div id="imgModal" class="imgmodal-back hidden">
     <button class="imgmodal-close" onclick="closeImgModal()">✕</button>
     <img id="imgModalPic" src="" alt="">
-    <a id="imgModalDownload" class="btn-primary" download="producto.jpg" href="#">⬇️ Descargar imagen</a>
+    <button id="imgModalDownload" class="btn-primary" onclick="downloadImageFromModal()">⬇️ Descargar imagen</button>
   </div>
 
   <!-- ============ HISTORIAL VIEW (solo gestor) ============ -->
@@ -1246,14 +1342,15 @@ const TARIFAS = [
 const state = {
   gestor:null, gestorId:null, isAdmin:false,
   gestores:[], catalog:[], orders:[], blacklist:[],
-  activeCat: CATEGORIES[0], modalActiveCat: CATEGORIES[0], adminCatFilter:'__all__',
+  activeCat: null, modalActiveCat: CATEGORIES[0], adminCatFilter:'__all__',
   valeItems:[], modalQty:{},
   vueltoSi:false, editingOrderId:null, editingProductId:null, editingStockId:null, editingGestorId:null,
   failedAttempts:0,
   zonaSeleccionada:null, zonaChecks:{},
   adminTab:'resumen', orderGroupsOpen:{},
   adminSettings:{ waNumber:null, password:null },
-  valeDraftLoaded:false, histFilter:'todos'
+  valeDraftLoaded:false, histFilter:'todos',
+  expandedProductId:null
 };
 
 /* ---------- Theme ---------- */
@@ -1284,6 +1381,7 @@ function initApp(){
   listenOrders();
   listenBlacklist();
   listenSettings();
+  listenAppVersion();
 
   if(state.isAdmin || state.gestor){ showApp(); }
   else { showLogin(); }
@@ -1335,6 +1433,56 @@ function listenSettings(){
   }, err=>{});
 }
 function getWaNumber(){ return state.adminSettings.waNumber || WA_NUMBER; }
+
+/* ---------- Sistema de versión de la app y aviso de actualización ----------
+   El Admin cambia el campo "version" en Firestore: settings/app { version: "v1.1" }
+   Cada celular compara ese valor con lo que tiene guardado en su localStorage
+   (la versión que descargó la última vez). Si son distintos, se muestra el
+   banner de "Nueva versión disponible" debajo del encabezado. */
+const APP_VERSION_STORAGE_KEY = 'at_app_version';
+let latestRemoteVersion = null;
+function listenAppVersion(){
+  onSnapshot(doc(db,'settings','app'), snap=>{
+    if(!snap.exists()) return;
+    const remoteVersion = snap.data().version;
+    if(!remoteVersion) return;
+    latestRemoteVersion = remoteVersion;
+    const localVersion = localStorage.getItem(APP_VERSION_STORAGE_KEY);
+    if(!localVersion){
+      // Primera vez que este dispositivo carga la app: solo guardamos la versión actual, sin avisar.
+      localStorage.setItem(APP_VERSION_STORAGE_KEY, remoteVersion);
+      return;
+    }
+    if(localVersion !== remoteVersion){ showUpdateBanner(); }
+    else { hideUpdateBanner(); }
+  }, err=>{});
+}
+function showUpdateBanner(){
+  const b = document.getElementById('updateBanner');
+  if(b) b.classList.remove('hidden');
+}
+function hideUpdateBanner(){
+  const b = document.getElementById('updateBanner');
+  if(b) b.classList.add('hidden');
+}
+async function applyAppUpdate(){
+  try{
+    if(latestRemoteVersion) localStorage.setItem(APP_VERSION_STORAGE_KEY, latestRemoteVersion);
+    // Borra la caché del Service Worker para que se descarguen los archivos nuevos.
+    if('caches' in window){
+      const keys = await caches.keys();
+      await Promise.all(keys.map(k=>caches.delete(k)));
+    }
+    if('serviceWorker' in navigator){
+      const regs = await navigator.serviceWorker.getRegistrations();
+      for(const reg of regs){
+        if(reg.waiting) reg.waiting.postMessage('SKIP_WAITING');
+        await reg.update().catch(()=>{});
+      }
+    }
+  }catch(e){ /* aunque falle la limpieza de caché, igual recargamos */ }
+  location.reload();
+}
 function setConn(ok){
   const b = document.getElementById('connBadge');
   b.textContent = ok ? 'en línea' : 'sin conexión';
@@ -1853,43 +2001,150 @@ function clearValeDraft(){
   try{ localStorage.removeItem(valeDraftKey()); }catch(e){}
 }
 
-/* ---------- Catálogo (vista general) ---------- */
-function renderCatTabs(){
-  document.getElementById('catTabs').innerHTML = CATEGORIES.map(c=>`
-    <button class="${state.activeCat===c?'active':''}" onclick="setCat('${c.replace(/'/g,"\\'")}')">${escapeHtml(c)}</button>
-  `).join('');
-}
-function setCat(c){ state.activeCat=c; document.getElementById('catSearch').value=''; renderCatalog(); }
+/* ---------- Catálogo (vista general): categorías en cuadrícula + productos en cuadrícula ---------- */
+const ALL_CATEGORY = '__ALL__';
 function stockPills(stock){
   stock = stock || {almacen:0,playa:0,marianao:0};
   const pill=(lbl,n)=>`<span class="stock-pill ${n>0?'has':''}">${lbl}: ${n||0}</span>`;
   return `<div class="stockrow">${pill('Almacén',stock.almacen)}${pill('Playa',stock.playa)}${pill('Marianao',stock.marianao)}</div>`;
 }
+function setCat(c){ state.activeCat=c; document.getElementById('catSearch').value=''; renderCatalog(); }
+function backToCategories(){ state.activeCat=null; state.expandedProductId=null; document.getElementById('catSearch').value=''; renderCatalog(); }
 function renderCatalog(){
-  renderCatTabs();
   const q = (document.getElementById('catSearch')?.value || '').toLowerCase();
-  let items;
-  if(q){ items = state.catalog.filter(p=>p.name.toLowerCase().includes(q)); }
-  else { items = state.catalog.filter(p=>p.category===state.activeCat); }
-  document.getElementById('catList').innerHTML = items.map(p=>`
-    <div class="prod">
+  const box = document.getElementById('catList');
+
+  // Modo búsqueda: resultados en cuadrícula, sin importar la categoría.
+  if(q){
+    const items = state.catalog.filter(p=>p.name.toLowerCase().includes(q));
+    box.innerHTML = renderProductGrid(items);
+    return;
+  }
+
+  // Sin categoría elegida todavía: mostramos la cuadrícula de categorías (con "TODOS" primero).
+  if(!state.activeCat){
+    box.innerHTML = renderCategoryGrid();
+    return;
+  }
+
+  // Categoría (o "TODOS") seleccionada: volver + cuadrícula de productos de esa categoría.
+  const items = state.activeCat === ALL_CATEGORY
+    ? state.catalog
+    : state.catalog.filter(p=>p.category===state.activeCat);
+  const title = state.activeCat === ALL_CATEGORY ? 'TODOS' : state.activeCat;
+  box.innerHTML = `
+    <div class="cat-breadcrumb">
+      <button class="cat-back" onclick="backToCategories()">← Categorías</button>
+      <span class="cat-breadcrumb-title">${escapeHtml(title)}</span>
+    </div>
+    ${renderProductGrid(items)}`;
+}
+function renderCategoryGrid(){
+  const counts = {};
+  state.catalog.forEach(p=>{ counts[p.category] = (counts[p.category]||0) + 1; });
+  const allBox = `
+    <button class="cat-box cat-box-all" onclick="setCat('${ALL_CATEGORY}')">
+      <span class="cat-box-emoji">🗂️</span>
+      <span class="cat-box-name">TODOS</span>
+      <span class="cat-box-count">${state.catalog.length}</span>
+    </button>`;
+  const catBoxes = CATEGORIES.map(c=>`
+    <button class="cat-box" onclick="setCat('${c.replace(/'/g,"\\'")}')">
+      <span class="cat-box-name">${escapeHtml(c)}</span>
+      <span class="cat-box-count">${counts[c]||0}</span>
+    </button>`).join('');
+  return `<div class="cat-grid">${allBox}${catBoxes}</div>`;
+}
+function renderProductGrid(items){
+  if(!items.length) return '<div class="hint">No hay productos en esta categoría todavía.</div>';
+  return `<div class="prod-grid">${items.map(renderProductCard).join('')}</div>`;
+}
+function renderProductCard(p){
+  const expanded = state.expandedProductId === p.id;
+  if(!expanded){
+    return `
+    <div class="prod-card" onclick="toggleProductCard('${p.id}')">
+      <div class="prod-tile">
+        ${p.imageUrl
+          ? `<img class="prod-tile-img" src="${p.imageUrl}" loading="lazy" alt="${escapeHtml(p.name)}">`
+          : `<div class="prod-tile-img empty">📦</div>`}
+        <div class="prod-tile-name">${escapeHtml(p.name)}</div>
+        <div class="prod-tile-price">$${Number(p.price||0).toFixed(2)}</div>
+      </div>
+    </div>`;
+  }
+  const waHref = `https://wa.me/${getWaNumber()}?text=${encodeURIComponent('Tengo una duda acerca de tu producto '+(p.name||''))}`;
+  return `
+  <div class="prod-card expanded">
+    <div class="prod-card-head" onclick="toggleProductCard('${p.id}')">
       ${p.imageUrl
-        ? `<img class="thumb" src="${p.imageUrl}" loading="lazy" alt="${escapeHtml(p.name)}" onclick="openImgModal('${p.imageUrl.replace(/'/g,"\\'")}')">`
+        ? `<img class="thumb" src="${p.imageUrl}" loading="lazy" alt="${escapeHtml(p.name)}">`
         : `<div class="thumb empty">📦</div>`}
       <div class="info">
         <b>${escapeHtml(p.name)}</b>
-        ${p.description ? `<div class="pdesc-mini">${escapeHtml(p.description)}</div>` : ''}
         <span class="price">$${Number(p.price||0).toFixed(2)}</span>
-        ${stockPills(p.stock)}
       </div>
-    </div>`).join('') || '<div class="hint">No hay productos en esta categoría todavía.</div>';
+      <span class="chevron">▲</span>
+    </div>
+    <div class="prod-card-body">
+      ${p.imageUrl ? `
+      <div class="prod-img-wrap">
+        <img class="thumb-lg" src="${p.imageUrl}" alt="${escapeHtml(p.name)}" onclick="openImgModal('${p.imageUrl.replace(/'/g,"\\'")}')">
+        <button class="btn-download-img" title="Descargar foto" onclick="event.stopPropagation(); downloadProductImage('${p.imageUrl.replace(/'/g,"\\'")}','${(p.name||'producto').replace(/'/g,"\\'")}')">⬇️</button>
+      </div>` : ''}
+      ${p.description ? `<p class="pdesc-full">${escapeHtml(p.description)}</p>` : ''}
+      ${stockPills(p.stock)}
+      <div class="price-usd">💵 Precio: $${Number(p.price||0).toFixed(2)} USD</div>
+      <a class="btn-wa-product" href="${waHref}" target="_blank" rel="noopener" onclick="event.stopPropagation()">💬 Preguntar por WhatsApp</a>
+    </div>
+  </div>`;
+}
+function toggleProductCard(id){
+  state.expandedProductId = (state.expandedProductId === id) ? null : id;
+  renderCatalog();
+}
+
+/* ---------- Descarga de fotos sin salir de la app ----------
+   Un <a download> normal no funciona con imágenes de otro dominio (Cloudinary),
+   así que descargamos la imagen como Blob y disparamos la descarga desde ahí.
+   El <img> normal sigue permitiendo "mantener presionada" para el menú nativo
+   de guardar/copiar imagen del celular, como respaldo. */
+let currentImgModalUrl = null;
+async function downloadImageBlob(url, filename){
+  try{
+    const res = await fetch(url, {mode:'cors'});
+    if(!res.ok) throw new Error('No se pudo descargar la imagen');
+    const blob = await res.blob();
+    const blobUrl = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = blobUrl;
+    a.download = (filename || 'producto') + '.jpg';
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(()=>URL.revokeObjectURL(blobUrl), 4000);
+    showToast('⬇️ Descargando imagen…');
+  }catch(e){
+    // Si falla (por ejemplo CORS), abrimos la imagen aparte para que el gestor
+    // pueda guardarla manualmente manteniendo el dedo presionado sobre ella.
+    window.open(url, '_blank');
+    showToast('⚠️ No se pudo descargar directo, mantén presionada la imagen para guardarla.', true);
+  }
+}
+function downloadProductImage(url, name){
+  const safeName = (name||'producto').normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-zA-Z0-9\-_]+/g,'_').toLowerCase();
+  downloadImageBlob(url, safeName);
+}
+function downloadImageFromModal(){
+  if(currentImgModalUrl) downloadImageBlob(currentImgModalUrl, 'producto');
 }
 function openImgModal(url){
+  currentImgModalUrl = url;
   document.getElementById('imgModalPic').src = url;
-  document.getElementById('imgModalDownload').href = url;
   document.getElementById('imgModal').classList.remove('hidden');
 }
 function closeImgModal(){ document.getElementById('imgModal').classList.add('hidden'); }
+
 
 /* ---------- Historial + perfil (solo gestor) ---------- */
 function setHistFilter(f){
@@ -2451,7 +2706,13 @@ function escapeHtml(s){
 /* ---------- PWA ---------- */
 if('serviceWorker' in navigator){
   window.addEventListener('load', ()=>{
-    navigator.serviceWorker.register('service-worker.js').catch(()=>{});
+    navigator.serviceWorker.register('service-worker.js').then(reg=>{
+      // Revisa si hay una versión nueva del service worker cada vez que se abre la app
+      // y también periódicamente, para detectar actualizaciones aunque el usuario no
+      // cierre ni recargue la app manualmente.
+      reg.update().catch(()=>{});
+      setInterval(()=>reg.update().catch(()=>{}), 5 * 60 * 1000);
+    }).catch(()=>{});
   });
 }
 
@@ -2469,7 +2730,8 @@ Object.assign(window, {
   openStockModal, closeStockModal, saveStockModal, editComision,
   openGestorEditModal, closeGestorEditModal, saveGestorEdit,
   toggleOrderGroup, confirmOrder, cancelOrder, copyOrderTicket,
-  addBlacklist, removeBlacklist, saveAdminPassword, saveAdminWa
+  addBlacklist, removeBlacklist, saveAdminPassword, saveAdminWa,
+  applyAppUpdate, toggleProductCard, backToCategories, downloadProductImage, downloadImageFromModal
 });
 
 setVuelto(false);
