@@ -214,7 +214,9 @@ input.invalid, textarea.invalid{border-color:var(--danger) !important;box-shadow
   border-radius:50px;padding:14px;font-size:14px;font-weight:700;
   letter-spacing:.3px;box-shadow:0 6px 16px rgba(34,211,238,.32);
   transition:transform .1s ease;
+  display:flex;align-items:center;justify-content:center;gap:8px;
 }
+.btn-primary svg{width:17px;height:17px;flex:none;}
 .btn-primary:active{transform:scale(.95);filter:brightness(.94);}
 .btn-primary:disabled{opacity:.45;pointer-events:none;}
 .pm-img-preview{margin-top:8px;max-width:140px;max-height:140px;border-radius:8px;border:1px solid var(--line);object-fit:cover;display:none;}
@@ -224,11 +226,15 @@ input.invalid, textarea.invalid{border-color:var(--danger) !important;box-shadow
 .btn-secondary{
   width:100%;background:transparent;border:1px solid var(--line);color:var(--text);
   border-radius:8px;padding:12px;font-size:13px;font-weight:600;
+  display:flex;align-items:center;justify-content:center;gap:7px;
 }
+.btn-secondary svg{width:15px;height:15px;flex:none;}
 .btn-danger{
   background:transparent;border:1px solid var(--danger);color:var(--danger);
   border-radius:8px;padding:9px;font-size:12px;font-weight:600;
+  display:flex;align-items:center;justify-content:center;gap:6px;
 }
+.btn-danger svg{width:14px;height:14px;flex:none;}
 .btn-ghost{background:none;border:none;color:var(--cyan);font-size:13px;font-weight:600;padding:8px 0;}
 .btn-wa{
   width:100%;background:#1877F2;color:#fff;border:none;border-radius:8px;
@@ -546,6 +552,7 @@ html[data-theme="dark"] .prod-list .prod-card{background:var(--shop-bg);box-shad
 .avail-store-row{display:flex;align-items:center;justify-content:space-between;padding:11px 14px;border-bottom:1px solid var(--shop-border);}
 .avail-store-row:last-child{border-bottom:none;}
 .avail-store-name{font-size:13px;font-weight:600;color:var(--shop-text);display:flex;align-items:center;gap:6px;}
+.avail-store-name svg{width:14px;height:14px;flex:none;}
 .avail-store-qty{font-size:12px;color:var(--shop-muted);margin-right:10px;}
 .avail-store-right{display:flex;align-items:center;}
 .avail-pill{font-size:10.5px;font-weight:700;padding:4px 11px;border-radius:20px;white-space:nowrap;}
@@ -578,19 +585,23 @@ html[data-theme="dark"] .prod-list .prod-card{background:var(--shop-bg);box-shad
   background:rgba(10,26,46,.72);color:#fff;font-size:16px;
   display:flex;align-items:center;justify-content:center;
 }
+.btn-download-img svg{width:17px;height:17px;}
 .prod-card-body .pdesc-full{font-size:12.5px;color:var(--muted);line-height:1.5;margin:0 0 10px;}
 .prod-card-body .stockrow{display:flex;gap:6px;margin:0 0 10px;flex-wrap:wrap;}
 .prod-card-body .price-usd{
   font-family:'IBM Plex Mono',monospace;font-size:14px;color:var(--cyan);
   background:var(--surface);border:1px solid var(--line);border-radius:8px;
   padding:9px 12px;margin-bottom:12px;
+  display:flex;align-items:center;gap:8px;
 }
+.prod-card-body .price-usd svg{width:18px;height:18px;flex:none;}
 .btn-wa-product{
   display:flex;align-items:center;justify-content:center;gap:8px;
   background:#25D366;color:#052014;text-decoration:none;
   border-radius:50px;padding:13px;font-size:13.5px;font-weight:700;
   transition:transform .1s ease;
 }
+.btn-wa-product svg{width:17px;height:17px;flex:none;}
 .btn-wa-product:active{background:#1EB859;transform:scale(.95);}
 .prod .add{
   flex:none;width:32px;height:32px;border-radius:50%;background:var(--cyan);color:#052330;
@@ -634,10 +645,13 @@ html[data-theme="dark"] .prod-list .prod-card{background:var(--shop-bg);box-shad
 .order-card .actions{display:flex;gap:6px;margin-top:8px;}
 .order-card .actions button{flex:1;padding:8px;font-size:11px;}
 .hist-msg{font-size:11.5px;line-height:1.4;background:rgba(240,201,63,.12);color:#8a6b0e;border-radius:10px;padding:9px 11px;margin-top:8px;}
-.hist-commission{background:rgba(63,190,130,.12);border-radius:10px;padding:10px 11px;margin-top:8px;}
+.hist-commission{background:rgba(63,190,130,.12);border-radius:10px;padding:10px 11px;margin-top:8px;display:flex;align-items:center;gap:7px;flex-wrap:wrap;}
+.hist-commission svg{width:15px;height:15px;flex:none;}
 .hist-commission .amt-big{font-family:'IBM Plex Mono',monospace;font-size:16px;font-weight:700;color:var(--ok);}
-.hist-remind-btn{width:100%;margin-top:8px;background:#25D366;color:#fff;border:none;border-radius:10px;padding:9px;font-size:11.5px;font-weight:700;}
-.hist-cancel-reason{font-size:11.5px;line-height:1.4;background:rgba(240,85,74,.1);color:var(--danger);border-radius:10px;padding:9px 11px;margin-top:8px;}
+.hist-remind-btn{width:100%;margin-top:8px;background:#25D366;color:#fff;border:none;border-radius:10px;padding:9px;font-size:11.5px;font-weight:700;display:flex;align-items:center;justify-content:center;gap:6px;}
+.hist-remind-btn svg{width:14px;height:14px;flex:none;}
+.hist-cancel-reason{font-size:11.5px;line-height:1.4;background:rgba(240,85,74,.1);color:var(--danger);border-radius:10px;padding:9px 11px;margin-top:8px;display:flex;align-items:center;gap:7px;}
+.hist-cancel-reason svg{width:15px;height:15px;flex:none;}
 .hist-cancel-btn{width:100%;margin-top:8px;background:var(--surface-2);color:var(--danger);border:none;border-radius:10px;padding:9px;font-size:11.5px;font-weight:700;}
 .status{font-size:10px;padding:3px 8px;border-radius:10px;text-transform:uppercase;letter-spacing:.4px;}
 .status.pend{background:rgba(240,85,74,.15);color:var(--danger);}
@@ -699,7 +713,8 @@ html[data-theme="dark"] .prod-list .prod-card{background:var(--shop-bg);box-shad
 .wa-tab-card .icon{margin-bottom:14px;display:flex;justify-content:center;}
 .wa-tab-card .icon svg{width:52px;height:52px;color:var(--cyan-dim);}
 .wa-tab-card .btn-primary{max-width:280px;margin:16px auto 0;background:#25D366;color:#fff;}
-.wa-number-display{background:var(--surface-2);border:1px solid var(--line);border-radius:10px;padding:14px;font-family:'IBM Plex Mono',monospace;font-size:16px;font-weight:700;color:var(--text);margin-top:14px;}
+.wa-number-display{background:var(--surface-2);border:1px solid var(--line);border-radius:10px;padding:14px;font-family:'IBM Plex Mono',monospace;font-size:16px;font-weight:700;color:var(--text);margin-top:14px;display:flex;flex-direction:column;align-items:center;gap:8px;}
+.wa-number-display svg{width:44px;height:44px;color:var(--text);}
 .wa-warning{background:rgba(240,169,63,.15);border:1px solid var(--warn);color:var(--warn);border-radius:8px;padding:12px;font-size:12.5px;margin-top:14px;line-height:1.5;text-align:left;}
 
 /* ---------- Login screen (fondo océano) ---------- */
@@ -780,6 +795,7 @@ html[data-theme="dark"] .prod-list .prod-card{background:var(--shop-bg);box-shad
 .pcard .pinfo .pfoot .pstock{font-size:10px;color:var(--muted);}
 .pcard .pactions{display:flex;flex-direction:column;gap:5px;flex:none;justify-content:center;}
 .pcard .pactions button{width:34px;height:34px;border-radius:8px;border:1px solid var(--line);background:var(--surface);color:var(--text);font-size:14px;display:flex;align-items:center;justify-content:center;}
+.pcard .pactions button svg{width:16px;height:16px;}
 .pcard .pactions button.del{border-color:var(--danger);color:var(--danger);}
 
 .order-group{background:var(--surface);box-shadow:var(--shadow-sm);border-radius:var(--radius-sm);margin-bottom:10px;overflow:hidden;}
