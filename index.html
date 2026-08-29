@@ -91,6 +91,7 @@ header.top{
   border:none;color:var(--text);font-size:15px;
   display:flex;align-items:center;justify-content:center;
 }
+.theme-btn svg{width:18px;height:18px;}
 .who{
   font-size:11px;color:var(--muted);
   background:var(--surface-2);
@@ -157,7 +158,8 @@ html[data-theme="light"] .searchbar{background:var(--surface-2);}
   flex:1;background:none;border:none;color:var(--text);font-size:13px;font-family:inherit;padding:0;
 }
 .searchbar input:focus{outline:none;}
-.searchbar .ic{color:var(--muted);font-size:14px;}
+.searchbar .ic{color:var(--muted);font-size:14px;display:flex;align-items:center;}
+.searchbar .ic svg{width:16px;height:16px;}
 
 label{display:block;font-size:11px;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin-bottom:6px;}
 .field{margin-bottom:13px;}
@@ -284,6 +286,7 @@ nav.tabs button.active{color:var(--cyan-dim);background:rgba(34,211,238,.13);}
   border:none;box-shadow:0 6px 18px rgba(0,0,0,.35);font-size:22px;
   display:flex;align-items:center;justify-content:center;
 }
+.fab-new-vale svg{width:24px;height:24px;}
 .fab-new-vale:active{background:var(--cyan-dim);}
 
 /* ---------- Mejora 4: Indicador de no leído (Novedades) ---------- */
@@ -670,6 +673,7 @@ html[data-theme="dark"] .prod-list .prod-card{background:var(--shop-bg);box-shad
   flex:none;width:48px;background:#1877F2;color:#fff;border:none;border-radius:8px;
   display:flex;align-items:center;justify-content:center;font-size:18px;
 }
+.wa-help-btn svg{width:20px;height:20px;}
 .zone-list{max-height:50vh;overflow-y:auto;}
 .zone-item{
   padding:10px 4px;border-bottom:1px solid var(--line);
@@ -692,7 +696,8 @@ html[data-theme="dark"] .prod-list .prod-card{background:var(--shop-bg);box-shad
 .zone-selected-tag button{background:none;border:none;color:var(--danger);font-size:12px;font-weight:600;}
 
 .wa-tab-card{text-align:center;padding:30px 16px;}
-.wa-tab-card .icon{font-size:52px;margin-bottom:14px;}
+.wa-tab-card .icon{margin-bottom:14px;display:flex;justify-content:center;}
+.wa-tab-card .icon svg{width:52px;height:52px;color:var(--cyan-dim);}
 .wa-tab-card .btn-primary{max-width:280px;margin:16px auto 0;background:#25D366;color:#fff;}
 .wa-number-display{background:var(--surface-2);border:1px solid var(--line);border-radius:10px;padding:14px;font-family:'IBM Plex Mono',monospace;font-size:16px;font-weight:700;color:var(--text);margin-top:14px;}
 .wa-warning{background:rgba(240,169,63,.15);border:1px solid var(--warn);color:var(--warn);border-radius:8px;padding:12px;font-size:12.5px;margin-top:14px;line-height:1.5;text-align:left;}
@@ -737,7 +742,9 @@ html[data-theme="dark"] .prod-list .prod-card{background:var(--shop-bg);box-shad
 .pass-eye{
   position:absolute;right:6px;top:50%;transform:translateY(-50%);
   background:none;border:none;color:#BFE0EF;font-size:17px;padding:6px;
+  display:flex;align-items:center;justify-content:center;
 }
+.pass-eye svg{width:19px;height:19px;}
 .login-error{
   color:#FFB4AC;font-size:12px;text-align:center;margin:-4px 0 12px;min-height:0;
 }
@@ -754,8 +761,10 @@ html[data-theme="dark"] .prod-list .prod-card{background:var(--shop-bg);box-shad
 /* ---------- Fase 3: Admin Axontech style ---------- */
 :root{--warn:#F0A93F;}
 .admin-subtabs{display:flex;gap:6px;overflow-x:auto;padding-bottom:10px;margin-bottom:12px;-webkit-overflow-scrolling:touch;}
-.admin-subtabs button{flex:none;background:var(--surface-2);border:1px solid var(--line);color:var(--muted);border-radius:20px;padding:8px 14px;font-size:12px;white-space:nowrap;font-weight:600;}
+.admin-subtabs button{flex:none;background:var(--surface-2);border:1px solid var(--line);color:var(--muted);border-radius:20px;padding:8px 14px;font-size:12px;white-space:nowrap;font-weight:600;display:flex;align-items:center;gap:6px;}
 .admin-subtabs button.active{color:#052330;background:var(--cyan);border-color:var(--cyan);}
+.atab-ic{width:14px;height:14px;flex:none;display:inline-flex;}
+.atab-ic svg{width:100%;height:100%;}
 .admin-pane{display:none;}
 .admin-pane.active{display:block;}
 
