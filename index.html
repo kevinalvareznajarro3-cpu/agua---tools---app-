@@ -19,7 +19,7 @@
   --blue-dim:#0E4488;
   --danger:#F0554A;
   --ok:#3FBE82;
-  --radius:18px;
+  --radius:16px;
   --radius-sm:12px;
   --shadow-sm:0 1px 3px rgba(10,26,46,.06), 0 1px 2px rgba(10,26,46,.08);
   --shadow-md:0 8px 24px rgba(10,26,46,.08), 0 2px 6px rgba(10,26,46,.06);
@@ -46,6 +46,8 @@ html[data-theme="light"]{
 }
 *{box-sizing:border-box;}
 html{-webkit-tap-highlight-color:transparent;}
+/* Tamaño por defecto de SVG: evita el 300×150 nativo del navegador */
+svg{width:16px;height:16px;flex-shrink:0;display:block;}
 body{
   margin:0;
   background:var(--bg);
@@ -54,48 +56,61 @@ body{
   min-height:100vh;
   padding-bottom:88px;
   transition:background .2s,color .2s;
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
 }
-h1,h2,h3,.display{font-family:'Archivo Black',sans-serif;font-weight:400;letter-spacing:.3px;}
+h1,.display,.brand .name,.login-title{font-family:'Archivo Black',sans-serif;font-weight:400;letter-spacing:.2px;}
+h2,h3{font-family:'Work Sans',sans-serif;font-weight:700;letter-spacing:-.2px;}
 .mono{font-family:'IBM Plex Mono',monospace;}
 a{color:inherit;}
-button{font-family:inherit;cursor:pointer;transition:transform .1s ease;}
-button:active{transform:scale(.95);}
+button{font-family:inherit;cursor:pointer;transition:transform .12s ease,background .15s,box-shadow .15s,filter .15s;}
+button:active{transform:scale(.97);}
 img{max-width:100%;display:block;}
 :focus-visible{outline:2px solid var(--cyan);outline-offset:2px;}
 @media (prefers-reduced-motion: reduce){*{animation:none !important;transition:none !important;}}
+@media (hover:hover){
+  .cat-box:hover{transform:translateY(-1px);box-shadow:var(--shadow-md);}
+  .btn-primary:hover{filter:brightness(1.06);}
+  .catalog-btn:hover{filter:brightness(1.05);}
+  .admin-tab-btn:hover,.cat-tabs button:hover,.filter-cat-chip:hover{filter:brightness(1.06);}
+}
 
 .hazard{display:none;}
 
 header.top{
   position:sticky;top:0;z-index:20;
-  background:var(--surface);
-  border-bottom:none;
-  box-shadow:var(--shadow-sm);
-  padding:14px 16px;
+  background:color-mix(in srgb, var(--surface) 88%, transparent);
+  backdrop-filter:blur(16px) saturate(1.2);
+  -webkit-backdrop-filter:blur(16px) saturate(1.2);
+  border-bottom:1px solid var(--line);
+  box-shadow:none;
+  padding:10px 16px;
   display:flex;align-items:center;justify-content:space-between;gap:8px;
 }
-.brand{display:flex;align-items:center;gap:10px;min-width:0;}
+.brand{display:flex;align-items:center;gap:9px;min-width:0;}
 .brand .mark{
-  width:38px;height:38px;border-radius:12px;flex:none;overflow:hidden;
+  width:32px;height:32px;border-radius:9px;flex:none;overflow:hidden;
   background:linear-gradient(135deg,var(--blue),var(--cyan));
-  display:flex;align-items:center;justify-content:center;font-size:17px;
-  box-shadow:0 4px 10px rgba(21,96,189,.28);
+  display:flex;align-items:center;justify-content:center;font-size:15px;
+  box-shadow:0 2px 8px rgba(21,96,189,.28);
 }
 .brand .mark img{width:100%;height:100%;object-fit:cover;}
-.brand .mark svg{width:20px;height:20px;color:#fff;}
-.brand .name{font-size:14px;line-height:1.15;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:700;}
-.brand .name small{display:block;color:var(--muted);font-size:9px;letter-spacing:1.4px;text-transform:uppercase;margin-top:2px;font-weight:500;}
+.brand .mark svg{width:16px;height:16px;color:#fff;}
+.brand .name{font-size:13.5px;line-height:1.15;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:700;}
+.brand .name small{display:block;color:var(--muted);font-size:8.5px;letter-spacing:1.3px;text-transform:uppercase;margin-top:2px;font-weight:600;font-family:'Work Sans',sans-serif;}
 .hdr-actions{display:flex;align-items:center;gap:6px;flex:none;}
 .theme-btn{
-  width:36px;height:36px;border-radius:50%;background:var(--surface-2);
-  border:none;color:var(--text);font-size:15px;
+  width:32px;height:32px;border-radius:50%;background:var(--surface-2);
+  border:1px solid var(--line);color:var(--text);font-size:14px;
   display:flex;align-items:center;justify-content:center;
 }
+.theme-btn svg{width:15px;height:15px;}
 .who{
   font-size:11px;color:var(--muted);
   background:var(--surface-2);
-  border:none;
-  padding:5px 10px 5px 5px;border-radius:20px;
+  border:1px solid var(--line);
+  padding:4px 10px 4px 4px;border-radius:20px;
   display:flex;align-items:center;gap:6px;max-width:150px;
 }
 .who .av{width:22px;height:22px;border-radius:50%;object-fit:cover;flex:none;background:var(--blue-dim);}
@@ -123,27 +138,27 @@ header.top{
   50%{opacity:.82;}
 }
 
-main{max-width:680px;margin:0 auto;padding:16px;position:relative;}
+main{max-width:680px;margin:0 auto;padding:14px 16px;position:relative;}
 main.swiping{overflow:hidden;}
 
 .card{
   background:var(--surface);
-  border:none;
-  box-shadow:var(--shadow-md);
-  border-radius:var(--radius);
-  padding:18px;
-  margin-bottom:16px;
+  border:1px solid var(--line);
+  box-shadow:var(--shadow-sm);
+  border-radius:16px;
+  padding:16px;
+  margin-bottom:14px;
 }
-.card h2{font-size:15px;margin:0 0 4px;font-weight:700;display:flex;align-items:center;gap:7px;}
-.h-ic{width:16px;height:16px;flex:none;color:var(--cyan-dim);display:inline-flex;}
+.card h2{font-size:14px;margin:0 0 4px;font-weight:700;display:flex;align-items:center;gap:7px;}
+.h-ic{width:15px;height:15px;flex:none;color:var(--cyan-dim);display:inline-flex;}
 .h-ic svg{width:100%;height:100%;}
-.lbl-ic{width:13px;height:13px;flex:none;display:inline-flex;margin-right:5px;vertical-align:-2px;color:var(--muted);}
+.lbl-ic{width:12px;height:12px;flex:none;display:inline-flex;margin-right:5px;vertical-align:-2px;color:var(--muted);}
 .lbl-ic svg{width:100%;height:100%;}
-.btn-ic{width:15px;height:15px;flex:none;display:inline-flex;margin-right:6px;vertical-align:-3px;}
+.btn-ic{width:14px;height:14px;flex:none;display:inline-flex;margin-right:6px;vertical-align:-2px;}
 .btn-ic svg{width:100%;height:100%;}
-.ic-inline{width:13px;height:13px;flex:none;display:inline-flex;margin-right:4px;vertical-align:-2px;}
+.ic-inline{width:12px;height:12px;flex:none;display:inline-flex;margin-right:4px;vertical-align:-2px;}
 .ic-inline svg{width:100%;height:100%;}
-.card .sub{color:var(--muted);font-size:12px;margin-bottom:14px;}
+.card .sub{color:var(--muted);font-size:12px;margin-bottom:12px;}
 
 .searchbar{
   display:flex;align-items:center;gap:8px;
@@ -157,13 +172,15 @@ html[data-theme="light"] .searchbar{background:var(--surface-2);}
   flex:1;background:none;border:none;color:var(--text);font-size:13px;font-family:inherit;padding:0;
 }
 .searchbar input:focus{outline:none;}
-.searchbar .ic{color:var(--muted);font-size:14px;}
+.searchbar .ic{color:var(--muted);font-size:14px;display:flex;align-items:center;}
+.searchbar .ic svg{width:15px;height:15px;}
 
-label{display:block;font-size:11px;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin-bottom:6px;}
-.field{margin-bottom:13px;}
+label{display:block;font-size:10.5px;text-transform:uppercase;letter-spacing:.9px;color:var(--muted);margin-bottom:6px;font-weight:600;}
+.field{margin-bottom:12px;}
 input[type=text],input[type=number],input[type=password],input[type=date],input[type=time],input[type=file],select,textarea{
   width:100%;background:var(--surface-2);border:1px solid var(--line);
-  color:var(--text);border-radius:8px;padding:11px 12px;font-size:14px;font-family:inherit;
+  color:var(--text);border-radius:10px;padding:11px 12px;font-size:14px;font-family:inherit;
+  transition:border-color .15s,box-shadow .15s;
 }
 textarea{resize:vertical;min-height:70px;}
 input:focus,select:focus,textarea:focus{border-color:var(--cyan);}
@@ -173,7 +190,7 @@ input.invalid, textarea.invalid{border-color:var(--danger) !important;box-shadow
 .hint{font-size:11px;color:var(--muted);margin-top:5px;}
 .vale-head{
   background:linear-gradient(135deg,var(--blue-dim),var(--blue));
-  color:#fff;border-radius:8px;padding:12px 14px;margin-bottom:14px;
+  color:#fff;border-radius:14px;padding:12px 14px;margin-bottom:14px;
   font-size:13px;
 }
 .vale-head b{display:block;font-size:15px;margin-bottom:2px;}
@@ -187,9 +204,9 @@ input.invalid, textarea.invalid{border-color:var(--danger) !important;box-shadow
 
 .catalog-btn{
   width:100%;background:linear-gradient(135deg,var(--blue-dim),var(--cyan-dim));border:none;
-  color:#fff;border-radius:var(--radius-sm);padding:15px;font-size:14px;font-weight:700;
+  color:#fff;border-radius:12px;padding:13px;font-size:13.5px;font-weight:700;
   display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:10px;
-  box-shadow:0 6px 16px rgba(11,165,196,.28);
+  box-shadow:0 4px 12px rgba(11,165,196,.22);
 }
 .or-divider{display:flex;align-items:center;gap:10px;color:var(--muted);font-size:11px;margin:10px 0;}
 .or-divider::before,.or-divider::after{content:'';flex:1;height:1px;background:var(--line);}
@@ -209,10 +226,12 @@ input.invalid, textarea.invalid{border-color:var(--danger) !important;box-shadow
 
 .btn-primary{
   width:100%;background:linear-gradient(135deg,var(--cyan),var(--blue));color:#052330;border:none;
-  border-radius:50px;padding:14px;font-size:14px;font-weight:700;
-  letter-spacing:.3px;box-shadow:0 6px 16px rgba(34,211,238,.32);
-  transition:transform .1s ease;
+  border-radius:14px;padding:13px;font-size:14px;font-weight:700;
+  letter-spacing:.2px;box-shadow:0 4px 14px rgba(34,211,238,.28);
+  transition:transform .12s ease,filter .15s;
+  display:flex;align-items:center;justify-content:center;gap:8px;
 }
+.btn-primary svg{width:15px;height:15px;flex:none;}
 .btn-primary:active{transform:scale(.95);filter:brightness(.94);}
 .btn-primary:disabled{opacity:.45;pointer-events:none;}
 .pm-img-preview{margin-top:8px;max-width:140px;max-height:140px;border-radius:8px;border:1px solid var(--line);object-fit:cover;display:none;}
@@ -222,11 +241,15 @@ input.invalid, textarea.invalid{border-color:var(--danger) !important;box-shadow
 .btn-secondary{
   width:100%;background:transparent;border:1px solid var(--line);color:var(--text);
   border-radius:8px;padding:12px;font-size:13px;font-weight:600;
+  display:flex;align-items:center;justify-content:center;gap:7px;
 }
+.btn-secondary svg{width:14px;height:14px;flex:none;}
 .btn-danger{
   background:transparent;border:1px solid var(--danger);color:var(--danger);
   border-radius:8px;padding:9px;font-size:12px;font-weight:600;
+  display:flex;align-items:center;justify-content:center;gap:6px;
 }
+.btn-danger svg{width:13px;height:13px;flex:none;}
 .btn-ghost{background:none;border:none;color:var(--cyan);font-size:13px;font-weight:600;padding:8px 0;}
 .btn-wa{
   width:100%;background:#1877F2;color:#fff;border:none;border-radius:8px;
@@ -238,11 +261,14 @@ input.invalid, textarea.invalid{border-color:var(--danger) !important;box-shadow
 
 nav.tabs{
   position:fixed;left:12px;right:12px;bottom:calc(10px + env(safe-area-inset-bottom));z-index:20;
-  background:var(--surface);border-top:none;
-  border-radius:22px;
+  background:color-mix(in srgb, var(--surface) 92%, transparent);
+  backdrop-filter:blur(16px) saturate(1.15);
+  -webkit-backdrop-filter:blur(16px) saturate(1.15);
+  border:1px solid var(--line);
+  border-radius:20px;
   box-shadow:var(--shadow-lg);
   display:flex;
-  padding:6px;
+  padding:5px;
   max-width:656px;margin:0 auto;
 }
 nav.tabs button{
@@ -252,8 +278,8 @@ nav.tabs button{
   border-radius:16px;font-weight:600;
   transition:background .15s,color .15s;
 }
-nav.tabs button .ic{font-size:18px;display:flex;align-items:center;justify-content:center;}
-nav.tabs button .ic svg{width:19px;height:19px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;}
+nav.tabs button .ic{font-size:16px;display:flex;align-items:center;justify-content:center;width:18px;height:18px;}
+nav.tabs button .ic svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;}
 nav.tabs button.active{color:var(--cyan-dim);background:rgba(34,211,238,.13);}
 
 .hidden{display:none !important;}
@@ -280,10 +306,11 @@ nav.tabs button.active{color:var(--cyan-dim);background:rgba(34,211,238,.13);}
 /* ---------- Mejora 3: Botón flotante "Nuevo Vale" ---------- */
 .fab-new-vale{
   position:fixed;right:16px;bottom:calc(74px + env(safe-area-inset-bottom) + 14px);z-index:21;
-  width:54px;height:54px;border-radius:50%;background:var(--cyan);color:#052330;
-  border:none;box-shadow:0 6px 18px rgba(0,0,0,.35);font-size:22px;
+  width:48px;height:48px;border-radius:50%;background:var(--cyan);color:#052330;
+  border:none;box-shadow:0 6px 16px rgba(0,0,0,.32);font-size:20px;
   display:flex;align-items:center;justify-content:center;
 }
+.fab-new-vale svg{width:20px;height:20px;}
 .fab-new-vale:active{background:var(--cyan-dim);}
 
 /* ---------- Mejora 4: Indicador de no leído (Novedades) ---------- */
@@ -330,7 +357,7 @@ nav.tabs button.active{color:var(--cyan-dim);background:rgba(34,211,238,.13);}
   padding:20px 18px 26px;
 }
 .modal-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;}
-.modal-head h3{margin:0;font-size:15px;}
+.modal-head h3{margin:0;font-size:15px;display:flex;align-items:center;gap:7px;}
 .modal-head button{background:none;border:none;color:var(--muted);font-size:20px;}
 
 .modal-full{align-items:stretch;}
@@ -365,7 +392,7 @@ html[data-theme="light"] .cat-tabs button{background:var(--surface-2);}
   background:var(--surface);border:none;cursor:pointer;
 }
 .prod .thumb.empty{display:flex;align-items:center;justify-content:center;font-size:18px;color:var(--muted);}
-.thumb.empty svg,.prod-tile-img.empty svg,.prod-list-thumb.empty svg,.pthumb.empty svg{width:22px;height:22px;}
+.thumb.empty svg,.prod-tile-img.empty svg,.prod-list-thumb.empty svg,.pthumb.empty svg{width:18px;height:18px;}
 .prod .info{flex:1;min-width:0;}
 .prod .info b{font-size:13px;display:block;}
 .prod .info .pdesc-mini{font-size:10.5px;color:var(--muted);line-height:1.35;margin:2px 0 3px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
@@ -379,14 +406,14 @@ html[data-theme="light"] .cat-tabs button{background:var(--surface-2);}
   display:grid;grid-template-columns:1fr 1fr;gap:12px;
 }
 .cat-box{
-  background:var(--surface);border:none;border-radius:var(--radius-sm);
-  padding:20px 12px;min-height:88px;box-shadow:var(--shadow-sm);
-  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;
+  background:var(--surface);border:1px solid var(--line);border-radius:14px;
+  padding:16px 10px;min-height:78px;box-shadow:var(--shadow-sm);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;
   text-align:center;color:var(--text);transition:transform .12s,box-shadow .12s;
 }
 .cat-box:active{transform:scale(.97);box-shadow:var(--shadow-sm);}
-.cat-box-all{background:linear-gradient(135deg,var(--blue-dim),var(--cyan-dim));border-color:transparent;color:#fff;box-shadow:0 8px 20px rgba(11,165,196,.3);}
-.cat-box-icon{width:24px;height:24px;color:var(--cyan-dim);}
+.cat-box-all{background:linear-gradient(135deg,var(--blue-dim),var(--cyan-dim));border-color:transparent;color:#fff;box-shadow:0 6px 16px rgba(11,165,196,.28);}
+.cat-box-icon{width:20px;height:20px;color:var(--cyan-dim);}
 .cat-box-icon svg{width:100%;height:100%;}
 .cat-box-all .cat-box-icon{color:#fff;}
 .cat-box-name{font-size:12.5px;font-weight:700;line-height:1.25;}
@@ -457,7 +484,7 @@ html[data-theme="light"] .prod-card,html[data-theme="light"] .pcard,html[data-th
 .stock-badge.has{background:var(--avail-ok-bg);color:var(--avail-ok-text);}
 .stock-badge.out{background:var(--avail-out-bg);color:var(--avail-out-text);}
 /* ---------- Puntos de estado (reemplazo de 🟢🟡🟠🔴🔵) ---------- */
-.status-dot{width:9px;height:9px;display:inline-flex;flex:none;margin-right:2px;vertical-align:-1px;}
+.status-dot{width:8px;height:8px;display:inline-flex;flex:none;margin-right:3px;vertical-align:0;}
 .status-dot svg{width:100%;height:100%;}
 .sd-green{color:var(--avail-ok-text);}
 .sd-yellow{color:var(--avail-low-text);}
@@ -497,7 +524,7 @@ html[data-theme="dark"] .prod-list .prod-card{background:var(--shop-bg);box-shad
   display:flex;align-items:center;gap:7px;background:var(--surface-2);border:1px solid var(--line);
   color:var(--text);border-radius:50px;padding:9px 14px;font-size:12.5px;font-weight:700;flex:none;
 }
-.filter-open-btn svg{width:15px;height:15px;flex:none;}
+.filter-open-btn svg{width:14px;height:14px;flex:none;}
 .filter-open-btn .filter-count{
   min-width:16px;height:16px;padding:0 4px;border-radius:8px;background:var(--cyan);color:#052330;
   font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center;
@@ -507,7 +534,7 @@ html[data-theme="dark"] .prod-list .prod-card{background:var(--shop-bg);box-shad
   width:34px;height:34px;border-radius:9px;background:var(--surface-2);border:1px solid var(--line);
   color:var(--muted);font-size:15px;display:flex;align-items:center;justify-content:center;
 }
-.view-toggle-btn svg{width:17px;height:17px;}
+.view-toggle-btn svg{width:15px;height:15px;}
 .view-toggle-btn.active{background:var(--cyan);color:#052330;border-color:var(--cyan);}
 
 /* ---------- Hoja de filtros del catálogo (gestor) ---------- */
@@ -518,7 +545,7 @@ html[data-theme="dark"] .prod-list .prod-card{background:var(--shop-bg);box-shad
   flex:none;display:flex;align-items:center;gap:6px;background:var(--surface-2);border:1px solid var(--line);color:var(--text);
   border-radius:50px;padding:8px 13px;font-size:12px;white-space:nowrap;font-weight:600;
 }
-.chip-ic{width:14px;height:14px;flex:none;display:flex;}
+.chip-ic{width:13px;height:13px;flex:none;display:flex;}
 .chip-ic svg{width:100%;height:100%;}
 .filter-cat-chip.active{color:#052330;background:var(--cyan);border-color:var(--cyan);}
 .filter-pay-badges{display:flex;flex-wrap:wrap;gap:8px;}
@@ -543,6 +570,7 @@ html[data-theme="dark"] .prod-list .prod-card{background:var(--shop-bg);box-shad
 .avail-store-row{display:flex;align-items:center;justify-content:space-between;padding:11px 14px;border-bottom:1px solid var(--shop-border);}
 .avail-store-row:last-child{border-bottom:none;}
 .avail-store-name{font-size:13px;font-weight:600;color:var(--shop-text);display:flex;align-items:center;gap:6px;}
+.avail-store-name svg{width:13px;height:13px;flex:none;}
 .avail-store-qty{font-size:12px;color:var(--shop-muted);margin-right:10px;}
 .avail-store-right{display:flex;align-items:center;}
 .avail-pill{font-size:10.5px;font-weight:700;padding:4px 11px;border-radius:20px;white-space:nowrap;}
@@ -567,27 +595,32 @@ html[data-theme="dark"] .prod-list .prod-card{background:var(--shop-bg);box-shad
 }
 .thumb-lg-empty{
   width:100%;height:160px;border-radius:10px;background:var(--surface-2);
-  display:flex;align-items:center;justify-content:center;font-size:32px;color:var(--muted);
+  display:flex;align-items:center;justify-content:center;font-size:22px;color:var(--muted);
 }
+.thumb-lg-empty svg{width:28px;height:28px;}
 .btn-download-img{
   position:absolute;bottom:10px;right:10px;
   width:38px;height:38px;border-radius:50%;border:none;
   background:rgba(10,26,46,.72);color:#fff;font-size:16px;
   display:flex;align-items:center;justify-content:center;
 }
+.btn-download-img svg{width:15px;height:15px;}
 .prod-card-body .pdesc-full{font-size:12.5px;color:var(--muted);line-height:1.5;margin:0 0 10px;}
 .prod-card-body .stockrow{display:flex;gap:6px;margin:0 0 10px;flex-wrap:wrap;}
 .prod-card-body .price-usd{
   font-family:'IBM Plex Mono',monospace;font-size:14px;color:var(--cyan);
   background:var(--surface);border:1px solid var(--line);border-radius:8px;
   padding:9px 12px;margin-bottom:12px;
+  display:flex;align-items:center;gap:8px;
 }
+.prod-card-body .price-usd svg{width:15px;height:15px;flex:none;}
 .btn-wa-product{
   display:flex;align-items:center;justify-content:center;gap:8px;
   background:#25D366;color:#052014;text-decoration:none;
   border-radius:50px;padding:13px;font-size:13.5px;font-weight:700;
   transition:transform .1s ease;
 }
+.btn-wa-product svg{width:15px;height:15px;flex:none;}
 .btn-wa-product:active{background:#1EB859;transform:scale(.95);}
 .prod .add{
   flex:none;width:32px;height:32px;border-radius:50%;background:var(--cyan);color:#052330;
@@ -602,7 +635,7 @@ html[data-theme="dark"] .prod-list .prod-card{background:var(--shop-bg);box-shad
 .qty-counter .n{width:20px;text-align:center;font-size:13px;font-weight:700;font-family:'IBM Plex Mono',monospace;}
 
 .stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;}
-.stat-card{background:var(--surface);box-shadow:var(--shadow-sm);border-radius:var(--radius-sm);padding:14px;}
+.stat-card{background:var(--surface);box-shadow:var(--shadow-sm);border:1px solid var(--line);border-radius:14px;padding:14px;border-left:3px solid var(--cyan-dim);}
 .stat-card .lbl{font-size:10px;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);}
 .stat-card .val{font-family:'IBM Plex Mono',monospace;font-size:19px;color:var(--cyan-dim);margin-top:4px;font-weight:700;}
 .top-gestores{background:var(--surface);box-shadow:var(--shadow-sm);border-radius:var(--radius-sm);padding:14px;margin-bottom:14px;}
@@ -631,10 +664,13 @@ html[data-theme="dark"] .prod-list .prod-card{background:var(--shop-bg);box-shad
 .order-card .actions{display:flex;gap:6px;margin-top:8px;}
 .order-card .actions button{flex:1;padding:8px;font-size:11px;}
 .hist-msg{font-size:11.5px;line-height:1.4;background:rgba(240,201,63,.12);color:#8a6b0e;border-radius:10px;padding:9px 11px;margin-top:8px;}
-.hist-commission{background:rgba(63,190,130,.12);border-radius:10px;padding:10px 11px;margin-top:8px;}
+.hist-commission{background:rgba(63,190,130,.12);border-radius:10px;padding:10px 11px;margin-top:8px;display:flex;align-items:center;gap:7px;flex-wrap:wrap;}
+.hist-commission svg{width:14px;height:14px;flex:none;}
 .hist-commission .amt-big{font-family:'IBM Plex Mono',monospace;font-size:16px;font-weight:700;color:var(--ok);}
-.hist-remind-btn{width:100%;margin-top:8px;background:#25D366;color:#fff;border:none;border-radius:10px;padding:9px;font-size:11.5px;font-weight:700;}
-.hist-cancel-reason{font-size:11.5px;line-height:1.4;background:rgba(240,85,74,.1);color:var(--danger);border-radius:10px;padding:9px 11px;margin-top:8px;}
+.hist-remind-btn{width:100%;margin-top:8px;background:#25D366;color:#fff;border:none;border-radius:10px;padding:9px;font-size:11.5px;font-weight:700;display:flex;align-items:center;justify-content:center;gap:6px;}
+.hist-remind-btn svg{width:13px;height:13px;flex:none;}
+.hist-cancel-reason{font-size:11.5px;line-height:1.4;background:rgba(240,85,74,.1);color:var(--danger);border-radius:10px;padding:9px 11px;margin-top:8px;display:flex;align-items:center;gap:7px;}
+.hist-cancel-reason svg{width:14px;height:14px;flex:none;}
 .hist-cancel-btn{width:100%;margin-top:8px;background:var(--surface-2);color:var(--danger);border:none;border-radius:10px;padding:9px;font-size:11.5px;font-weight:700;}
 .status{font-size:10px;padding:3px 8px;border-radius:10px;text-transform:uppercase;letter-spacing:.4px;}
 .status.pend{background:rgba(240,85,74,.15);color:var(--danger);}
@@ -670,6 +706,7 @@ html[data-theme="dark"] .prod-list .prod-card{background:var(--shop-bg);box-shad
   flex:none;width:48px;background:#1877F2;color:#fff;border:none;border-radius:8px;
   display:flex;align-items:center;justify-content:center;font-size:18px;
 }
+.wa-help-btn svg{width:16px;height:16px;}
 .zone-list{max-height:50vh;overflow-y:auto;}
 .zone-item{
   padding:10px 4px;border-bottom:1px solid var(--line);
@@ -691,15 +728,18 @@ html[data-theme="dark"] .prod-list .prod-card{background:var(--shop-bg);box-shad
 }
 .zone-selected-tag button{background:none;border:none;color:var(--danger);font-size:12px;font-weight:600;}
 
-.wa-tab-card{text-align:center;padding:30px 16px;}
-.wa-tab-card .icon{font-size:52px;margin-bottom:14px;}
+.wa-tab-card{text-align:center;padding:22px 16px;}
+.wa-tab-card .icon{margin-bottom:10px;display:flex;justify-content:center;}
+.wa-tab-card .icon svg{width:28px;height:28px;color:var(--cyan-dim);}
 .wa-tab-card .btn-primary{max-width:280px;margin:16px auto 0;background:#25D366;color:#fff;}
-.wa-number-display{background:var(--surface-2);border:1px solid var(--line);border-radius:10px;padding:14px;font-family:'IBM Plex Mono',monospace;font-size:16px;font-weight:700;color:var(--text);margin-top:14px;}
+.wa-number-display{background:var(--surface-2);border:1px solid var(--line);border-radius:12px;padding:12px 14px;font-family:'IBM Plex Mono',monospace;font-size:15px;font-weight:700;color:var(--text);margin-top:14px;display:flex;flex-direction:row;align-items:center;justify-content:center;gap:8px;}
+.wa-number-display svg{width:16px;height:16px;color:var(--cyan-dim);}
 .wa-warning{background:rgba(240,169,63,.15);border:1px solid var(--warn);color:var(--warn);border-radius:8px;padding:12px;font-size:12.5px;margin-top:14px;line-height:1.5;text-align:left;}
 
 /* ---------- Login screen (fondo océano) ---------- */
 #view-login{
   position:fixed;inset:0;z-index:30;
+  background-color:#071422;
   background-image:url('fondo-oceano.jpg');
   background-size:cover;
   background-position:center;
@@ -717,13 +757,13 @@ html[data-theme="dark"] .prod-list .prod-card{background:var(--shop-bg);box-shad
   background:rgba(15,36,64,.62);
   backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
   border:1px solid rgba(255,255,255,.18);
-  border-radius:18px;padding:30px 24px 26px;
+  border-radius:20px;padding:28px 22px 24px;
   box-shadow:0 20px 60px rgba(0,0,0,.4);
   color:#F2F7FC;
 }
-.login-title{font-family:'Archivo Black',sans-serif;font-size:24px;text-align:center;line-height:1.25;margin-bottom:8px;
+.login-title{font-family:'Archivo Black',sans-serif;font-size:22px;text-align:center;line-height:1.25;margin-bottom:8px;
   text-shadow:0 2px 12px rgba(0,0,0,.4);}
-.login-sub{text-align:center;font-size:12.5px;color:#BFE0EF;margin-bottom:24px;letter-spacing:.2px;}
+.login-sub{text-align:center;font-size:12.5px;color:#BFE0EF;margin-bottom:22px;letter-spacing:.2px;}
 .login-field{margin-bottom:14px;}
 .login-field label{color:#BFE0EF;font-size:10.5px;}
 .login-field input{
@@ -737,13 +777,15 @@ html[data-theme="dark"] .prod-list .prod-card{background:var(--shop-bg);box-shad
 .pass-eye{
   position:absolute;right:6px;top:50%;transform:translateY(-50%);
   background:none;border:none;color:#BFE0EF;font-size:17px;padding:6px;
+  display:flex;align-items:center;justify-content:center;
 }
+.pass-eye svg{width:16px;height:16px;}
 .login-error{
   color:#FFB4AC;font-size:12px;text-align:center;margin:-4px 0 12px;min-height:0;
 }
 .login-btn{
-  width:100%;background:var(--cyan);color:#052330;border:none;border-radius:9px;
-  padding:14px;font-size:14px;font-weight:700;letter-spacing:.3px;
+  width:100%;background:var(--cyan);color:#052330;border:none;border-radius:12px;
+  padding:13px;font-size:14px;font-weight:700;letter-spacing:.2px;
 }
 .login-btn:disabled{opacity:.5;}
 .login-forgot{
@@ -754,14 +796,16 @@ html[data-theme="dark"] .prod-list .prod-card{background:var(--shop-bg);box-shad
 /* ---------- Fase 3: Admin Axontech style ---------- */
 :root{--warn:#F0A93F;}
 .admin-subtabs{display:flex;gap:6px;overflow-x:auto;padding-bottom:10px;margin-bottom:12px;-webkit-overflow-scrolling:touch;}
-.admin-subtabs button{flex:none;background:var(--surface-2);border:1px solid var(--line);color:var(--muted);border-radius:20px;padding:8px 14px;font-size:12px;white-space:nowrap;font-weight:600;}
+.admin-subtabs button{flex:none;background:var(--surface-2);border:1px solid var(--line);color:var(--muted);border-radius:20px;padding:8px 14px;font-size:12px;white-space:nowrap;font-weight:600;display:flex;align-items:center;gap:6px;}
 .admin-subtabs button.active{color:#052330;background:var(--cyan);border-color:var(--cyan);}
+.atab-ic{width:13px;height:13px;flex:none;display:inline-flex;}
+.atab-ic svg{width:100%;height:100%;}
 .admin-pane{display:none;}
 .admin-pane.active{display:block;}
 
 .pcard{display:flex;gap:10px;background:var(--surface);box-shadow:var(--shadow-sm);border-radius:18px;padding:18px;margin-bottom:10px;}
 .pcard .pthumb{width:64px;height:64px;border-radius:9px;object-fit:cover;flex:none;background:var(--surface);border:1px solid var(--line);}
-.pcard .pthumb.empty{display:flex;align-items:center;justify-content:center;font-size:22px;color:var(--muted);}
+.pcard .pthumb.empty{display:flex;align-items:center;justify-content:center;font-size:18px;color:var(--muted);}
 .pcard .pinfo{flex:1;min-width:0;}
 .pcard .pinfo .pname{font-size:13.5px;font-weight:700;display:block;}
 .pcard .pinfo .ppill{display:inline-block;font-size:10px;background:var(--surface);border:1px solid var(--line);color:var(--muted);border-radius:10px;padding:2px 8px;margin:4px 0;}
@@ -771,6 +815,7 @@ html[data-theme="dark"] .prod-list .prod-card{background:var(--shop-bg);box-shad
 .pcard .pinfo .pfoot .pstock{font-size:10px;color:var(--muted);}
 .pcard .pactions{display:flex;flex-direction:column;gap:5px;flex:none;justify-content:center;}
 .pcard .pactions button{width:34px;height:34px;border-radius:8px;border:1px solid var(--line);background:var(--surface);color:var(--text);font-size:14px;display:flex;align-items:center;justify-content:center;}
+.pcard .pactions button svg{width:14px;height:14px;}
 .pcard .pactions button.del{border-color:var(--danger);color:var(--danger);}
 
 .order-group{background:var(--surface);box-shadow:var(--shadow-sm);border-radius:var(--radius-sm);margin-bottom:10px;overflow:hidden;}
@@ -803,411 +848,6 @@ html[data-theme="dark"] .prod-list .prod-card{background:var(--shop-bg);box-shad
 .btn-danger-solid{width:100%;background:var(--danger);color:#fff;border:none;border-radius:8px;padding:13px;font-size:13.5px;font-weight:700;}
 
 .blacklist-alert{background:rgba(240,85,74,.15);border:1.5px solid var(--danger);color:var(--danger);border-radius:8px;padding:12px;font-size:13px;font-weight:700;text-align:center;margin-bottom:12px;line-height:1.4;}
-
-/* ========== PREMIUM POLISH + ICON SIZE LOCK (visual only) ========== */
-html{ -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale; text-rendering:optimizeLegibility; }
-body{
-  font-feature-settings:"ss01","kern";
-  letter-spacing:.01em;
-  overflow-x:hidden;
-}
-
-/* --- Icon lock: unsized SVGs default to 300×150 in browsers --- */
-svg{
-  width:16px;
-  height:16px;
-  flex-shrink:0;
-  overflow:visible;
-  vertical-align:-0.2em;
-}
-.h-ic,.h-ic svg{ width:16px; height:16px; }
-.lbl-ic,.lbl-ic svg,
-.ic-inline,.ic-inline svg{ width:13px; height:13px; }
-.btn-ic,.btn-ic svg{ width:15px; height:15px; }
-.atab-ic{
-  width:14px; height:14px;
-  display:inline-flex; align-items:center; justify-content:center;
-  margin-right:6px; flex:none;
-}
-.atab-ic svg{ width:14px; height:14px; }
-.searchbar .ic{
-  width:16px; height:16px; flex:none;
-  display:flex; align-items:center; justify-content:center; color:var(--muted);
-}
-.searchbar .ic svg{ width:16px; height:16px; }
-.theme-btn svg{ width:18px; height:18px; display:block; }
-.fab-new-vale svg{ width:20px; height:20px; display:block; }
-.wa-tab-card .icon{
-  width:42px; height:42px; margin:0 auto 16px;
-  color:#25D366;
-  display:flex; align-items:center; justify-content:center;
-}
-.wa-tab-card .icon svg{ width:42px; height:42px; }
-.novedad-card .nic{
-  width:18px; height:18px; display:flex; align-items:flex-start; justify-content:center;
-}
-.novedad-card .nic svg,
-.novedad-card .nic .ic-inline,
-.novedad-card .nic .ic-inline svg{ width:18px; height:18px; }
-.pcard .pactions button svg{ width:15px; height:15px; display:block; }
-.pass-eye{
-  display:flex; align-items:center; justify-content:center;
-  width:36px; height:36px;
-}
-.pass-eye svg{ width:18px; height:18px; display:block; }
-.modal-head button{
-  width:32px; height:32px;
-  display:flex; align-items:center; justify-content:center;
-  border-radius:50%;
-}
-nav.tabs button .ic svg{ width:20px; height:20px; }
-.cat-box-icon,.cat-box-icon svg{ width:22px; height:22px; }
-.chip-ic,.chip-ic svg{ width:14px; height:14px; }
-.filter-open-btn svg{ width:15px; height:15px; }
-.view-toggle-btn svg{ width:16px; height:16px; }
-.prod-list-arrow{ font-size:22px; line-height:1; font-weight:400; }
-.wa-help-btn svg{ width:18px; height:18px; display:block; }
-.btn-download-img svg{ width:16px; height:16px; display:block; }
-.thumb.empty svg,
-.prod-tile-img.empty svg,
-.prod-list-thumb.empty svg,
-.pthumb.empty svg{ width:22px; height:22px; }
-.thumb-lg-empty svg{ width:28px; height:28px; }
-.status-dot,.status-dot svg{ width:8px; height:8px; }
-.brand .mark svg{ width:18px; height:18px; }
-.wa-number-display svg{ width:16px; height:16px; display:inline-block; vertical-align:-3px; margin-right:6px; }
-.btn-wa-product,
-.btn-primary,
-.btn-secondary,
-.btn-danger,
-.btn-wa,
-.catalog-btn,
-.gps-btn,
-.hist-remind-btn,
-.login-btn,
-.filter-clear-btn{
-  display:inline-flex; align-items:center; justify-content:center; gap:8px;
-}
-.btn-wa-product svg,
-.btn-primary svg,
-.btn-secondary svg,
-.btn-danger svg,
-.btn-wa svg,
-.hist-remind-btn svg,
-.hist-cancel-btn svg,
-.login-btn svg,
-.catalog-btn svg,
-.gps-btn svg{ width:15px; height:15px; display:inline-block; vertical-align:-3px; }
-.avail-store-name svg{ width:13px; height:13px; display:inline-block; vertical-align:-2px; }
-.price-usd svg{ width:14px; height:14px; display:inline-block; vertical-align:-2px; }
-.order-ticket .oactions button svg{ width:14px; height:14px; }
-.admin-subtabs button{
-  display:inline-flex; align-items:center; gap:0;
-}
-.hist-commission svg,
-.hist-cancel-reason svg{ width:14px; height:14px; display:inline-block; vertical-align:-2px; margin-right:4px; }
-.seg button{ display:inline-flex; align-items:center; justify-content:center; gap:6px; }
-.imgmodal-close{ width:40px; height:40px; display:flex; align-items:center; justify-content:center; }
-
-/* --- Surfaces --- */
-header.top{
-  backdrop-filter:saturate(1.35) blur(18px);
-  -webkit-backdrop-filter:saturate(1.35) blur(18px);
-  background:color-mix(in srgb, var(--surface) 86%, transparent);
-  border-bottom:1px solid var(--line);
-  box-shadow:none;
-  padding:12px 16px;
-  padding-top:calc(12px + env(safe-area-inset-top));
-}
-.brand .mark{
-  width:34px; height:34px; border-radius:10px;
-  box-shadow:0 2px 8px rgba(21,96,189,.22);
-}
-.brand .name{ font-family:'Work Sans',sans-serif; font-weight:700; letter-spacing:-.2px; font-size:14.5px; }
-.brand .name small{ letter-spacing:1.6px; font-size:8.5px; }
-.theme-btn{
-  width:38px; height:38px;
-  border:1px solid var(--line);
-  background:var(--surface-2);
-  transition:background .15s, transform .12s;
-}
-.theme-btn:active{ transform:scale(.94); }
-.who{
-  border:1px solid var(--line);
-  background:var(--surface-2);
-}
-
-.card{
-  border:1px solid var(--line);
-  border-radius:20px;
-  padding:18px 16px;
-  box-shadow:0 1px 2px rgba(10,26,46,.04), 0 10px 28px rgba(10,26,46,.05);
-}
-html[data-theme="dark"] .card{
-  box-shadow:0 10px 28px rgba(0,0,0,.28);
-}
-.card h2{
-  font-family:'Work Sans',sans-serif;
-  font-weight:700;
-  letter-spacing:-.2px;
-  font-size:14.5px;
-}
-
-html[data-theme="dark"] .prod-card,
-html[data-theme="dark"] .pcard,
-html[data-theme="dark"] .order-card{
-  background:var(--surface);
-  backdrop-filter:none;
-  -webkit-backdrop-filter:none;
-  box-shadow:0 8px 24px rgba(0,0,0,.28);
-  border:1px solid var(--line);
-}
-
-.vale-head{
-  border-radius:16px;
-  padding:16px 18px;
-  background:linear-gradient(135deg, #0C3A78 0%, #1560BD 58%, #1296B5 130%);
-  box-shadow:0 8px 22px rgba(14,68,136,.28);
-}
-.vale-head b{
-  font-family:'Work Sans',sans-serif;
-  font-weight:700;
-  letter-spacing:.2px;
-  display:flex; align-items:center; gap:8px;
-}
-
-input[type=text],input[type=number],input[type=password],input[type=date],input[type=time],input[type=file],select,textarea{
-  border-radius:12px;
-  min-height:44px;
-  border:1px solid var(--line);
-  background:var(--surface-2);
-  transition:border-color .15s, box-shadow .15s;
-}
-input:focus,select:focus,textarea:focus{
-  border-color:var(--cyan);
-  box-shadow:0 0 0 3px rgba(34,211,238,.18);
-  outline:none;
-}
-
-.btn-primary{
-  background:var(--cyan);
-  background-image:linear-gradient(180deg, rgba(255,255,255,.14), rgba(255,255,255,0) 46%);
-  color:#04222c;
-  border-radius:14px;
-  min-height:48px;
-  box-shadow:0 8px 20px rgba(34,211,238,.28);
-  letter-spacing:.2px;
-}
-.btn-secondary{
-  border-radius:12px;
-  min-height:44px;
-  border:1px solid var(--line);
-  background:var(--surface-2);
-}
-.btn-danger{ border-radius:12px; min-height:40px; }
-.catalog-btn{
-  border-radius:14px;
-  min-height:48px;
-  background:linear-gradient(135deg, var(--blue) 0%, var(--cyan-dim) 100%);
-  box-shadow:0 8px 18px rgba(11,165,196,.22);
-}
-.seg button{ border-radius:12px; min-height:42px; }
-.seg button.active{
-  background:var(--cyan);
-  color:#04222c;
-  box-shadow:0 4px 12px rgba(34,211,238,.28);
-}
-
-nav.tabs{
-  border:1px solid var(--line);
-  background:color-mix(in srgb, var(--surface) 92%, transparent);
-  backdrop-filter:blur(16px);
-  -webkit-backdrop-filter:blur(16px);
-  padding:5px;
-  border-radius:22px;
-}
-nav.tabs button{
-  min-height:48px;
-  gap:2px;
-  font-size:9px;
-  letter-spacing:.2px;
-}
-nav.tabs button.active{
-  color:var(--cyan-dim);
-  background:rgba(34,211,238,.14);
-}
-
-.fab-new-vale{
-  width:52px; height:52px;
-  box-shadow:0 8px 22px rgba(34,211,238,.38);
-}
-
-.modal{
-  border-radius:24px 24px 0 0;
-  padding-top:10px;
-}
-.modal::before{
-  content:'';
-  display:block;
-  width:36px; height:4px;
-  background:var(--line);
-  border-radius:4px;
-  margin:4px auto 14px;
-}
-.modal-full .modal::before{ display:none; }
-.modal-head h3{
-  font-family:'Work Sans',sans-serif;
-  font-weight:700;
-  letter-spacing:-.2px;
-}
-
-.stat-card{
-  border:1px solid var(--line);
-  border-radius:16px;
-  padding:16px;
-  position:relative;
-  overflow:hidden;
-}
-.stat-card::before{
-  content:'';
-  position:absolute; left:0; top:0; bottom:0; width:3px;
-  background:var(--cyan);
-  border-radius:3px 0 0 3px;
-}
-.stat-card .val{ font-size:20px; letter-spacing:-.4px; }
-
-.pcard{
-  border:1px solid var(--line);
-  border-radius:16px;
-  padding:14px;
-}
-.order-card{
-  border:1px solid var(--line);
-  border-radius:16px;
-}
-.order-group{
-  border:1px solid var(--line);
-  border-radius:16px;
-}
-.novedad-card{
-  border:1px solid var(--line);
-  border-left-width:3px;
-  border-radius:14px;
-}
-.blk-item{
-  border:1px solid var(--line);
-  border-radius:14px;
-}
-
-.cat-box{
-  border:1px solid var(--line);
-  border-radius:16px;
-  min-height:96px;
-  padding:18px 12px;
-  box-shadow:0 1px 2px rgba(10,26,46,.04);
-}
-.cat-box-all{
-  border-color:transparent;
-}
-
-.prod-grid .prod-card,
-.prod-list .prod-card{
-  border-radius:14px;
-  box-shadow:0 1px 2px rgba(10,26,46,.04), 0 8px 20px rgba(10,26,46,.05);
-  transition:transform .15s ease, box-shadow .15s ease;
-}
-.prod-grid .prod-card:active,
-.prod-list .prod-card:active{ transform:scale(.98); }
-
-.searchbar{
-  border:1px solid var(--line);
-  background:var(--surface-2);
-  border-radius:14px;
-  padding:11px 14px;
-}
-.searchbar:focus-within{
-  border-color:var(--cyan);
-  box-shadow:0 0 0 3px rgba(34,211,238,.16);
-}
-
-.cat-tabs button,
-.admin-subtabs button,
-.filter-cat-chip{
-  min-height:36px;
-}
-.toast{
-  border-radius:14px;
-  border:1px solid var(--line);
-  box-shadow:0 12px 32px rgba(0,0,0,.22);
-  backdrop-filter:blur(12px);
-  -webkit-backdrop-filter:blur(12px);
-}
-
-/* Login */
-#view-login{
-  background-color:#061525;
-  background-image:
-    radial-gradient(900px 520px at 12% -8%, rgba(34,211,238,.22), transparent 58%),
-    radial-gradient(800px 480px at 110% 108%, rgba(21,96,189,.38), transparent 52%),
-    linear-gradient(180deg, #071525 0%, #040c16 100%),
-    url('fondo-oceano.jpg');
-}
-.login-card{
-  background:rgba(10,26,46,.72);
-  border:1px solid rgba(255,255,255,.14);
-  border-radius:22px;
-  padding:28px 22px 24px;
-  box-shadow:0 24px 64px rgba(0,0,0,.45);
-}
-.login-logo{
-  width:64px; height:64px; border-radius:18px; overflow:hidden;
-  margin:0 auto 16px;
-  background:linear-gradient(135deg, var(--blue), var(--cyan));
-  box-shadow:0 10px 24px rgba(34,211,238,.28);
-}
-.login-logo img{ width:100%; height:100%; object-fit:cover; display:block; }
-.login-title{
-  font-family:'Work Sans',sans-serif;
-  font-weight:700;
-  letter-spacing:-.4px;
-  font-size:22px;
-}
-.login-btn{
-  border-radius:14px;
-  min-height:48px;
-  box-shadow:0 8px 20px rgba(34,211,238,.28);
-}
-.login-field input{ min-height:46px; border-radius:12px; }
-
-.totalbar{
-  border-radius:14px;
-  border:1px solid color-mix(in srgb, var(--cyan) 45%, var(--line));
-}
-.ticket-box{ border-radius:12px; }
-.item-chip{ border-radius:12px; }
-.zone-selected-tag{ border-radius:12px; }
-.accordion{ border-radius:14px; }
-.pfp-row img{ border-width:2px; }
-
-h1,h2,h3,.display{
-  font-family:'Work Sans',sans-serif;
-  font-weight:700;
-  letter-spacing:-.25px;
-}
-
-@media (prefers-reduced-motion: reduce){
-  *{ animation:none !important; transition:none !important; }
-}
-
-
-/* Hide chrome while the login overlay is up */
-#view-login{ z-index:100; }
-body:has(#view-login:not(.hidden)) header.top,
-body:has(#view-login:not(.hidden)) nav.tabs,
-body:has(#view-login:not(.hidden)) .fab-new-vale{
-  opacity:0; pointer-events:none;
-}
-
 </style>
 </head>
 <body data-view="loading">
@@ -1219,7 +859,7 @@ body:has(#view-login:not(.hidden)) .fab-new-vale{
   </div>
   <div class="hdr-actions">
     <span id="connBadge" class="conn">conectando…</span>
-    <button class="theme-btn" id="themeBtn" onclick="toggleTheme()" title="Cambiar tema"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5Z"/></svg></button>
+    <button class="theme-btn" id="themeBtn" onclick="toggleTheme()" title="Cambiar tema"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5Z"/></svg></button>
     <div id="whoBadge" class="who hidden">
       <img class="av" id="whoAvatar" src="" alt="">
       <span id="whoName"></span>
@@ -1228,7 +868,7 @@ body:has(#view-login:not(.hidden)) .fab-new-vale{
   </div>
 </header>
 <div id="updateBanner" class="update-banner hidden" onclick="applyAppUpdate()">
-  <span class="ic-inline"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11v2a1 1 0 0 0 1 1h2l6 4V6L6 10H4a1 1 0 0 0-1 1Z"/><path d="M16 8.5a4 4 0 0 1 0 7"/><path d="M18.5 6a7.5 7.5 0 0 1 0 12"/></svg></span>Nueva versión disponible. Toca aquí para actualizar.
+  <span class="ic-inline"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11v2a1 1 0 0 0 1 1h2l6 4V6L6 10H4a1 1 0 0 0-1 1Z"/><path d="M16 8.5a4 4 0 0 1 0 7"/><path d="M18.5 6a7.5 7.5 0 0 1 0 12"/></svg></span>Nueva versión disponible. Toca aquí para actualizar.
 </div>
 
 <main>
@@ -1236,32 +876,32 @@ body:has(#view-login:not(.hidden)) .fab-new-vale{
   <!-- ============ VALE VIEW ============ -->
   <section id="view-pedido" class="view hidden">
     <div class="vale-head">
-      <b><span class="btn-ic"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V6a2 2 0 0 1 2-2h9l5 5v11a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2Z"/><path d="M14.5 4.5V9a1 1 0 0 0 1 1h4.5"/><path d="M8 13h6M8 16.5h4"/></svg></span>VALE DE MENSAJERÍA — AGUA&amp;TOOLS</b>
+      <b><span class="btn-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V6a2 2 0 0 1 2-2h9l5 5v11a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2Z"/><path d="M14.5 4.5V9a1 1 0 0 0 1 1h4.5"/><path d="M8 13h6M8 16.5h4"/></svg></span>VALE DE MENSAJERÍA — AGUA&amp;TOOLS</b>
       <div class="vale-auto">
-        <span><span class="ic-inline"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="16" rx="2"/><path d="M8 3v4M16 3v4M3.5 10h17"/></svg></span><span id="valeFecha"></span></span>
-        <span><span class="ic-inline"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.5"/><path d="M5 20c0-3.5 3-6 7-6s7 2.5 7 6"/></svg></span><span id="valeGestor"></span></span>
+        <span><span class="ic-inline"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="16" rx="2"/><path d="M8 3v4M16 3v4M3.5 10h17"/></svg></span><span id="valeFecha"></span></span>
+        <span><span class="ic-inline"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.5"/><path d="M5 20c0-3.5 3-6 7-6s7 2.5 7 6"/></svg></span><span id="valeGestor"></span></span>
       </div>
     </div>
 
     <div class="card">
-      <h2><span class="h-ic"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2Z"/><path d="M9 8h6M9 12h6M9 16h3"/></svg></span>Datos del cliente</h2>
-      <div id="blacklistAlert" class="blacklist-alert hidden"><span class="btn-ic"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3Z"/><path d="M4.5 4.5l15 15"/></svg></span>ESTE CLIENTE ESTÁ EN LA LISTA NEGRA. Verifica antes de continuar.</div>
+      <h2><span class="h-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2Z"/><path d="M9 8h6M9 12h6M9 16h3"/></svg></span>Datos del cliente</h2>
+      <div id="blacklistAlert" class="blacklist-alert hidden"><span class="btn-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3Z"/><path d="M4.5 4.5l15 15"/></svg></span>ESTE CLIENTE ESTÁ EN LA LISTA NEGRA. Verifica antes de continuar.</div>
       <div class="field"><label>Cliente *</label><input type="text" id="vCliente" placeholder="Nombre del cliente" oninput="onValeInput()"></div>
-      <div class="field"><label><span class="lbl-ic"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 3h3l1.5 4.5-2 1.6a12 12 0 0 0 5.9 5.9l1.6-2 4.5 1.5v3a2 2 0 0 1-2.2 2A17 17 0 0 1 4.5 5.2 2 2 0 0 1 6.5 3Z"/></svg></span>Teléfono *</label><input type="text" id="vTelefono" placeholder="Teléfono" oninput="onValeInput()"></div>
-      <div class="field"><label><span class="lbl-ic"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11.5 12 4l8 7.5"/><path d="M6 10v9.5a1 1 0 0 0 1 1h4v-6h2v6h4a1 1 0 0 0 1-1V10"/></svg></span>Dirección *</label><input type="text" id="vDireccion" placeholder="Dirección" oninput="onValeInput()"></div>
-      <div class="field"><label><span class="lbl-ic"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-6.5 7-12a7 7 0 1 0-14 0c0 5.5 7 12 7 12Z"/><circle cx="12" cy="9" r="2.3"/></svg></span>Referencia (opcional)</label><input type="text" id="vReferencia" placeholder="Punto de referencia" oninput="onValeInput()"></div>
+      <div class="field"><label><span class="lbl-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 3h3l1.5 4.5-2 1.6a12 12 0 0 0 5.9 5.9l1.6-2 4.5 1.5v3a2 2 0 0 1-2.2 2A17 17 0 0 1 4.5 5.2 2 2 0 0 1 6.5 3Z"/></svg></span>Teléfono *</label><input type="text" id="vTelefono" placeholder="Teléfono" oninput="onValeInput()"></div>
+      <div class="field"><label><span class="lbl-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11.5 12 4l8 7.5"/><path d="M6 10v9.5a1 1 0 0 0 1 1h4v-6h2v6h4a1 1 0 0 0 1-1V10"/></svg></span>Dirección *</label><input type="text" id="vDireccion" placeholder="Dirección" oninput="onValeInput()"></div>
+      <div class="field"><label><span class="lbl-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-6.5 7-12a7 7 0 1 0-14 0c0 5.5 7 12 7 12Z"/><circle cx="12" cy="9" r="2.3"/></svg></span>Referencia (opcional)</label><input type="text" id="vReferencia" placeholder="Punto de referencia" oninput="onValeInput()"></div>
     </div>
 
     <div class="card">
-      <h2><span class="h-ic"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="20" r="1.4"/><circle cx="17" cy="20" r="1.4"/><path d="M3 4h2l2.4 11.6a2 2 0 0 0 2 1.6h7.2a2 2 0 0 0 2-1.6L20 8H6"/></svg></span>Artículo(s) *</h2>
-      <button type="button" class="catalog-btn" onclick="openCatalogModal()"><span class="btn-ic"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8.5 12 4 3 8.5 12 13l9-4.5Z"/><path d="M3 8.5V16l9 4.5 9-4.5V8.5"/><path d="M12 13v7.5"/></svg></span>Seleccionar del catálogo</button>
+      <h2><span class="h-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="20" r="1.4"/><circle cx="17" cy="20" r="1.4"/><path d="M3 4h2l2.4 11.6a2 2 0 0 0 2 1.6h7.2a2 2 0 0 0 2-1.6L20 8H6"/></svg></span>Artículo(s) *</h2>
+      <button type="button" class="catalog-btn" onclick="openCatalogModal()"><span class="btn-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8.5 12 4 3 8.5 12 13l9-4.5Z"/><path d="M3 8.5V16l9 4.5 9-4.5V8.5"/><path d="M12 13v7.5"/></svg></span>Seleccionar del catálogo</button>
       <div id="valeItemsList"></div>
       <div class="or-divider">o</div>
       <div class="field" style="margin-bottom:6px;">
         <input type="text" id="vArticuloManual" placeholder="O escribe el artículo manualmente aquí..." oninput="onValeInput()">
       </div>
       <div class="field">
-        <label><span class="lbl-ic"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8.5 12 4 3 8.5 12 13l9-4.5Z"/><path d="M3 8.5V16l9 4.5 9-4.5V8.5"/><path d="M12 13v7.5"/></svg></span>Foto del artículo (opcional)</label>
+        <label><span class="lbl-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8.5 12 4 3 8.5 12 13l9-4.5Z"/><path d="M3 8.5V16l9 4.5 9-4.5V8.5"/><path d="M12 13v7.5"/></svg></span>Foto del artículo (opcional)</label>
         <input type="file" id="vFoto" accept="image/*" onchange="previewValeImage(event)">
         <img id="vFotoPreview" class="pm-img-preview" alt="Previsualización">
         <div id="vFotoStatus" class="pm-upload-status"><span class="pm-spinner"></span><span>⏳ Subiendo foto, por favor espera...</span></div>
@@ -1270,14 +910,14 @@ body:has(#view-login:not(.hidden)) .fab-new-vale{
     </div>
 
     <div class="card">
-      <h2><span class="h-ic"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6.5" width="20" height="11" rx="2"/><circle cx="12" cy="12" r="2.6"/><path d="M5.5 9v.01M18.5 15v.01"/></svg></span>Precios y comisión</h2>
+      <h2><span class="h-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6.5" width="20" height="11" rx="2"/><circle cx="12" cy="12" r="2.6"/><path d="M5.5 9v.01M18.5 15v.01"/></svg></span>Precios y comisión</h2>
       <div class="row2">
         <div class="field"><label>Precio base</label><input type="number" id="vPrecioBase" step="0.01" oninput="calcVale()"></div>
         <div class="field"><label>Precio del gestor</label><input type="number" id="vPrecioGestor" step="0.01" oninput="calcVale()"><div class="cup-equiv hidden" id="vPrecioGestorCup"></div></div>
       </div>
-      <div class="field"><label><span class="lbl-ic"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="9" cy="7" rx="6" ry="3"/><path d="M3 7v5c0 1.7 2.7 3 6 3s6-1.3 6-3V7"/><path d="M9 12v5c0 1.7 2.7 3 6 3s6-1.3 6-3v-5"/><ellipse cx="15" cy="12" rx="6" ry="3"/></svg></span>Comisión</label><input type="number" id="vComision" step="0.01" oninput="onValeInput()"></div>
+      <div class="field"><label><span class="lbl-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="9" cy="7" rx="6" ry="3"/><path d="M3 7v5c0 1.7 2.7 3 6 3s6-1.3 6-3V7"/><path d="M9 12v5c0 1.7 2.7 3 6 3s6-1.3 6-3v-5"/><ellipse cx="15" cy="12" rx="6" ry="3"/></svg></span>Comisión</label><input type="number" id="vComision" step="0.01" oninput="onValeInput()"></div>
       <div class="field">
-        <label><span class="lbl-ic"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="5.5" width="19" height="13" rx="2"/><path d="M2.5 10h19"/></svg></span>Tipo de pago del producto</label>
+        <label><span class="lbl-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="5.5" width="19" height="13" rx="2"/><path d="M2.5 10h19"/></svg></span>Tipo de pago del producto</label>
         <select id="vTipoPagoProducto" onchange="onValeInput()">
           <option>CUP</option><option>USD</option><option>Tropipay</option><option>Euro</option><option>MLC</option><option>MXN - Peso Mexicano</option>
         </select>
@@ -1285,12 +925,12 @@ body:has(#view-login:not(.hidden)) .fab-new-vale{
     </div>
 
     <div class="card">
-      <h2><span class="h-ic"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 7h11v9H2z"/><path d="M13 10h4l4 3v3h-8z"/><circle cx="7" cy="18.5" r="1.6"/><circle cx="17" cy="18.5" r="1.6"/></svg></span>Mensajería</h2>
+      <h2><span class="h-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 7h11v9H2z"/><path d="M13 10h4l4 3v3h-8z"/><circle cx="7" cy="18.5" r="1.6"/><circle cx="17" cy="18.5" r="1.6"/></svg></span>Mensajería</h2>
       <div class="field">
         <label>Zona de mensajería</label>
         <div class="zone-btn-row">
-          <button type="button" class="catalog-btn" onclick="openZonaModal()"><span class="btn-ic"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-6.5 7-12a7 7 0 1 0-14 0c0 5.5 7 12 7 12Z"/><circle cx="12" cy="9" r="2.3"/></svg></span>Seleccionar zona de mensajería</button>
-          <button type="button" class="wa-help-btn" onclick="openWhatsappMensajeriaHelp()" title="Preguntar precio por WhatsApp"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4.5h16v11H9l-4 3.5v-3.5H4Z"/></svg></button>
+          <button type="button" class="catalog-btn" onclick="openZonaModal()"><span class="btn-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-6.5 7-12a7 7 0 1 0-14 0c0 5.5 7 12 7 12Z"/><circle cx="12" cy="9" r="2.3"/></svg></span>Seleccionar zona de mensajería</button>
+          <button type="button" class="wa-help-btn" onclick="openWhatsappMensajeriaHelp()" title="Preguntar precio por WhatsApp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4.5h16v11H9l-4 3.5v-3.5H4Z"/></svg></button>
         </div>
         <div class="zone-selected-tag hidden" id="zonaSelectedTag">
           <span id="zonaSelectedText"></span>
@@ -1299,7 +939,7 @@ body:has(#view-login:not(.hidden)) .fab-new-vale{
       </div>
       <div class="field"><label>Tarifa de mensajería</label><input type="number" id="vMensajeria" step="0.01" oninput="calcVale()"></div>
       <div class="field">
-        <label><span class="lbl-ic"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6.5" width="20" height="11" rx="2"/><circle cx="12" cy="12" r="2.6"/><path d="M5.5 9v.01M18.5 15v.01"/></svg></span>Total a cobrar (producto + envío)</label>
+        <label><span class="lbl-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6.5" width="20" height="11" rx="2"/><circle cx="12" cy="12" r="2.6"/><path d="M5.5 9v.01M18.5 15v.01"/></svg></span>Total a cobrar (producto + envío)</label>
         <input type="number" id="vTotal" step="0.01" oninput="onValeInput()">
         <div class="total-breakdown" id="totalBreakdown"></div>
       </div>
@@ -1312,7 +952,7 @@ body:has(#view-login:not(.hidden)) .fab-new-vale{
         <input type="text" id="vTipoPagoMensajeriaOtro" placeholder="Especifica qué tipo de pago es:" oninput="onValeInput()">
       </div>
       <div class="field">
-        <label><span class="lbl-ic"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="9" cy="7" rx="6" ry="3"/><path d="M3 7v5c0 1.7 2.7 3 6 3s6-1.3 6-3V7"/><path d="M9 12v5c0 1.7 2.7 3 6 3s6-1.3 6-3v-5"/><ellipse cx="15" cy="12" rx="6" ry="3"/></svg></span>¿Hay que llevar vuelto?</label>
+        <label><span class="lbl-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="9" cy="7" rx="6" ry="3"/><path d="M3 7v5c0 1.7 2.7 3 6 3s6-1.3 6-3V7"/><path d="M9 12v5c0 1.7 2.7 3 6 3s6-1.3 6-3v-5"/><ellipse cx="15" cy="12" rx="6" ry="3"/></svg></span>¿Hay que llevar vuelto?</label>
         <div class="seg">
           <button type="button" id="vVueltoSi" onclick="setVuelto(true)">Sí</button>
           <button type="button" id="vVueltoNo" onclick="setVuelto(false)">No</button>
@@ -1322,12 +962,12 @@ body:has(#view-login:not(.hidden)) .fab-new-vale{
     </div>
 
     <div class="card">
-      <h2><span class="h-ic"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="16" rx="2"/><path d="M8 3v4M16 3v4M3.5 10h17"/></svg></span>Entrega</h2>
+      <h2><span class="h-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="16" rx="2"/><path d="M8 3v4M16 3v4M3.5 10h17"/></svg></span>Entrega</h2>
       <div class="row2">
         <div class="field"><label>Día que quiere el cliente</label><input type="date" id="vDia" oninput="onValeInput()"></div>
         <div class="field"><label>Hora que quiere el cliente</label><input type="time" id="vHora" oninput="onValeInput()"></div>
       </div>
-      <div class="field"><label><span class="lbl-ic"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="4.5" width="14" height="16" rx="2"/><path d="M9 4.5V3.5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v1"/><path d="M8.5 10.5h7M8.5 14h7M8.5 17.5h4"/></svg></span>Detalles</label><textarea id="vDetalles" placeholder="Notas adicionales…" oninput="onValeInput()"></textarea></div>
+      <div class="field"><label><span class="lbl-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="4.5" width="14" height="16" rx="2"/><path d="M9 4.5V3.5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v1"/><path d="M8.5 10.5h7M8.5 14h7M8.5 17.5h4"/></svg></span>Detalles</label><textarea id="vDetalles" placeholder="Notas adicionales…" oninput="onValeInput()"></textarea></div>
     </div>
 
     <div class="accordion" id="masDetallesAcc">
@@ -1335,21 +975,21 @@ body:has(#view-login:not(.hidden)) .fab-new-vale{
         <span>➕ Más detalles</span><span class="chev">▾</span>
       </button>
       <div class="accordion-body">
-        <div class="field"><label><span class="lbl-ic"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="5" width="19" height="14" rx="2"/><circle cx="8" cy="11" r="2.2"/><path d="M5 16c0-1.7 1.3-3 3-3s3 1.3 3 3"/><path d="M14 9h5M14 13h5"/></svg></span>Carnet de identidad del cliente</label><input type="text" id="vCarnet" placeholder="Carnet de identidad (opcional)" oninput="onValeInput()"></div>
-        <div class="field"><label><span class="lbl-ic"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3Z"/></svg></span>Garantía del producto</label><input type="text" id="vGarantia" placeholder="Ej: 30 días, 6 meses" oninput="onValeInput()"></div>
+        <div class="field"><label><span class="lbl-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="5" width="19" height="14" rx="2"/><circle cx="8" cy="11" r="2.2"/><path d="M5 16c0-1.7 1.3-3 3-3s3 1.3 3 3"/><path d="M14 9h5M14 13h5"/></svg></span>Carnet de identidad del cliente</label><input type="text" id="vCarnet" placeholder="Carnet de identidad (opcional)" oninput="onValeInput()"></div>
+        <div class="field"><label><span class="lbl-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3Z"/></svg></span>Garantía del producto</label><input type="text" id="vGarantia" placeholder="Ej: 30 días, 6 meses" oninput="onValeInput()"></div>
         <div class="field"><label>➖ Rebajo de comisión</label><input type="number" id="vRebajoComision" step="0.01" placeholder="0.00" oninput="onValeInput()"></div>
         <div class="field">
-          <label><span class="lbl-ic"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-6.5 7-12a7 7 0 1 0-14 0c0 5.5 7 12 7 12Z"/><circle cx="12" cy="9" r="2.3"/></svg></span>Ubicación GPS del cliente</label>
-          <button type="button" class="gps-btn" onclick="obtenerUbicacionGPS()"><span class="btn-ic"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-6.5 7-12a7 7 0 1 0-14 0c0 5.5 7 12 7 12Z"/><circle cx="12" cy="9" r="2.3"/></svg></span>Obtener ubicación actual</button>
+          <label><span class="lbl-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-6.5 7-12a7 7 0 1 0-14 0c0 5.5 7 12 7 12Z"/><circle cx="12" cy="9" r="2.3"/></svg></span>Ubicación GPS del cliente</label>
+          <button type="button" class="gps-btn" onclick="obtenerUbicacionGPS()"><span class="btn-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-6.5 7-12a7 7 0 1 0-14 0c0 5.5 7 12 7 12Z"/><circle cx="12" cy="9" r="2.3"/></svg></span>Obtener ubicación actual</button>
           <div class="gps-result hidden" id="vGpsResult"></div>
         </div>
       </div>
     </div>
 
-    <button class="btn-primary" id="submitBtn" onclick="submitVale()"><span class="btn-ic"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11 20.5 3 15 20l-4-7-7-2Z"/><path d="M11 13l4-4"/></svg></span>Enviar al Admin</button>
+    <button class="btn-primary" id="submitBtn" onclick="submitVale()"><span class="btn-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11 20.5 3 15 20l-4-7-7-2Z"/><path d="M11 13l4-4"/></svg></span>Enviar al Admin</button>
 
     <div class="card" style="margin-top:14px;">
-      <h2><span class="h-ic"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="4.5" width="14" height="16" rx="2"/><path d="M9 4.5V3.5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v1"/><path d="M8.5 10.5h7M8.5 14h7M8.5 17.5h4"/></svg></span>Vista Previa del Vale</h2>
+      <h2><span class="h-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="4.5" width="14" height="16" rx="2"/><path d="M9 4.5V3.5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v1"/><path d="M8.5 10.5h7M8.5 14h7M8.5 17.5h4"/></svg></span>Vista Previa del Vale</h2>
       <div class="sub">Se actualiza automáticamente. Toca el recuadro para copiarlo.</div>
       <div class="ticket-box" id="ticketPreview" onclick="copyTicket()"></div>
     </div>
@@ -1359,10 +999,10 @@ body:has(#view-login:not(.hidden)) .fab-new-vale{
   <!-- Catalog selection modal (for vale) -->
   <div id="catalogModal" class="modal-back modal-full hidden">
     <div class="modal">
-      <div class="modal-head"><h3><span class="h-ic"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8.5 12 4 3 8.5 12 13l9-4.5Z"/><path d="M3 8.5V16l9 4.5 9-4.5V8.5"/><path d="M12 13v7.5"/></svg></span>Seleccionar del catálogo</h3><button onclick="closeCatalogModal()">✕</button></div>
+      <div class="modal-head"><h3><span class="h-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8.5 12 4 3 8.5 12 13l9-4.5Z"/><path d="M3 8.5V16l9 4.5 9-4.5V8.5"/><path d="M12 13v7.5"/></svg></span>Seleccionar del catálogo</h3><button onclick="closeCatalogModal()">✕</button></div>
       <div class="modal-body">
         <div class="searchbar">
-          <span class="ic"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg></span>
+          <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg></span>
           <input type="text" id="modalCatSearch" placeholder="Buscar producto por nombre…" oninput="renderModalCatalog()">
         </div>
         <div class="cat-tabs" id="modalCatTabs"></div>
@@ -1378,10 +1018,10 @@ body:has(#view-login:not(.hidden)) .fab-new-vale{
   <!-- Zona de mensajería modal -->
   <div id="zonaModal" class="modal-back modal-full hidden">
     <div class="modal">
-      <div class="modal-head"><h3><span class="h-ic"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-6.5 7-12a7 7 0 1 0-14 0c0 5.5 7 12 7 12Z"/><circle cx="12" cy="9" r="2.3"/></svg></span>Zona de mensajería</h3><button onclick="closeZonaModal()">✕</button></div>
+      <div class="modal-head"><h3><span class="h-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-6.5 7-12a7 7 0 1 0-14 0c0 5.5 7 12 7 12Z"/><circle cx="12" cy="9" r="2.3"/></svg></span>Zona de mensajería</h3><button onclick="closeZonaModal()">✕</button></div>
       <div class="modal-body">
         <div class="searchbar">
-          <span class="ic"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg></span>
+          <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg></span>
           <input type="text" id="zonaSearch" placeholder="Buscar zona por nombre…" oninput="renderZonaList()">
         </div>
         <div class="hint" style="margin-bottom:8px;">Marca «Estándar», «Retorno» o ambos. El campo de tarifa se rellena solo.</div>
@@ -1396,9 +1036,9 @@ body:has(#view-login:not(.hidden)) .fab-new-vale{
   <!-- ============ CATALOGO VIEW ============ -->
   <section id="view-catalogo" class="view hidden">
     <div class="card">
-      <h2><span class="h-ic"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H12v18H6.5A2.5 2.5 0 0 1 4 18.5v-13Z"/><path d="M20 5.5A2.5 2.5 0 0 0 17.5 3H12v18h5.5a2.5 2.5 0 0 0 2.5-2.5v-13Z"/></svg></span>Catálogo</h2>
+      <h2><span class="h-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H12v18H6.5A2.5 2.5 0 0 1 4 18.5v-13Z"/><path d="M20 5.5A2.5 2.5 0 0 0 17.5 3H12v18h5.5a2.5 2.5 0 0 0 2.5-2.5v-13Z"/></svg></span>Catálogo</h2>
       <div class="searchbar">
-        <span class="ic"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg></span>
+        <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg></span>
         <input type="text" id="catSearch" placeholder="Buscar producto por nombre…" oninput="renderCatalog()">
       </div>
       <div id="catList"><div class="hint">Cargando catálogo…</div></div>
@@ -1439,24 +1079,24 @@ body:has(#view-login:not(.hidden)) .fab-new-vale{
   <div id="imgModal" class="imgmodal-back hidden">
     <button class="imgmodal-close" onclick="closeImgModal()">✕</button>
     <img id="imgModalPic" src="" alt="">
-    <button id="imgModalDownload" class="btn-primary" onclick="downloadImageFromModal()"><span class="btn-ic"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11"/><path d="M7 11l5 5 5-5"/><path d="M5 19h14"/></svg></span>Descargar imagen</button>
+    <button id="imgModalDownload" class="btn-primary" onclick="downloadImageFromModal()"><span class="btn-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11"/><path d="M7 11l5 5 5-5"/><path d="M5 19h14"/></svg></span>Descargar imagen</button>
   </div>
 
   <!-- ============ HISTORIAL VIEW (solo gestor) ============ -->
   <section id="view-historial" class="view hidden">
     <div class="card">
-      <h2><span class="h-ic"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/><path d="M12 7v5l3.5 2"/></svg></span>Mi historial</h2>
+      <h2><span class="h-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/><path d="M12 7v5l3.5 2"/></svg></span>Mi historial</h2>
       <div class="sub" id="histSummary"></div>
       <div class="cat-tabs" id="histFilterTabs">
-        <button class="active" data-hf="todos" onclick="setHistFilter('todos')"><span class="btn-ic"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="4.5" width="14" height="16" rx="2"/><path d="M9 4.5V3.5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v1"/><path d="M8.5 10.5h7M8.5 14h7M8.5 17.5h4"/></svg></span>Todos</button>
-        <button data-hf="pendiente" onclick="setHistFilter('pendiente')"><span class="status-dot sd-yellow"><svg viewBox="0 0 10 10" width="8" height="8" fill="currentColor"><circle cx="5" cy="5" r="5"/></svg></span>Pendientes</button>
-        <button data-hf="confirmado" onclick="setHistFilter('confirmado')"><span class="status-dot sd-green"><svg viewBox="0 0 10 10" width="8" height="8" fill="currentColor"><circle cx="5" cy="5" r="5"/></svg></span>Confirmados</button>
-        <button data-hf="cancelado" onclick="setHistFilter('cancelado')"><span class="status-dot sd-red"><svg viewBox="0 0 10 10" width="8" height="8" fill="currentColor"><circle cx="5" cy="5" r="5"/></svg></span>Cancelados</button>
+        <button class="active" data-hf="todos" onclick="setHistFilter('todos')"><span class="btn-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="4.5" width="14" height="16" rx="2"/><path d="M9 4.5V3.5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v1"/><path d="M8.5 10.5h7M8.5 14h7M8.5 17.5h4"/></svg></span>Todos</button>
+        <button data-hf="pendiente" onclick="setHistFilter('pendiente')"><span class="status-dot sd-yellow"><svg viewBox="0 0 10 10" fill="currentColor"><circle cx="5" cy="5" r="5"/></svg></span>Pendientes</button>
+        <button data-hf="confirmado" onclick="setHistFilter('confirmado')"><span class="status-dot sd-green"><svg viewBox="0 0 10 10" fill="currentColor"><circle cx="5" cy="5" r="5"/></svg></span>Confirmados</button>
+        <button data-hf="cancelado" onclick="setHistFilter('cancelado')"><span class="status-dot sd-red"><svg viewBox="0 0 10 10" fill="currentColor"><circle cx="5" cy="5" r="5"/></svg></span>Cancelados</button>
       </div>
       <div id="histList"></div>
     </div>
     <div class="card">
-      <h2><span class="h-ic"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.5"/><path d="M5 20c0-3.5 3-6 7-6s7 2.5 7 6"/></svg></span>Mi perfil</h2>
+      <h2><span class="h-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.5"/><path d="M5 20c0-3.5 3-6 7-6s7 2.5 7 6"/></svg></span>Mi perfil</h2>
       <div class="pfp-row">
         <img id="profilePic" src="" alt="Foto de perfil">
         <div style="flex:1;">
@@ -1472,7 +1112,7 @@ body:has(#view-login:not(.hidden)) .fab-new-vale{
   <!-- ============ MI WHATSAPP VIEW (solo gestor) ============ -->
   <section id="view-whatsapp" class="view hidden">
     <div class="card wa-tab-card">
-      <div class="icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4.5h16v11H9l-4 3.5v-3.5H4Z"/></svg></div>
+      <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4.5h16v11H9l-4 3.5v-3.5H4Z"/></svg></div>
       <h2>Mi WhatsApp</h2>
       <p class="sub" style="margin-bottom:0;">Aquí tienes tu número de WhatsApp registrado. Si necesitas contactar a algún cliente, puedes hacerlo desde aquí.</p>
       <div id="myWaNumberBox"></div>
@@ -1481,7 +1121,7 @@ body:has(#view-login:not(.hidden)) .fab-new-vale{
 
   <section id="view-novedades" class="view hidden">
     <div class="card">
-      <h2><span class="h-ic"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11v2a1 1 0 0 0 1 1h2l6 4V6L6 10H4a1 1 0 0 0-1 1Z"/><path d="M16 8.5a4 4 0 0 1 0 7"/><path d="M18.5 6a7.5 7.5 0 0 1 0 12"/></svg></span>Novedades</h2>
+      <h2><span class="h-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11v2a1 1 0 0 0 1 1h2l6 4V6L6 10H4a1 1 0 0 0-1 1Z"/><path d="M16 8.5a4 4 0 0 1 0 7"/><path d="M18.5 6a7.5 7.5 0 0 1 0 12"/></svg></span>Novedades</h2>
       <div class="sub">Últimas novedades publicadas por el Admin.</div>
       <div id="novedadesList"></div>
     </div>
@@ -1490,17 +1130,17 @@ body:has(#view-login:not(.hidden)) .fab-new-vale{
   <!-- ============ ADMIN VIEW ============ -->
   <section id="view-admin" class="view hidden">
     <div class="admin-subtabs" id="adminSubtabs">
-      <button class="admin-tab-btn active" data-atab="resumen" onclick="adminSwitch('resumen')"><span class="atab-ic"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10M12 20V4M20 20v-7"/></svg></span>Resumen</button>
-      <button class="admin-tab-btn" data-atab="catalogo" onclick="adminSwitch('catalogo')"><span class="atab-ic"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8.5 12 4 3 8.5 12 13l9-4.5Z"/><path d="M3 8.5V16l9 4.5 9-4.5V8.5"/><path d="M12 13v7.5"/></svg></span>Catálogo</button>
-      <button class="admin-tab-btn" data-atab="gestores" onclick="adminSwitch('gestores')"><span class="atab-ic"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.5"/><path d="M5 20c0-3.5 3-6 7-6s7 2.5 7 6"/></svg></span>Gestores</button>
-      <button class="admin-tab-btn" data-atab="pedidos" onclick="adminSwitch('pedidos')"><span class="atab-ic"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2Z"/><path d="M9 8h6M9 12h6M9 16h3"/></svg></span>Pedidos</button>
-      <button class="admin-tab-btn" data-atab="config" onclick="adminSwitch('config')"><span class="atab-ic"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.87l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.7 1.7 0 0 0-1.87-.34 1.7 1.7 0 0 0-1 1.55V21a2 2 0 1 1-4 0v-.09A1.7 1.7 0 0 0 9 19.4a1.7 1.7 0 0 0-1.87.34l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.7 1.7 0 0 0 4.6 15a1.7 1.7 0 0 0-1.55-1H3a2 2 0 1 1 0-4h.09A1.7 1.7 0 0 0 4.6 9a1.7 1.7 0 0 0-.34-1.87l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.7 1.7 0 0 0 9 4.6a1.7 1.7 0 0 0 1-1.55V3a2 2 0 1 1 4 0v.09a1.7 1.7 0 0 0 1 1.55 1.7 1.7 0 0 0 1.87-.34l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.7 1.7 0 0 0 19.4 9a1.7 1.7 0 0 0 1.55 1H21a2 2 0 1 1 0 4h-.09a1.7 1.7 0 0 0-1.55 1Z"/></svg></span>Configuración</button>
-      <button class="admin-tab-btn" data-atab="blacklist" onclick="adminSwitch('blacklist')"><span class="atab-ic"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3Z"/><path d="M4.5 4.5l15 15"/></svg></span>Lista Negra</button>
+      <button class="admin-tab-btn active" data-atab="resumen" onclick="adminSwitch('resumen')"><span class="atab-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10M12 20V4M20 20v-7"/></svg></span>Resumen</button>
+      <button class="admin-tab-btn" data-atab="catalogo" onclick="adminSwitch('catalogo')"><span class="atab-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8.5 12 4 3 8.5 12 13l9-4.5Z"/><path d="M3 8.5V16l9 4.5 9-4.5V8.5"/><path d="M12 13v7.5"/></svg></span>Catálogo</button>
+      <button class="admin-tab-btn" data-atab="gestores" onclick="adminSwitch('gestores')"><span class="atab-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.5"/><path d="M5 20c0-3.5 3-6 7-6s7 2.5 7 6"/></svg></span>Gestores</button>
+      <button class="admin-tab-btn" data-atab="pedidos" onclick="adminSwitch('pedidos')"><span class="atab-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2Z"/><path d="M9 8h6M9 12h6M9 16h3"/></svg></span>Pedidos</button>
+      <button class="admin-tab-btn" data-atab="config" onclick="adminSwitch('config')"><span class="atab-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.87l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.7 1.7 0 0 0-1.87-.34 1.7 1.7 0 0 0-1 1.55V21a2 2 0 1 1-4 0v-.09A1.7 1.7 0 0 0 9 19.4a1.7 1.7 0 0 0-1.87.34l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.7 1.7 0 0 0 4.6 15a1.7 1.7 0 0 0-1.55-1H3a2 2 0 1 1 0-4h.09A1.7 1.7 0 0 0 4.6 9a1.7 1.7 0 0 0-.34-1.87l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.7 1.7 0 0 0 9 4.6a1.7 1.7 0 0 0 1-1.55V3a2 2 0 1 1 4 0v.09a1.7 1.7 0 0 0 1 1.55 1.7 1.7 0 0 0 1.87-.34l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.7 1.7 0 0 0 19.4 9a1.7 1.7 0 0 0 1.55 1H21a2 2 0 1 1 0 4h-.09a1.7 1.7 0 0 0-1.55 1Z"/></svg></span>Configuración</button>
+      <button class="admin-tab-btn" data-atab="blacklist" onclick="adminSwitch('blacklist')"><span class="atab-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3Z"/><path d="M4.5 4.5l15 15"/></svg></span>Lista Negra</button>
     </div>
 
     <div class="admin-pane active" id="admin-pane-resumen">
       <div class="card">
-        <h2><span class="h-ic"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10M12 20V4M20 20v-7"/></svg></span>Resumen</h2>
+        <h2><span class="h-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10M12 20V4M20 20v-7"/></svg></span>Resumen</h2>
         <div class="stat-grid">
           <div class="stat-card"><div class="lbl">Ventas del mes</div><div class="val" id="statVentas">$0</div></div>
           <div class="stat-card"><div class="lbl">Comisiones pagadas</div><div class="val" id="statComisiones">$0</div></div>
@@ -1508,7 +1148,7 @@ body:has(#view-login:not(.hidden)) .fab-new-vale{
           <div class="stat-card"><div class="lbl">Total de pedidos</div><div class="val" id="statTotal">0</div></div>
         </div>
         <div class="top-gestores">
-          <div style="font-size:10px;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);margin-bottom:6px;"><span class="ic-inline"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4h10v5a5 5 0 0 1-10 0V4Z"/><path d="M7 5H4v2a3 3 0 0 0 3 3M17 5h3v2a3 3 0 0 1-3 3"/><path d="M12 14v3M9 21h6M9.5 17.5h5l.5 3.5H9l.5-3.5Z"/></svg></span>Top 3 gestores del mes</div>
+          <div style="font-size:10px;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);margin-bottom:6px;"><span class="ic-inline"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4h10v5a5 5 0 0 1-10 0V4Z"/><path d="M7 5H4v2a3 3 0 0 0 3 3M17 5h3v2a3 3 0 0 1-3 3"/><path d="M12 14v3M9 21h6M9.5 17.5h5l.5 3.5H9l.5-3.5Z"/></svg></span>Top 3 gestores del mes</div>
           <div id="topGestores"></div>
         </div>
       </div>
@@ -1516,10 +1156,10 @@ body:has(#view-login:not(.hidden)) .fab-new-vale{
 
     <div class="admin-pane" id="admin-pane-catalogo">
       <div class="card">
-        <h2><span class="h-ic"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8.5 12 4 3 8.5 12 13l9-4.5Z"/><path d="M3 8.5V16l9 4.5 9-4.5V8.5"/><path d="M12 13v7.5"/></svg></span>Catálogo de productos</h2>
+        <h2><span class="h-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8.5 12 4 3 8.5 12 13l9-4.5Z"/><path d="M3 8.5V16l9 4.5 9-4.5V8.5"/><path d="M12 13v7.5"/></svg></span>Catálogo de productos</h2>
         <button class="btn-secondary" onclick="openProductModal()">+ Añadir producto</button>
         <div class="searchbar" style="margin-top:12px;">
-          <span class="ic"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg></span>
+          <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg></span>
           <input type="text" id="adminCatSearch" placeholder="Buscar producto por nombre…" oninput="renderAdminCatalogList()">
         </div>
         <div class="cat-tabs" id="adminCatTabs"></div>
@@ -1529,7 +1169,7 @@ body:has(#view-login:not(.hidden)) .fab-new-vale{
 
     <div class="admin-pane" id="admin-pane-gestores">
       <div class="card">
-        <h2><span class="h-ic"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.5"/><path d="M5 20c0-3.5 3-6 7-6s7 2.5 7 6"/></svg></span>Gestores</h2>
+        <h2><span class="h-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.5"/><path d="M5 20c0-3.5 3-6 7-6s7 2.5 7 6"/></svg></span>Gestores</h2>
         <div class="field"><label>Nombre completo</label><input type="text" id="newGestorName" placeholder="Nombre completo"></div>
         <div class="row2">
           <div class="field"><label>Usuario</label><input type="text" id="newGestorUser" placeholder="Usuario de acceso"></div>
@@ -1543,14 +1183,14 @@ body:has(#view-login:not(.hidden)) .fab-new-vale{
 
     <div class="admin-pane" id="admin-pane-pedidos">
       <div class="card">
-        <h2><span class="h-ic"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2Z"/><path d="M9 8h6M9 12h6M9 16h3"/></svg></span>Pedidos por gestor</h2>
+        <h2><span class="h-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2Z"/><path d="M9 8h6M9 12h6M9 16h3"/></svg></span>Pedidos por gestor</h2>
         <div id="adminOrders"></div>
       </div>
     </div>
 
     <div class="admin-pane" id="admin-pane-config">
       <div class="card">
-        <h2><span class="h-ic"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.87l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.7 1.7 0 0 0-1.87-.34 1.7 1.7 0 0 0-1 1.55V21a2 2 0 1 1-4 0v-.09A1.7 1.7 0 0 0 9 19.4a1.7 1.7 0 0 0-1.87.34l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.7 1.7 0 0 0 4.6 15a1.7 1.7 0 0 0-1.55-1H3a2 2 0 1 1 0-4h.09A1.7 1.7 0 0 0 4.6 9a1.7 1.7 0 0 0-.34-1.87l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.7 1.7 0 0 0 9 4.6a1.7 1.7 0 0 0 1-1.55V3a2 2 0 1 1 4 0v.09a1.7 1.7 0 0 0 1 1.55 1.7 1.7 0 0 0 1.87-.34l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.7 1.7 0 0 0 19.4 9a1.7 1.7 0 0 0 1.55 1H21a2 2 0 1 1 0 4h-.09a1.7 1.7 0 0 0-1.55 1Z"/></svg></span>Configuración</h2>
+        <h2><span class="h-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.87l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.7 1.7 0 0 0-1.87-.34 1.7 1.7 0 0 0-1 1.55V21a2 2 0 1 1-4 0v-.09A1.7 1.7 0 0 0 9 19.4a1.7 1.7 0 0 0-1.87.34l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.7 1.7 0 0 0 4.6 15a1.7 1.7 0 0 0-1.55-1H3a2 2 0 1 1 0-4h.09A1.7 1.7 0 0 0 4.6 9a1.7 1.7 0 0 0-.34-1.87l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.7 1.7 0 0 0 9 4.6a1.7 1.7 0 0 0 1-1.55V3a2 2 0 1 1 4 0v.09a1.7 1.7 0 0 0 1 1.55 1.7 1.7 0 0 0 1.87-.34l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.7 1.7 0 0 0 19.4 9a1.7 1.7 0 0 0 1.55 1H21a2 2 0 1 1 0 4h-.09a1.7 1.7 0 0 0-1.55 1Z"/></svg></span>Configuración</h2>
         <h3 style="font-size:13px;margin:0 0 8px;">Cambiar contraseña del Admin</h3>
         <div class="field"><label>Nueva contraseña</label><input type="text" id="cfgNewPass" placeholder="Nueva contraseña"></div>
         <div class="field"><label>Confirmar nueva contraseña</label><input type="text" id="cfgNewPass2" placeholder="Confirmar nueva contraseña"></div>
@@ -1569,7 +1209,7 @@ body:has(#view-login:not(.hidden)) .fab-new-vale{
 
     <div class="admin-pane" id="admin-pane-blacklist">
       <div class="card">
-        <h2><span class="h-ic"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3Z"/><path d="M4.5 4.5l15 15"/></svg></span>Lista Negra</h2>
+        <h2><span class="h-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3Z"/><path d="M4.5 4.5l15 15"/></svg></span>Lista Negra</h2>
         <div class="field"><label>Nombre completo (opcional)</label><input type="text" id="blkNombre" placeholder="Nombre completo"></div>
         <div class="field"><label>Teléfono (opcional)</label><input type="text" id="blkTelefono" placeholder="Teléfono"></div>
         <div class="field"><label>Dirección (opcional)</label><input type="text" id="blkDireccion" placeholder="Dirección"></div>
@@ -1656,7 +1296,7 @@ body:has(#view-login:not(.hidden)) .fab-new-vale{
   <!-- Stock quick-edit modal -->
   <div id="stockModal" class="modal-back hidden">
     <div class="modal">
-      <div class="modal-head"><h3><span class="h-ic"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8.5 12 4 3 8.5 12 13l9-4.5Z"/><path d="M3 8.5V16l9 4.5 9-4.5V8.5"/><path d="M12 13v7.5"/></svg></span>Editar stock</h3><button onclick="closeStockModal()">✕</button></div>
+      <div class="modal-head"><h3><span class="h-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8.5 12 4 3 8.5 12 13l9-4.5Z"/><path d="M3 8.5V16l9 4.5 9-4.5V8.5"/><path d="M12 13v7.5"/></svg></span>Editar stock</h3><button onclick="closeStockModal()">✕</button></div>
       <div class="stock-store-row">
         <div class="field"><label>Almacén</label><input type="number" id="smStockA"></div>
         <div class="field">
@@ -1697,7 +1337,7 @@ body:has(#view-login:not(.hidden)) .fab-new-vale{
   <!-- Gestor edit modal -->
   <div id="gestorEditModal" class="modal-back hidden">
     <div class="modal">
-      <div class="modal-head"><h3><span class="h-ic"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4L18.5 9.5a2.1 2.1 0 0 0-3-3L5 17v3Z"/><path d="M14 6l4 4"/></svg></span>Editar gestor</h3><button onclick="closeGestorEditModal()">✕</button></div>
+      <div class="modal-head"><h3><span class="h-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4L18.5 9.5a2.1 2.1 0 0 0-3-3L5 17v3Z"/><path d="M14 6l4 4"/></svg></span>Editar gestor</h3><button onclick="closeGestorEditModal()">✕</button></div>
       <div class="field"><label>Nombre completo</label><input type="text" id="geName"></div>
       <div class="field"><label>Usuario</label><input type="text" id="geUser"></div>
       <div class="field"><label>Contraseña</label><input type="text" id="gePass"></div>
@@ -1709,22 +1349,21 @@ body:has(#view-login:not(.hidden)) .fab-new-vale{
 </main>
 
 <nav class="tabs hidden" id="mainTabs">
-  <button class="tab-btn" id="tabPedidoBtn" data-tab="pedido" onclick="switchTab('pedido')"><span class="ic"><svg viewBox="0 0 24 24" width="16" height="16"><path d="M4 20V6a2 2 0 0 1 2-2h9l5 5v11a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2Z"/><path d="M14.5 4.5V9a1 1 0 0 0 1 1h4.5"/><path d="M8 13h6M8 16.5h4"/></svg></span>Vale<span class="sync-badge hidden" id="syncBadge">0</span></button>
-  <button class="tab-btn" id="tabCatalogoBtn" data-tab="catalogo" onclick="switchTab('catalogo')"><span class="ic"><svg viewBox="0 0 24 24" width="16" height="16"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H12v18H6.5A2.5 2.5 0 0 1 4 18.5v-13Z"/><path d="M20 5.5A2.5 2.5 0 0 0 17.5 3H12v18h5.5a2.5 2.5 0 0 0 2.5-2.5v-13Z"/></svg></span>Catálogo</button>
-  <button class="tab-btn" id="tabHistorialBtn" data-tab="historial" onclick="switchTab('historial')"><span class="ic"><svg viewBox="0 0 24 24" width="16" height="16"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/><path d="M12 7v5l3.5 2"/></svg></span>Historial</button>
-  <button class="tab-btn" id="tabWhatsappBtn" data-tab="whatsapp" onclick="switchTab('whatsapp')"><span class="ic"><svg viewBox="0 0 24 24" width="16" height="16"><path d="M21 11.5a8.5 8.5 0 0 1-12.4 7.55L4 20l1.02-4.46A8.5 8.5 0 1 1 21 11.5Z"/><path d="M8.5 10.5c0 3 2.5 5.5 5.5 5.5"/></svg></span>Mi WhatsApp</button>
-  <button class="tab-btn" id="tabNovedadesBtn" data-tab="novedades" onclick="switchTab('novedades')"><span class="ic"><svg viewBox="0 0 24 24" width="16" height="16"><path d="M3 11v2a1 1 0 0 0 1 1h2l6 4V6L6 10H4a1 1 0 0 0-1 1Z"/><path d="M16 8.5a4 4 0 0 1 0 7"/><path d="M18.5 6a7.5 7.5 0 0 1 0 12"/></svg></span>Novedades<span class="unread-dot hidden" id="novedadesDot"></span></button>
-  <button class="tab-btn hidden" id="adminTabBtn" data-tab="admin" onclick="switchTab('admin')"><span class="ic"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10M12 20V4M20 20v-7"/></svg></span>Admin</button>
+  <button class="tab-btn" id="tabPedidoBtn" data-tab="pedido" onclick="switchTab('pedido')"><span class="ic"><svg viewBox="0 0 24 24"><path d="M4 20V6a2 2 0 0 1 2-2h9l5 5v11a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2Z"/><path d="M14.5 4.5V9a1 1 0 0 0 1 1h4.5"/><path d="M8 13h6M8 16.5h4"/></svg></span>Vale<span class="sync-badge hidden" id="syncBadge">0</span></button>
+  <button class="tab-btn" id="tabCatalogoBtn" data-tab="catalogo" onclick="switchTab('catalogo')"><span class="ic"><svg viewBox="0 0 24 24"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H12v18H6.5A2.5 2.5 0 0 1 4 18.5v-13Z"/><path d="M20 5.5A2.5 2.5 0 0 0 17.5 3H12v18h5.5a2.5 2.5 0 0 0 2.5-2.5v-13Z"/></svg></span>Catálogo</button>
+  <button class="tab-btn" id="tabHistorialBtn" data-tab="historial" onclick="switchTab('historial')"><span class="ic"><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/><path d="M12 7v5l3.5 2"/></svg></span>Historial</button>
+  <button class="tab-btn" id="tabWhatsappBtn" data-tab="whatsapp" onclick="switchTab('whatsapp')"><span class="ic"><svg viewBox="0 0 24 24"><path d="M21 11.5a8.5 8.5 0 0 1-12.4 7.55L4 20l1.02-4.46A8.5 8.5 0 1 1 21 11.5Z"/><path d="M8.5 10.5c0 3 2.5 5.5 5.5 5.5"/></svg></span>Mi WhatsApp</button>
+  <button class="tab-btn" id="tabNovedadesBtn" data-tab="novedades" onclick="switchTab('novedades')"><span class="ic"><svg viewBox="0 0 24 24"><path d="M3 11v2a1 1 0 0 0 1 1h2l6 4V6L6 10H4a1 1 0 0 0-1 1Z"/><path d="M16 8.5a4 4 0 0 1 0 7"/><path d="M18.5 6a7.5 7.5 0 0 1 0 12"/></svg></span>Novedades<span class="unread-dot hidden" id="novedadesDot"></span></button>
+  <button class="tab-btn hidden" id="adminTabBtn" data-tab="admin" onclick="switchTab('admin')"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10M12 20V4M20 20v-7"/></svg></span>Admin</button>
 </nav>
 
-<button type="button" class="fab-new-vale hidden" id="fabNewVale" onclick="openNewValeFab()" title="Nuevo vale"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4L18.5 9.5a2.1 2.1 0 0 0-3-3L5 17v3Z"/><path d="M14 6l4 4"/></svg></button>
+<button type="button" class="fab-new-vale hidden" id="fabNewVale" onclick="openNewValeFab()" title="Nuevo vale"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4L18.5 9.5a2.1 2.1 0 0 0-3-3L5 17v3Z"/><path d="M14 6l4 4"/></svg></button>
 
 <div id="toast" class="toast hidden"></div>
 
 <!-- ============ LOGIN VIEW (fondo océano) ============ -->
 <section id="view-login">
   <div class="login-card">
-    <div class="login-logo"><img src="data:image/png;base64,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" alt="Agua&Tools"></div>
     <div class="login-title">Bienvenido a Agua&amp;Tools</div>
     <div class="login-sub">El éxito está a solo dos pasos (Usuario y Contraseña)</div>
 
@@ -1736,12 +1375,12 @@ body:has(#view-login:not(.hidden)) .fab-new-vale{
       <label>Contraseña</label>
       <div class="pass-wrap">
         <input type="password" id="loginPass" placeholder="Tu contraseña" autocomplete="current-password">
-        <button type="button" class="pass-eye" id="passEyeBtn" onclick="togglePassEye()"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg></button>
+        <button type="button" class="pass-eye" id="passEyeBtn" onclick="togglePassEye()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg></button>
       </div>
     </div>
     <div class="login-error" id="loginError"></div>
     <button class="login-btn" onclick="tryLogin()">Entrar</button>
-    <button class="btn-wa hidden" id="loginWaLockBtn" onclick="openWhatsappHelp()"><span class="btn-ic"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4.5h16v11H9l-4 3.5v-3.5H4Z"/></svg></span>Recuperar por WhatsApp</button>
+    <button class="btn-wa hidden" id="loginWaLockBtn" onclick="openWhatsappHelp()"><span class="btn-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4.5h16v11H9l-4 3.5v-3.5H4Z"/></svg></span>Recuperar por WhatsApp</button>
     <button type="button" class="login-forgot" onclick="openWhatsappHelp()">He olvidado mi contraseña</button>
   </div>
 </section>
@@ -1888,67 +1527,67 @@ const CATEGORIES = [
 
 /* ---------- Sistema central de íconos SVG (estilo línea, ver plan aprobado) ---------- */
 const ICONS = {
-  search:'<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>',
-  resumen:'<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10M12 20V4M20 20v-7"/></svg>',
-  box:'<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8.5 12 4 3 8.5 12 13l9-4.5Z"/><path d="M3 8.5V16l9 4.5 9-4.5V8.5"/><path d="M12 13v7.5"/></svg>',
-  person:'<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.5"/><path d="M5 20c0-3.5 3-6 7-6s7 2.5 7 6"/></svg>',
-  pedidos:'<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2Z"/><path d="M9 8h6M9 12h6M9 16h3"/></svg>',
-  gear:'<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.87l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.7 1.7 0 0 0-1.87-.34 1.7 1.7 0 0 0-1 1.55V21a2 2 0 1 1-4 0v-.09A1.7 1.7 0 0 0 9 19.4a1.7 1.7 0 0 0-1.87.34l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.7 1.7 0 0 0 4.6 15a1.7 1.7 0 0 0-1.55-1H3a2 2 0 1 1 0-4h.09A1.7 1.7 0 0 0 4.6 9a1.7 1.7 0 0 0-.34-1.87l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.7 1.7 0 0 0 9 4.6a1.7 1.7 0 0 0 1-1.55V3a2 2 0 1 1 4 0v.09a1.7 1.7 0 0 0 1 1.55 1.7 1.7 0 0 0 1.87-.34l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.7 1.7 0 0 0 19.4 9a1.7 1.7 0 0 0 1.55 1H21a2 2 0 1 1 0 4h-.09a1.7 1.7 0 0 0-1.55 1Z"/></svg>',
-  shield:'<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3Z"/></svg>',
-  shieldSlash:'<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3Z"/><path d="M4.5 4.5l15 15"/></svg>',
-  vale:'<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V6a2 2 0 0 1 2-2h9l5 5v11a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2Z"/><path d="M14.5 4.5V9a1 1 0 0 0 1 1h4.5"/><path d="M8 13h6M8 16.5h4"/></svg>',
-  catalogo:'<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H12v18H6.5A2.5 2.5 0 0 1 4 18.5v-13Z"/><path d="M20 5.5A2.5 2.5 0 0 0 17.5 3H12v18h5.5a2.5 2.5 0 0 0 2.5-2.5v-13Z"/></svg>',
-  historial:'<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/><path d="M12 7v5l3.5 2"/></svg>',
-  whatsapp:'<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.5 8.5 0 0 1-12.4 7.55L4 20l1.02-4.46A8.5 8.5 0 1 1 21 11.5Z"/><path d="M8.5 10.5c0 3 2.5 5.5 5.5 5.5"/></svg>',
-  novedades:'<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11v2a1 1 0 0 0 1 1h2l6 4V6L6 10H4a1 1 0 0 0-1 1Z"/><path d="M16 8.5a4 4 0 0 1 0 7"/><path d="M18.5 6a7.5 7.5 0 0 1 0 12"/></svg>',
-  pencil:'<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4L18.5 9.5a2.1 2.1 0 0 0-3-3L5 17v3Z"/><path d="M14 6l4 4"/></svg>',
-  trash:'<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16"/><path d="M9 7V4h6v3"/><path d="M6 7l1 13h10l1-13"/><path d="M10 11v6M14 11v6"/></svg>',
-  download:'<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11"/><path d="M7 11l5 5 5-5"/><path d="M5 19h14"/></svg>',
-  eye:'<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>',
-  eyeOff:'<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3l18 18"/><path d="M10.6 5.2A10.6 10.6 0 0 1 12 5c6.5 0 10 7 10 7a17 17 0 0 1-3.2 4.1M6.6 6.6C4 8.3 2 12 2 12s3.5 7 10 7c1.4 0 2.7-.3 3.8-.8"/><path d="M9.9 9.9a3 3 0 0 0 4.2 4.2"/></svg>',
-  pin:'<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-6.5 7-12a7 7 0 1 0-14 0c0 5.5 7 12 7 12Z"/><circle cx="12" cy="9" r="2.3"/></svg>',
-  sun:'<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.3M12 19.2v2.3M4.5 12H2.2M21.8 12h-2.3M5.4 5.4l1.6 1.6M17 17l1.6 1.6M18.6 5.4 17 7M7 17l-1.6 1.6"/></svg>',
-  moon:'<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5Z"/></svg>',
-  volumeOn:'<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9v6h4l5 4V5L8 9H4Z"/><path d="M17 8.5a5 5 0 0 1 0 7"/><path d="M19.5 6a8.5 8.5 0 0 1 0 12"/></svg>',
-  volumeOff:'<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9v6h4l5 4V5L8 9H4Z"/><path d="M17 9l4.5 6M21.5 9 17 15"/></svg>',
-  trophy:'<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4h10v5a5 5 0 0 1-10 0V4Z"/><path d="M7 5H4v2a3 3 0 0 0 3 3M17 5h3v2a3 3 0 0 1-3 3"/><path d="M12 14v3M9 21h6M9.5 17.5h5l.5 3.5H9l.5-3.5Z"/></svg>',
-  dot:'<svg viewBox="0 0 10 10" width="8" height="8" fill="currentColor"><circle cx="5" cy="5" r="5"/></svg>',
-  folder:'<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7Z"/></svg>',
-  cart:'<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="20" r="1.4"/><circle cx="17" cy="20" r="1.4"/><path d="M3 4h2l2.4 11.6a2 2 0 0 0 2 1.6h7.2a2 2 0 0 0 2-1.6L20 8H6"/></svg>',
-  calendar:'<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="16" rx="2"/><path d="M8 3v4M16 3v4M3.5 10h17"/></svg>',
-  phone:'<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 3h3l1.5 4.5-2 1.6a12 12 0 0 0 5.9 5.9l1.6-2 4.5 1.5v3a2 2 0 0 1-2.2 2A17 17 0 0 1 4.5 5.2 2 2 0 0 1 6.5 3Z"/></svg>',
-  home:'<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11.5 12 4l8 7.5"/><path d="M6 10v9.5a1 1 0 0 0 1 1h4v-6h2v6h4a1 1 0 0 0 1-1V10"/></svg>',
-  card:'<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="5.5" width="19" height="13" rx="2"/><path d="M2.5 10h19"/></svg>',
-  cash:'<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6.5" width="20" height="11" rx="2"/><circle cx="12" cy="12" r="2.6"/><path d="M5.5 9v.01M18.5 15v.01"/></svg>',
-  coins:'<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="9" cy="7" rx="6" ry="3"/><path d="M3 7v5c0 1.7 2.7 3 6 3s6-1.3 6-3V7"/><path d="M9 12v5c0 1.7 2.7 3 6 3s6-1.3 6-3v-5"/><ellipse cx="15" cy="12" rx="6" ry="3"/></svg>',
-  truck:'<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 7h11v9H2z"/><path d="M13 10h4l4 3v3h-8z"/><circle cx="7" cy="18.5" r="1.6"/><circle cx="17" cy="18.5" r="1.6"/></svg>',
-  send:'<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11 20.5 3 15 20l-4-7-7-2Z"/><path d="M11 13l4-4"/></svg>',
-  clipboard:'<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="4.5" width="14" height="16" rx="2"/><path d="M9 4.5V3.5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v1"/><path d="M8.5 10.5h7M8.5 14h7M8.5 17.5h4"/></svg>',
-  sparkle:'<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.6 5.4L19 10l-5.4 1.6L12 17l-1.6-5.4L5 10l5.4-1.6L12 3Z"/></svg>',
-  chat:'<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4.5h16v11H9l-4 3.5v-3.5H4Z"/></svg>',
-  xCircle:'<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9 9l6 6M15 9l-6 6"/></svg>',
-  bell:'<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 16v-5a6 6 0 1 0-12 0v5l-2 2.5h16L18 16Z"/><path d="M9.5 21a2.5 2.5 0 0 0 5 0"/></svg>',
-  idcard:'<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="5" width="19" height="14" rx="2"/><circle cx="8" cy="11" r="2.2"/><path d="M5 16c0-1.7 1.3-3 3-3s3 1.3 3 3"/><path d="M14 9h5M14 13h5"/></svg>'
+  search:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>',
+  resumen:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10M12 20V4M20 20v-7"/></svg>',
+  box:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8.5 12 4 3 8.5 12 13l9-4.5Z"/><path d="M3 8.5V16l9 4.5 9-4.5V8.5"/><path d="M12 13v7.5"/></svg>',
+  person:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.5"/><path d="M5 20c0-3.5 3-6 7-6s7 2.5 7 6"/></svg>',
+  pedidos:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2Z"/><path d="M9 8h6M9 12h6M9 16h3"/></svg>',
+  gear:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.87l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.7 1.7 0 0 0-1.87-.34 1.7 1.7 0 0 0-1 1.55V21a2 2 0 1 1-4 0v-.09A1.7 1.7 0 0 0 9 19.4a1.7 1.7 0 0 0-1.87.34l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.7 1.7 0 0 0 4.6 15a1.7 1.7 0 0 0-1.55-1H3a2 2 0 1 1 0-4h.09A1.7 1.7 0 0 0 4.6 9a1.7 1.7 0 0 0-.34-1.87l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.7 1.7 0 0 0 9 4.6a1.7 1.7 0 0 0 1-1.55V3a2 2 0 1 1 4 0v.09a1.7 1.7 0 0 0 1 1.55 1.7 1.7 0 0 0 1.87-.34l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.7 1.7 0 0 0 19.4 9a1.7 1.7 0 0 0 1.55 1H21a2 2 0 1 1 0 4h-.09a1.7 1.7 0 0 0-1.55 1Z"/></svg>',
+  shield:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3Z"/></svg>',
+  shieldSlash:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3Z"/><path d="M4.5 4.5l15 15"/></svg>',
+  vale:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V6a2 2 0 0 1 2-2h9l5 5v11a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2Z"/><path d="M14.5 4.5V9a1 1 0 0 0 1 1h4.5"/><path d="M8 13h6M8 16.5h4"/></svg>',
+  catalogo:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H12v18H6.5A2.5 2.5 0 0 1 4 18.5v-13Z"/><path d="M20 5.5A2.5 2.5 0 0 0 17.5 3H12v18h5.5a2.5 2.5 0 0 0 2.5-2.5v-13Z"/></svg>',
+  historial:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/><path d="M12 7v5l3.5 2"/></svg>',
+  whatsapp:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.5 8.5 0 0 1-12.4 7.55L4 20l1.02-4.46A8.5 8.5 0 1 1 21 11.5Z"/><path d="M8.5 10.5c0 3 2.5 5.5 5.5 5.5"/></svg>',
+  novedades:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11v2a1 1 0 0 0 1 1h2l6 4V6L6 10H4a1 1 0 0 0-1 1Z"/><path d="M16 8.5a4 4 0 0 1 0 7"/><path d="M18.5 6a7.5 7.5 0 0 1 0 12"/></svg>',
+  pencil:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4L18.5 9.5a2.1 2.1 0 0 0-3-3L5 17v3Z"/><path d="M14 6l4 4"/></svg>',
+  trash:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16"/><path d="M9 7V4h6v3"/><path d="M6 7l1 13h10l1-13"/><path d="M10 11v6M14 11v6"/></svg>',
+  download:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11"/><path d="M7 11l5 5 5-5"/><path d="M5 19h14"/></svg>',
+  eye:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>',
+  eyeOff:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3l18 18"/><path d="M10.6 5.2A10.6 10.6 0 0 1 12 5c6.5 0 10 7 10 7a17 17 0 0 1-3.2 4.1M6.6 6.6C4 8.3 2 12 2 12s3.5 7 10 7c1.4 0 2.7-.3 3.8-.8"/><path d="M9.9 9.9a3 3 0 0 0 4.2 4.2"/></svg>',
+  pin:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-6.5 7-12a7 7 0 1 0-14 0c0 5.5 7 12 7 12Z"/><circle cx="12" cy="9" r="2.3"/></svg>',
+  sun:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.3M12 19.2v2.3M4.5 12H2.2M21.8 12h-2.3M5.4 5.4l1.6 1.6M17 17l1.6 1.6M18.6 5.4 17 7M7 17l-1.6 1.6"/></svg>',
+  moon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5Z"/></svg>',
+  volumeOn:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9v6h4l5 4V5L8 9H4Z"/><path d="M17 8.5a5 5 0 0 1 0 7"/><path d="M19.5 6a8.5 8.5 0 0 1 0 12"/></svg>',
+  volumeOff:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9v6h4l5 4V5L8 9H4Z"/><path d="M17 9l4.5 6M21.5 9 17 15"/></svg>',
+  trophy:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4h10v5a5 5 0 0 1-10 0V4Z"/><path d="M7 5H4v2a3 3 0 0 0 3 3M17 5h3v2a3 3 0 0 1-3 3"/><path d="M12 14v3M9 21h6M9.5 17.5h5l.5 3.5H9l.5-3.5Z"/></svg>',
+  dot:'<svg viewBox="0 0 10 10" fill="currentColor"><circle cx="5" cy="5" r="5"/></svg>',
+  folder:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7Z"/></svg>',
+  cart:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="20" r="1.4"/><circle cx="17" cy="20" r="1.4"/><path d="M3 4h2l2.4 11.6a2 2 0 0 0 2 1.6h7.2a2 2 0 0 0 2-1.6L20 8H6"/></svg>',
+  calendar:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="16" rx="2"/><path d="M8 3v4M16 3v4M3.5 10h17"/></svg>',
+  phone:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 3h3l1.5 4.5-2 1.6a12 12 0 0 0 5.9 5.9l1.6-2 4.5 1.5v3a2 2 0 0 1-2.2 2A17 17 0 0 1 4.5 5.2 2 2 0 0 1 6.5 3Z"/></svg>',
+  home:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11.5 12 4l8 7.5"/><path d="M6 10v9.5a1 1 0 0 0 1 1h4v-6h2v6h4a1 1 0 0 0 1-1V10"/></svg>',
+  card:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="5.5" width="19" height="13" rx="2"/><path d="M2.5 10h19"/></svg>',
+  cash:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6.5" width="20" height="11" rx="2"/><circle cx="12" cy="12" r="2.6"/><path d="M5.5 9v.01M18.5 15v.01"/></svg>',
+  coins:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="9" cy="7" rx="6" ry="3"/><path d="M3 7v5c0 1.7 2.7 3 6 3s6-1.3 6-3V7"/><path d="M9 12v5c0 1.7 2.7 3 6 3s6-1.3 6-3v-5"/><ellipse cx="15" cy="12" rx="6" ry="3"/></svg>',
+  truck:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 7h11v9H2z"/><path d="M13 10h4l4 3v3h-8z"/><circle cx="7" cy="18.5" r="1.6"/><circle cx="17" cy="18.5" r="1.6"/></svg>',
+  send:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11 20.5 3 15 20l-4-7-7-2Z"/><path d="M11 13l4-4"/></svg>',
+  clipboard:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="4.5" width="14" height="16" rx="2"/><path d="M9 4.5V3.5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v1"/><path d="M8.5 10.5h7M8.5 14h7M8.5 17.5h4"/></svg>',
+  sparkle:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.6 5.4L19 10l-5.4 1.6L12 17l-1.6-5.4L5 10l5.4-1.6L12 3Z"/></svg>',
+  chat:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4.5h16v11H9l-4 3.5v-3.5H4Z"/></svg>',
+  xCircle:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9 9l6 6M15 9l-6 6"/></svg>',
+  bell:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 16v-5a6 6 0 1 0-12 0v5l-2 2.5h16L18 16Z"/><path d="M9.5 21a2.5 2.5 0 0 0 5 0"/></svg>',
+  idcard:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="5" width="19" height="14" rx="2"/><circle cx="8" cy="11" r="2.2"/><path d="M5 16c0-1.7 1.3-3 3-3s3 1.3 3 3"/><path d="M14 9h5M14 13h5"/></svg>'
 };
 /* Íconos por categoría del catálogo (solo para mostrar; las claves conservan el emoji
    original porque así están guardadas las categorías en Firestore — no se toca ese dato). */
 const CATEGORY_ICONS = {
-  "💧 Bombas de agua":'<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3s7 7.5 7 12.5a7 7 0 0 1-14 0C5 10.5 12 3 12 3Z"/></svg>',
-  "🧱 Cementos y masillas":'<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><rect x="3" y="6" width="18" height="5"/><path d="M9 6v5M15 6v5"/><rect x="3" y="13" width="18" height="5"/><path d="M6 13v5M12 13v5M18 13v5"/></svg>',
-  "🪵 Pisos y cerámicas":'<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><rect x="3" y="3" width="8" height="8"/><rect x="13" y="3" width="8" height="8"/><rect x="3" y="13" width="8" height="8"/><rect x="13" y="13" width="8" height="8"/></svg>',
-  "🚽 Lavamanos":'<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 10V6a2 2 0 0 1 2-2h3"/><path d="M10 4h9v4h-5v3"/><path d="M14 11v3a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1v-3"/><path d="M9 15v3a3 3 0 0 0 6 0"/></svg>',
-  "🎨 Pinturas":'<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="14" height="6" rx="1.5"/><path d="M9 10v4"/><rect x="6" y="14" width="6" height="6" rx="1"/></svg>',
-  "🌿 Jardinería":'<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 4C10 4 4 10 4 18c8 0 14-6 14-14Z"/><path d="M5 19 15 9"/></svg>',
-  "⚙️ Servicios de instalación":'<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L4 17l3 3 5.3-5.3a4 4 0 0 0 5.4-5.4l-2.6 2.6-2-2 2.6-2.6Z"/></svg>',
-  "📦 GENERAL":'<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8.5 12 4 3 8.5 12 13l9-4.5Z"/><path d="M3 8.5V16l9 4.5 9-4.5V8.5"/><path d="M12 13v7.5"/></svg>',
-  "🔩 Accesorios en general":'<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M12 3l7 4v10l-7 4-7-4V7l7-4Z"/><circle cx="12" cy="12" r="3"/></svg>',
-  "🛡️ Accesorios de seguridad":'<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3Z"/></svg>',
-  "🔌 Herramientas eléctricas":'<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 2v5M15 2v5"/><path d="M6 7h12v4a6 6 0 0 1-12 0V7Z"/><path d="M12 17v5"/></svg>',
-  "🔋 Herramientas inalámbricas":'<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="8" width="17" height="8" rx="2"/><path d="M22 10.5v3"/><path d="M6 11v2M9 11v2M12 11v2"/></svg>',
-  "🛠️ Herramientas manuales":'<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4l6 6-2 2-6-6 2-2Z"/><path d="M12 8 4 16v3h3l8-8"/></svg>',
-  "💨 Herramientas neumáticas":'<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h11a2.5 2.5 0 1 0-2.5-2.5"/><path d="M3 13h15a2.5 2.5 0 1 1-2.5 2.5"/><path d="M3 18h9a2 2 0 1 0-2-2"/></svg>',
-  "⚡ Generadores de gasolina":'<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M13 3 4 14h6l-1 7 9-11h-6l1-7Z"/></svg>',
-  "🔋 Estaciones de carga":'<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="8" width="17" height="8" rx="2"/><path d="M22 10.5v3"/><path d="M11 8l-2 4h3l-2 4"/></svg>'
+  "💧 Bombas de agua":'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3s7 7.5 7 12.5a7 7 0 0 1-14 0C5 10.5 12 3 12 3Z"/></svg>',
+  "🧱 Cementos y masillas":'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><rect x="3" y="6" width="18" height="5"/><path d="M9 6v5M15 6v5"/><rect x="3" y="13" width="18" height="5"/><path d="M6 13v5M12 13v5M18 13v5"/></svg>',
+  "🪵 Pisos y cerámicas":'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><rect x="3" y="3" width="8" height="8"/><rect x="13" y="3" width="8" height="8"/><rect x="3" y="13" width="8" height="8"/><rect x="13" y="13" width="8" height="8"/></svg>',
+  "🚽 Lavamanos":'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 10V6a2 2 0 0 1 2-2h3"/><path d="M10 4h9v4h-5v3"/><path d="M14 11v3a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1v-3"/><path d="M9 15v3a3 3 0 0 0 6 0"/></svg>',
+  "🎨 Pinturas":'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="14" height="6" rx="1.5"/><path d="M9 10v4"/><rect x="6" y="14" width="6" height="6" rx="1"/></svg>',
+  "🌿 Jardinería":'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 4C10 4 4 10 4 18c8 0 14-6 14-14Z"/><path d="M5 19 15 9"/></svg>',
+  "⚙️ Servicios de instalación":'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L4 17l3 3 5.3-5.3a4 4 0 0 0 5.4-5.4l-2.6 2.6-2-2 2.6-2.6Z"/></svg>',
+  "📦 GENERAL":'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8.5 12 4 3 8.5 12 13l9-4.5Z"/><path d="M3 8.5V16l9 4.5 9-4.5V8.5"/><path d="M12 13v7.5"/></svg>',
+  "🔩 Accesorios en general":'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M12 3l7 4v10l-7 4-7-4V7l7-4Z"/><circle cx="12" cy="12" r="3"/></svg>',
+  "🛡️ Accesorios de seguridad":'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3Z"/></svg>',
+  "🔌 Herramientas eléctricas":'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 2v5M15 2v5"/><path d="M6 7h12v4a6 6 0 0 1-12 0V7Z"/><path d="M12 17v5"/></svg>',
+  "🔋 Herramientas inalámbricas":'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="8" width="17" height="8" rx="2"/><path d="M22 10.5v3"/><path d="M6 11v2M9 11v2M12 11v2"/></svg>',
+  "🛠️ Herramientas manuales":'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4l6 6-2 2-6-6 2-2Z"/><path d="M12 8 4 16v3h3l8-8"/></svg>',
+  "💨 Herramientas neumáticas":'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h11a2.5 2.5 0 1 0-2.5-2.5"/><path d="M3 13h15a2.5 2.5 0 1 1-2.5 2.5"/><path d="M3 18h9a2 2 0 1 0-2-2"/></svg>',
+  "⚡ Generadores de gasolina":'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M13 3 4 14h6l-1 7 9-11h-6l1-7Z"/></svg>',
+  "🔋 Estaciones de carga":'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="8" width="17" height="8" rx="2"/><path d="M22 10.5v3"/><path d="M11 8l-2 4h3l-2 4"/></svg>'
 };
 function catIcon(c){ return CATEGORY_ICONS[c] || ICONS.box; }
 /* Quita el emoji inicial de una categoría para mostrar el nombre limpio junto al ícono SVG. */
@@ -3301,17 +2940,17 @@ function catalogToolbar(showViewToggle){
   return `
   <div class="catalog-toolbar">
     <button class="filter-open-btn" onclick="openFilterSheet()">
-      <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M7 12h10M10 18h4"/></svg>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M7 12h10M10 18h4"/></svg>
       Filtros
       ${activeFilters ? `<span class="filter-count">${activeFilters}</span>` : ''}
     </button>
     ${showViewToggle ? `
     <div class="view-toggle-bar">
       <button class="view-toggle-btn ${mode==='grid'?'active':''}" onclick="setCatalogViewMode('grid')" title="Vista cuadrícula">
-        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
       </button>
       <button class="view-toggle-btn ${mode==='list'?'active':''}" onclick="setCatalogViewMode('list')" title="Vista lista">
-        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
       </button>
     </div>` : ''}
   </div>`;
